@@ -80,20 +80,38 @@
             $("#logoutBtn").on("click", function(e) {
                 e.preventDefault();
 
-                localStorage.removeItem('firstName');
-                localStorage.removeItem('uid');
+                $.ajax({
+                    url: 'logout.php',
+                    type: 'POST',
+                    success: function(response) {
+                        const result = JSON.parse(response);
+                        if (result.status === 'success') {
 
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Logged Out',
-                    text: 'You have successfully logged out.',
-                    timer: 1500,
-                    showConfirmButton: false
+                            localStorage.removeItem('firstName');
+                            localStorage.removeItem('uid');
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Logged Out',
+                                text: 'You have successfully logged out.',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1500);
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong. Please try again.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
                 });
-
-                setTimeout(function() {
-                    window.location.href = 'logout.php';
-                }, 1500);
             });
         });
     </script>

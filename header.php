@@ -98,7 +98,7 @@
                 });
 
                 setTimeout(function() {
-                    window.location.href = 'logout.php';
+                    window.location.href = 'header-logout.php';
                 }, 1500);
             });
         });
