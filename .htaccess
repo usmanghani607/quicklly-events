@@ -1,0 +1,20 @@
+RewriteEngine On
+
+# Prevent access to the .htaccess file itself
+<Files ".htaccess">
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+# Handle the root URL ("/") and rewrite it to index.php
+RewriteRule ^$ index.php [L]
+
+# If the requested file or directory does not exist
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rewrite all other URLs to .php files (remove .php extension)
+RewriteRule ^(.*)$ $1.php [L]
+
+SetEnv LOGIN_EMAIL "ios-app@quicklly.com"
+SetEnv LOGIN_PASSWORD "vqdspaway8"

@@ -1,0 +1,305 @@
+@media only screen and (min-width: 320px) and (max-width: 767px) {
+
+    .home-banner .banner-text h2 { font-size: 18px; margin-bottom: 10px; }
+    .home-banner .banner-text p { font-size: 12px; margin-bottom: 15px; }
+    .home-banner .banner-text .search-area { padding: 0; }
+    .home-banner .banner-text { padding: 40px 0; }
+
+    .home-banner .form-select.country { background-image: url(../images/location-icon.png), url(../images/arrow-dropdown.png); background-repeat: no-repeat; background-position: left 5px center, right 5px center; background-size: 10px 15px, 12px 8px; border: none; border-radius: 4px; padding: 8px 8px 8px 20px; font-size: 14px; width: auto; }
+    .home-banner { height: auto; }
+    .popular-event .tab-content .card.first { margin-right: 0; }
+    .popular-event .tab-content .card.sec { margin: 0; }
+    .popular-event .tab-content .card.third { margin-left: 0; }
+    .popular-event .tab-content .card .card-body h5.card-title { height: auto; }
+    .popular-event { padding: 30px 0 0px 0; }
+    .card.fst { margin-right: 0; }
+    .host-area .card.sec { margin: 0; }
+    .host-area .card.third { margin-left: 0; }
+    .host-area .col { padding: 10px 30px; }
+    .host-area { padding: 20px 0 30px 0; }
+    .host-area .heading h2 { padding-bottom: 25px; }
+    .near-event #carouselEvent .card.first { margin-right: 0; margin-left: 0; }
+    .near-event #carouselEvent .card.sec { margin: 0; }
+    .near-event #carouselEvent .card.third { margin-left: 0; margin-right: 0; }
+    .near-event #carouselEvent .card .card-body h5.card-title { height: auto; }
+    .popular-event .nav.nav-tabs.tappes { margin-bottom: 10px; }
+    .category-area img.category-right { display: none !important; }
+    .host-area .card.fst { margin-right: 0 !important; }
+
+    .category-area { padding: 20px 0 10px 0; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background-color: #888; border-radius: 10px; }
+    ::-webkit-scrollbar-track { background-color: #f1f1f1; }
+    .nav-tabs-wrapper { scrollbar-width: thin; scrollbar-color: #fff #f1f1f1; }
+    ::-webkit-scrollbar-thumb:hover { background-color: #555; }
+
+    .topheader .col.bro-mob { display: none; }
+    .topheader .collapse.navbar-collapse { display: contents; }
+    .topheader .right_btn .btn_create { display: none; }
+    .topheader #indexForm .form-select.state { width: auto; padding: 5px 10px; font-size: 14px; position: relative; right: 40px; }
+    /* .topheader .right_btn .btn_create { display: none; } */
+    /* .topheader #indexForm .form-select.state { width: auto; } */
+
+    .category-area img.img-fluid { width: 55px; height: 55px; }
+    .category-area p { padding: 10px 16px 0 0px;}
+    .category-area img { margin: 0 5px; }
+    .popular-event .row.row-cols-1.row-cols-md-3.g-4.mb-5 { margin-top: -10px; }
+    .sponsored-area { padding: 20px 0; }
+    .footer-bg { padding-left: 10px; }
+    .footer-bg .footer_widgth.touch { margin-left: 65px; }
+    .footer-bg .footer_widgth.social { display: none; }
+    .event-detail .col-md-8.main-area { width: 100%; }
+    .event-detail .col-md-4.side { width: 100%; }
+    .event-detail .side-area { margin-left: 0; }
+    .event-detail .side-area-social { margin-left: 0; }
+    .might-like .card.first { margin: 0; }
+    .might-like .card { height: auto; }
+    .might-like .card .card-body.sale h3 { width: 52%; }
+    .might-like .card .card-body.fast h3 { width: 39%; }
+    .might-like .card .card-body.salesoon h3 { width: 52%; }
+    .might-like { padding: 0; }
+    .might-like .card.third { margin: 0; }
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2 { width: auto; }
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-8 { width: 100%; }
+
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .aa { padding-top: 10px; } 
+
+    .event-detail .sale-area { width: 40%; }
+    .event-detail.fade-background { background: none !important; }
+
+    .event-detail .col-md-8.main-area .banner img { height: auto; }
+    .near-event .event-slider .card.first { margin: 0 4px; }
+    .near-event .event-slider .card.sec { margin: 0 4px; }
+    .near-event .event-slider .card.third { margin: 0 4px; }
+    .near-event .heading p { display: none; }
+
+    .event-detail .col-md-8.main-area .location-time .dateTime img.calender-desk { display: none; }
+    .event-detail .col-md-8.main-area .location-time .loc img.loc-desk { display: none; }
+
+    .event-detail .col-md-8.main-area .location-time .dateTime img.calender-mob { display: inline; }
+    .event-detail .col-md-8.main-area .location-time .loc img.loc-mob { display: inline; }
+
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .event-name .price-icon { float: right; }
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2 .counter { float: right; }
+    /* .event-detail .col-md-8.main-area .ticket-info .card-info.row .price { float: left; padding-left: 60px; } */
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp .price { float: left; padding-left: 48px; }
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp.sold-p .price { float: left; padding-left: 53px; }
+
+
+
+
+    .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .price { float: left; }
+    .order-detail .col-md-8.main-area { width: 100%; }
+    .order-detail .col-md-8.main-area .order-info .card-info.row .col-md-2 .event-name img { height: 170px; object-fit: cover; margin-bottom: 10px; }
+    #code-apply .row { flex-wrap: nowrap; align-items: center; }
+    .order-detail .col-md-4.side .promo-section input { margin-bottom: 0; }
+    .order-detail .side .row.mob { flex-wrap: nowrap; }
+    .order-detail .col-md-4.side .promo-section .btn-apply { padding: 6px 33px; }
+    /* .order-detail .total-ticket-area.order .card-info.row .row { flex-wrap: nowrap; gap: 10px; } */
+    .dashboard.booking .side-bar { display: none; }
+    .dashboard .main-area .ticket-area .t-img { display: none; }
+    .dashboard .main-area .ticket-area .date-time img.icon { display: none; }
+    .dashboard .main-area .ticket-area .date-time .place { display: block; }
+    .dashboard.booking #ticket-container p.quantity-s { float: right; }
+    .dashboard .main-area .ticket-area .col-md-6.right p.stat { float: left; margin-bottom: 0; }
+    .dashboard .main-area .ticket-area .booking { float: left; margin-top: 0; }
+    .dashboard .main-area .tappes .all { margin-right: 15px; }
+    .dashboard .main-area .tappes .upcoming { margin-right: 15px; }
+    .dashboard.booking #myTabContent #ticket-container { margin-top: 0; }
+    .dashboard .main-area .ticket-area .col-md-6.left span.order-number { display: block; }
+    .dashboard .main-area .ticket-area .col-md-6.left span.ticket { display: block; }
+    .dashboard .main-area .ticket-area .col-md-6.right span.status { float: left; }
+    .dashboard .main-area .ticket-area .col-md-6.right span.success { display: block; }
+    .dashboard .main-area .ticket-area .col-md-6.right span.price { display: block; text-align: left; }
+    .dashboard .main-area .ticket-area .booking span.book-date { display: block; }
+    .dashboard .main-area .ticket-area .col-md-6.right p.pay { float: right; margin-bottom: 0; }
+    .dashboard .main-area .ticket-area .col-md-6.left p.order-s { float: left; } 
+    .dashboard .main-area .ticket-area .col-md-6.right { margin-top: 0; }
+    #ticket-container .col-md-12 { padding-right: 0; }
+    #ticket-container .row.mb-4.ticket-area { margin-bottom: 0 !important; }
+    .dashboard.booking #ticketScanModal .modal-dialog { width: auto; padding: 15px; margin-top: 30px; }
+    .dashboard.booking #ticketScanModal .modal-dialog .modal-body .qr { background: #fff; }
+    .dashboard.booking #ticketScanModal .modal-dialog .modal-body { padding: 0; }
+    .dashboard.booking #ticketScanModal .modal-dialog .t-body-bg { padding: 16px 16px 10px 16px; }
+    .dashboard.booking #ticketScanModal .modal-dialog .grand-total { background: #f2f2f2; padding: 0px 16px 10px 16px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; }
+    .dashboard.booking #ticketScanModal .modal-dialog .modal-body .qr img { border: 2px solid #707070; padding: 0px; }
+    .dashboard.booking #ticketScanModal .modal-dialog .modal-header img.cross { bottom: 85px; }
+    .dashboard.booking #ticketModal .modal-dialog { width: auto; padding: 15px; margin-top: 30px; }
+    .dashboard.booking #ticketModal .modal-dialog .modal-header img.cross { bottom: 85px; }
+
+    .dashboard.account-body .side-bar { display: none; }
+    .dashboard.account-body .account .account-area .button-area { padding-top: 10px; }
+    .dashboard.pass-body .side-bar { display: none; }
+    .dashboard.pass-body .password .c-password-area .button-area { padding-top: 10px; }
+
+
+    .popular-event .week-collapse, .popular-event .weekend-collapse, .popular-event .month-collapse, .popular-event .nav-link { margin-right: 0; font-size: 15px; }
+    #index-page #loader img { height: 80px; }
+    .order-detail .col-md-8.main-area .order-info .card-info.row .col-md-2 { padding-right: 3px; padding-left: 3px; }
+
+    .dashboard.booking #ticketModal .modal-dialog .modal-body.bot .desc p { font-size: 14px; }
+    .dashboard.booking #ticketModal .modal-dialog .modal-body.bot .rate p { font-size: 14px; }  
+    .dashboard.booking #ticketModal .modal-dialog .modal-body .t-number { font-size: 14px; }
+    .dashboard.booking #ticketModal .modal-dialog .modal-body .t-quantity { font-size: 14px; }
+    .dashboard.booking #ticketScanModal .modal-dialog .modal-body .grand-total p { font-size: 14px; }
+    .dashboard.booking #ticketScanModal .modal-dialog .modal-body .grand-total .total-price { font-size: 14px; }
+    .dashboard.booking #ticketScanModal .modal-dialog .modal-body .t-number { font-size: 14px; }
+    .dashboard.booking #ticketScanModal .modal-dialog .modal-body h2 { font-size: 16px; }
+    .dashboard.booking #ticketModal .modal-dialog .modal-body h2 { font-size: 16px; }
+    .inner-header .collapse.navbar-collapse { display: contents; }
+    .inner-header .search-bar input { display: none; }
+    .inner-header .right_btn .btn_create { display: none; }
+    .topheader .logo_left img { height: 40px; }
+    .topheader { padding: 10px 0; }
+    #otpModal .modal-dialog { width: auto; }
+    /* .search-area.row form#searchForm { width: 215px; position: relative; left: 40px; } */
+    .search-area.row form#searchForm { width: auto; margin-left: 30px; }
+    .home-banner .search-form { border: none; }
+    .home-banner .search-form { padding: 7px 10px 6px 10px; }
+
+    .event-detail .side-area.side-fixed { width: 100%; }
+    .event-detail .side-area-social.social-side-fixed.social-p { width: 100%; }
+    .inner-header .collapse.navbar-collapse .dropdown { display: block !important; }
+
+    #selected-tickets .total-ticket-area .col-6.col-md-4.text-center.mob-v { text-align: left !important; padding-left: 20px; }
+    #selected-tickets .total-ticket-area .col-6.col-md-4 .price { padding-right: 10px; }
+    /* .event-detail .col-md-8.main-area .ticket-info .card-info.row { margin: 0; } */
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row { margin-bottom: 10px; }
+
+
+
+}
+
+@media screen and (max-width: 768px) {
+    .summery-p,
+    .social-p {
+        position: relative !important;
+        top: initial !important;
+        display: block !important;
+    }
+}
+
+
+@media (max-width: 768px) {
+    #code-apply .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .two-images-row { display: none; }
+    .sponsored-area .spons-right { display: none !important; }
+    .sponsored-area .spons-left { display: none !important; }
+}
+
+@media (min-width: 768px) {
+    .one-image-row {
+        display: none;
+    }
+}
+
+/* For mobile view */
+@media (max-width: 767px) {
+
+    /* ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #EEEEEE; }       
+    ::-webkit-scrollbar-thumb { background: #AAAAAA; } */
+    .nav-tabs-wrapper { overflow-x: auto; white-space: nowrap; }
+    .nav-tabs { display: inline-flex; flex-wrap: nowrap; }
+    .nav-item { flex: 0 0 auto; }
+    .nav-link { white-space: nowrap; padding: 5px; }
+}
+
+
+
+
+@media only screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) { 
+
+
+}
+
+@media only screen and (max-width: 950px) and (min-width: 320px) and (orientation: landscape) {
+
+
+}
+
+@media only screen and (min-width: 700px) and (max-width: 1024px) {
+
+    .home-banner .banner-text .search-area { padding: 0 30px; }
+    .host-area .card img { margin: 0 auto; }
+    .popular-event .tab-content .main-img { width: 100%; height: 130px; border-radius: 16px; object-fit: cover; }
+    .popular-event .tab-content .card .date { width: auto; padding: 0 5px; }
+    .popular-event .tab-content .card .date-a { font-size: 20px; }
+    .popular-event .tab-content .card .month-a { font-size: 14px; }
+    .popular-event .tab-content .card .card-body h5.card-title { font-size: 14px; }
+    .popular-event .tab-content .card .card-body .time { font-size: 12px; font-weight: 500; }
+    .popular-event .tab-content .card .card-body .location { font-size: 12px; }
+    .popular-event .tab-content .card .card-body .price { font-size: 14px; font-weight: 500; }
+    .popular-event .tab-content .card .card-body .desc { font-size: 14px; font-weight: 500; }
+    .host-area .card h5 { font-size: 16px; }
+    .host-area .card p { font-size: 14px; }
+    .host-area .card.fst { margin-right: 0; }
+    .host-area .card.sec { margin: 0; }
+    .footer-bg { padding-left: 15px; }
+    #index-page .tab-content .row.row-cols-1.row-cols-md-3.g-4.mb-5.tab-b { margin-bottom: 0 !important; }
+    .dashboard.account-body .side-bar { padding: 20px 2px; }
+    .dashboard.booking .side-bar { padding: 20px 2px; }
+    .dashboard.pass-body .side-bar { padding: 20px 2px; }
+    .dashboard.account-body .side-bar button { padding: 10px 6px; }
+    .dashboard.booking .side-bar button { padding: 10px 6px; }
+    .dashboard.pass-body .side-bar button { padding: 10px 6px; }
+    .dashboard.account-body .side-bar img { width: 12px; }
+    .dashboard.booking .side-bar img { width: 12px; }
+    .dashboard.pass-body .side-bar img { width: 12px; }
+    .dashboard.account-body .side-bar span { font-size: 10px; }
+    .dashboard.booking .side-bar span { font-size: 10px; }
+    .dashboard.pass-body .side-bar span { font-size: 10px; }
+    .order-detail .col-md-8.main-area .order-info .card-info.row .counter h2 { font-size: 16px; }
+    .order-detail .col-md-8.main-area .order-info .card-info.row .counter .address { font-size: 14px; color: #333333; margin-bottom: 6px; }
+    .order-detail .col-md-8.main-area .order-info .title-border { padding-top: 0; }
+    .order-detail .col-md-8.main-area .order-info .card-info.row .col-md-2 .event-name img { height: 60px; }
+    .order-detail .col-md-8.main-area { margin-right: 0; }
+    .order-detail .col-md-4.side .promo-section .btn-apply { font-size: 14px; padding: 6px 12px; }
+    .order-detail .col-md-4.side .card-pay .btn-card { font-size: 12px; }
+    .order-detail .col-md-4.side .card-pay .final-p { font-size: 12px; }
+    .inner-header .collapse.navbar-collapse { display: contents; }
+    .inner-header .search-bar input { display: none; }
+    .inner-header .right_btn .btn_create { display: none; }
+    .dashboard.account-body .side-bar span { padding-left: 4px; }
+    .dashboard.booking .side-bar span { padding-left: 4px; }
+    .dashboard.pass-body .side-bar span { padding-left: 4px; }
+    .dashboard .password .c-password-area p { font-size: 12px; }
+    .dashboard .password .c-password-area .button-area { padding-top: 10px; }
+    .dashboard .account .account-area .button-area { padding-top: 10px; }
+    .dashboard .main-area .ticket-area h2 { font-size: 16px; }
+    .dashboard .main-area .ticket-area .t-img { height: auto; }
+    .dashboard.booking #ticketScanModal .modal-dialog .modal-body .qr { padding: 15px 15px 5px 15px; }
+    .dashboard.booking #ticketScanModal .modal-dialog { width: 40%; }
+    .dashboard.booking #ticketScanModal .modal-dialog .modal-body h2 { font-size: 16px; }
+    .dashboard.booking #ticketModal .modal-dialog { width: 40%; }
+    .dashboard.booking #ticketModal .modal-dialog .modal-header img.cross { position: relative; bottom: 90px; cursor: pointer; }
+    .dashboard.booking #ticketModal .modal-dialog .modal-body h2 { font-size: 16px; }
+    .dashboard.booking #ticketModal .modal-dialog .modal-body.bot .desc p { font-size: 14px; }
+    .dashboard.booking #ticketModal .modal-dialog .modal-body.bot .rate p { font-size: 14px; }  
+    .dashboard.booking #ticketModal .modal-dialog .modal-body .t-number { font-size: 14px; }
+    .dashboard.booking #ticketModal .modal-dialog .modal-body .t-quantity { font-size: 14px; }
+    .dashboard.booking #ticketScanModal .modal-dialog .modal-body .grand-total p { font-size: 14px; }
+    .dashboard.booking #ticketScanModal .modal-dialog .modal-body .grand-total .total-price { font-size: 14px; }
+    .dashboard.booking #ticketScanModal .modal-dialog .modal-body .t-number { font-size: 14px; }
+
+
+
+
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .topheader .collapse.navbar-collapse { display: contents; }
+    .topheader .search-bar input { display: none; }
+    .topheader .right_btn .btn_create { display: none; }
+    .topheader .browse { display: none; }
+    .topheader .collapse.navbar-collapse .city-filter { display: none; }
+
+}

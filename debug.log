@@ -1,0 +1,145 @@
+Array
+(
+    [cart_events] => Array
+        (
+            [cart_type] => events
+            [section] => events
+            [OrgainicPro] => 1
+            [taxRate] => 0
+        )
+
+)
+Array
+(
+    [cart_events] => Array
+        (
+            [cart_type] => events
+            [section] => events
+            [OrgainicPro] => 1
+            [taxRate] => 0
+        )
+
+)
+Array
+(
+    [cart_events] => Array
+        (
+            [cart_type] => events
+            [section] => events
+            [OrgainicPro] => 1
+            [taxRate] => 0
+        )
+
+)
+Array
+(
+    [cart_events] => Array
+        (
+            [cart_type] => events
+            [section] => events
+            [section_type] => events
+            [sid] => 340
+            [sname] => Quicklly Events
+            [simg] => https://www.dev.goquicklly.com/seller/upload_images/store/thumb/1671118313-quiclly-events.png
+            [smin] => 0
+            [minorder] => 0
+            [pid] => 251268
+            [eid] => 4
+            [totalcalcqty] => 05
+            [servicefeevalue] => 37.13
+            [conveniencefeevalue] => 17.33
+            [cartid] => 310
+            [name] => Ayushmann Khurrana and Neeti Mohan Live In Chicago 2023
+            [deliveryType] => free
+            [qty] => 1
+            [price] => 495.00
+            [baseTax] => 0.00
+            [tax] => 0.00
+            [calcprice] => 495.00
+            [total] => 495.00
+            [photo] => https://www.dev.goquicklly.com/upload_images/product/1687184851-ayushmann-khurrana-and-neeti-mohan-live-in-chicago-2023.jpg
+            [remarks] => Level 2(x5)
+            [customize] => Level 2(x5)
+            [addOns] => Array
+                (
+                    [0] => Array
+                        (
+                            [pid] => 251268
+                            [name] => Level 2
+                            [qty] => 5
+                            [size] => 
+                            [sizeid] => 23307
+                            [cost] => 99
+                            [tax] => 0.00
+                        )
+
+                )
+
+            [add_on_sizeids] => 23307
+            [addOnBaseQtys] => 5
+            [addOnQtys] => 5
+            [deliveryDate] => 2024-11-20
+            [deliveryDisplayDate] => 20th Nov, 2024 | 07:00 PM - 11:00 PM
+            [deliveryFromTime] => 07:00 PM - 11:00 PM
+            [deliveryToTime] => 
+            [OrgainicPro] => 1
+            [taxRate] => 0
+        )
+
+)
+Array
+(
+    [cart_events] => Array
+        (
+            [cart_type] => events
+            [section] => events
+            [section_type] => events
+            [sid] => 340
+            [sname] => Quicklly Events
+            [simg] => https://www.dev.goquicklly.com/seller/upload_images/store/thumb/1671118313-quiclly-events.png
+            [smin] => 0
+            [minorder] => 0
+            [pid] => 251268
+            [eid] => 4
+            [totalcalcqty] => 05
+            [servicefeevalue] => 37.13
+            [conveniencefeevalue] => 17.33
+            [cartid] => 310
+            [name] => Ayushmann Khurrana and Neeti Mohan Live In Chicago 2023
+            [deliveryType] => free
+            [qty] => 1
+            [price] => 495.00
+            [baseTax] => 0.00
+            [tax] => 0.00
+            [calcprice] => 495.00
+            [total] => 495.00
+            [photo] => https://www.dev.goquicklly.com/upload_images/product/1687184851-ayushmann-khurrana-and-neeti-mohan-live-in-chicago-2023.jpg
+            [remarks] => Level 2(x5)
+            [customize] => Level 2(x5)
+            [addOns] => Array
+                (
+                    [0] => Array
+                        (
+                            [pid] => 251268
+                            [name] => Level 2
+                            [qty] => 5
+                            [size] => 
+                            [sizeid] => 23307
+                            [cost] => 99
+                            [tax] => 0.00
+                        )
+
+                )
+
+            [add_on_sizeids] => 23307
+            [addOnBaseQtys] => 5
+            [addOnQtys] => 5
+            [deliveryDate] => 2024-11-20
+            [deliveryDisplayDate] => 20th Nov, 2024 | 07:00 PM - 11:00 PM
+            [deliveryFromTime] => 07:00 PM - 11:00 PM
+            [deliveryToTime] => 
+            [OrgainicPro] => 1
+            [taxRate] => 0
+        )
+
+)
