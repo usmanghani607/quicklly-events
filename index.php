@@ -39,9 +39,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div id="loaderOverlay" style="display: none;">
-                        <div id="loader" style="display: none; font-size: 18px; text-align: center; padding: 20px;">
-                            <img src="images/logo.png" alt="Loading..." style="max-height: 90px;">
+                    <div id="CityloaderOverlay" style="display: none;">
+                        <div id="Cityloader" style="display: none; font-size: 18px; text-align: center; padding: 20px;">
+                            <img src="images/logo.png" alt="Loading...">
                         </div>
                     </div>
                     <div id="city-results"></div>

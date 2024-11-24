@@ -322,15 +322,15 @@ include 'login-page.php';
                 searchEvents(selectedCity);
             } else {
                 $("#city-results").html("").css("padding", "0");
-                $("#loader").hide();
-                $("#loaderOverlay").hide();
+                $("#Cityloader").hide();
+                $("#CityloaderOverlay").hide();
                 toggleVisibility(true); 
             }
         });
 
         function searchEvents(selectedCity) {
-            $("#loaderOverlay").show();
-            $("#loader").show();
+            $("#CityloaderOverlay").show();
+            $("#Cityloader").show();
 
             ajaxRequest = $.ajax({
                 type: "POST",
@@ -352,7 +352,7 @@ include 'login-page.php';
                     }
                 },
                 complete: function() {
-                    $("#loaderOverlay").hide();
+                    $("#CityloaderOverlay").hide();
                 },
             });
         }
