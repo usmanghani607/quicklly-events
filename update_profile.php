@@ -1,7 +1,9 @@
 <?php
 session_start();
 
-$uid = $_SESSION['uid'] ?? null; 
+// print_r($_SESSION);
+
+$uid = $_SESSION['value_user_id'] ?? null; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $uid) {
     

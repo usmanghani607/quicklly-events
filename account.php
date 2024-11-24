@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+// print_r($_SESSION);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -62,17 +65,6 @@ session_start();
                                                 <div id="phoneError" class="error-message text-danger"></div>
                                             </div>
                                         </div>
-                                        <!-- <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="" class="form-label">Mobile Number</label>
-                                                <input type="text" class="form-control phoneField" name="phone">
-                                                <div id="phoneError" class="error-message text-danger"></div>
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="" class="form-label">Telephone Number</label>
-                                                <input type="text" class="form-control tel" id="tel" placeholder="Telephone Number">
-                                            </div>
-                                        </div> -->
                                 </div>
                                 <div class="col-md-12">
                                     <div class="button-area">
