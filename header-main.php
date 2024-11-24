@@ -214,7 +214,7 @@ include 'login-page.php';
 ?>
 
 
-<script>
+<!-- <script>
     $(document).ready(function() {
         let ajaxRequest;
 
@@ -304,109 +304,110 @@ include 'login-page.php';
             $("#city-results").html(html).css("padding", "35px 0"); 
         }
     });
-</script>
+</script> -->
 
-<!-- <script>
+<script>
     $(document).ready(function() {
+        let ajaxRequest;
 
-        updateUI();
+        $("#citySelect").on("change", function() {
+            const selectedCity = $(this).val();
 
-        $("#loginBtn").on("click", function() {
-            
-            $(".error-message").text("");
-
-            var email = $("#email").val().trim();
-            var password = $("#pass").val().trim();
-            var isValid = true;
-
-            if (email === "") {
-                $("#emailError").text("Email is required.");
-                isValid = false;
-            }
-            if (password === "") {
-                $("#passwordError").text("Password is required.");
-                isValid = false;
+            if (ajaxRequest) {
+                ajaxRequest.abort();
             }
 
-            if (!isValid) {
-                return;
+            if (selectedCity) {
+                toggleVisibility(false); 
+                searchEvents(selectedCity);
+            } else {
+                $("#city-results").html("").css("padding", "0");
+                $("#loader").hide();
+                $("#loaderOverlay").hide();
+                toggleVisibility(true); 
             }
+        });
 
-            $.ajax({
+        function searchEvents(selectedCity) {
+            $("#loaderOverlay").show();
+            $("#loader").show();
+
+            ajaxRequest = $.ajax({
                 type: "POST",
-                url: "login.php",
+                url: "get_home_data.php",
                 data: {
-                    email: email,
-                    pass: password
+                    city: selectedCity,
                 },
+                dataType: "json",
                 success: function(response) {
-                    var data = JSON.parse(response);
-
-                    if (data.success) {
-                        localStorage.setItem('firstName', data.firstName);
-                        localStorage.setItem('uid', data.uid);
-
-                        updateUI();
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: data.message,
-                            timer: 1500,
-                            showConfirmButton: false
-                        });
-
-                        setTimeout(function() {
-                            window.location.href = 'index';
-                        }, 1500);
+                    if (response.success) {
+                        displayEvents(response.events);
                     } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: data.message
-                        });
+                        $("#city-results").html("<p>No events found for the selected city.</p>");
                     }
                 },
                 error: function(xhr, status, error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An error occurred: ' + error
-                    });
-                }
+                    if (status !== "abort") {
+                        console.error("An error occurred:", error);
+                    }
+                },
+                complete: function() {
+                    $("#loaderOverlay").hide();
+                },
             });
-        });
-
-        function updateUI() {
-            var firstName = localStorage.getItem('firstName');
-            if (firstName) {
-                $('.dropdown').show();
-                $('.btn_signup').hide();
-                $('.dropdown-toggle').text(firstName);
-            } else {
-                $('.dropdown').hide();
-                $('.btn_signup').show();
-            }
         }
 
-        $(document).on('click', '#logoutBtn', function() {
-            localStorage.removeItem('firstName');
-            localStorage.removeItem('uid');
-            updateUI();
+        function displayEvents(events) {
+            let html = '<div class="row row-cols-1 row-cols-md-3 g-4">';
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Logged Out',
-                text: 'You have successfully logged out.',
-                timer: 1500,
-                showConfirmButton: false
+            events.forEach((event, index) => {
+                const cardClass = (index % 3 === 0) ? 'first' : (index % 3 === 1) ? 'sec' : 'third';
+                const trimmedName = event.name.length > 54 ? event.name.substring(0, 54) + '...' : event.name;
+                const day = event.dayMonth.substring(0, 2);
+                const month = event.dayMonth.substring(2);
+
+                html += `
+            <div class="col">
+                <div class="card ${cardClass}">
+                    <a href="event-detail?eid=${event.eid}">
+                        <span class="date">
+                            <p class="date-a">${day}</p>
+                            <p class="month-a">${month}</p>
+                        </span>
+                        <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
+                        <div class="card-body">
+                            <h5 class="card-title">${trimmedName}</h5>
+                            <h4 class="time">${event.dateRange}</h4>
+                            <h5 class="location">${event.venue}</h5>
+                            <p class="desc">${event.organiser}</p>
+                            <span class="price">Starting at ${event.costRange}</span>`;
+
+                if (event.discountTxt) {
+                    html += `<span class="price-icon"><img src="images/discount-icon.png" alt=""> ${event.discountTxt}</span>`;
+                }
+
+                html += `
+                        </div>
+                    </a>
+                </div>
+            </div>`;
             });
-        });
 
+            html += '</div>';
+            $("#city-results").html(html).css("padding", "35px 0");
+        }
+
+        function toggleVisibility(showIndexPage) {
+            if (showIndexPage) {
+                $("#index-page").show(); 
+                $(".city-filter-area").hide(); 
+            } else {
+                $("#index-page").hide(); 
+                $(".city-filter-area").show(); 
+            }
+        }
     });
-</script> -->
-
-
+</script>
 
 
 </html>
