@@ -39,12 +39,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div id="city-results"></div>
                     <div id="loaderOverlay" style="display: none;">
                         <div id="loader" style="display: none; font-size: 18px; text-align: center; padding: 20px;">
                             <img src="images/logo.png" alt="Loading..." style="max-height: 90px;">
                         </div>
                     </div>
+                    <div id="city-results"></div>
                 </div>
             </div>
         </div>

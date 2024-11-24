@@ -69,9 +69,9 @@
     .event-detail.fade-background { background: none !important; }
 
     .event-detail .col-md-8.main-area .banner img { height: auto; }
-    .near-event .event-slider .card.first { margin: 0 4px; }
-    .near-event .event-slider .card.sec { margin: 0 4px; }
-    .near-event .event-slider .card.third { margin: 0 4px; }
+    .near-event .event-slider .card.first { margin: 0 4px 4px 4px; }
+    .near-event .event-slider .card.sec { margin: 0 4px 4px 4px; }
+    .near-event .event-slider .card.third { margin: 0 4px 4px 4px; }
     .near-event .heading p { display: none; }
 
     .event-detail .col-md-8.main-area .location-time .dateTime img.calender-desk { display: none; }
@@ -95,7 +95,8 @@
     #code-apply .row { flex-wrap: nowrap; align-items: center; }
     .order-detail .col-md-4.side .promo-section input { margin-bottom: 0; }
     .order-detail .side .row.mob { flex-wrap: nowrap; }
-    .order-detail .col-md-4.side .promo-section .btn-apply { padding: 6px 33px; }
+    .order-detail .col-md-4.side .promo-section .btn-apply { padding: 6px 20px; }
+    .order-detail .col-md-4.side .promo-section .col-sm-4 { padding-left: 12px; }
     /* .order-detail .total-ticket-area.order .card-info.row .row { flex-wrap: nowrap; gap: 10px; } */
     .dashboard.booking .side-bar { display: none; }
     .dashboard .main-area .ticket-area .t-img { display: none; }
@@ -167,7 +168,11 @@
     /* .event-detail .col-md-8.main-area .ticket-info .card-info.row { margin: 0; } */
     .event-detail .col-md-8.main-area .ticket-info .card-info.row { margin-bottom: 10px; }
 
-
+    .city-filter-area #city-results .card.first { margin-right: 0; }
+    .city-filter-area #city-results .card.sec { margin: 0; }
+    .city-filter-area #city-results .card.third { margin: 0; }
+    
+    .ticket-proceed .pro-btn button.btn-process { font-size: 12px; padding: 8px 10px; }
 
 }
 

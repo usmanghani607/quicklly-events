@@ -118,7 +118,7 @@ if (isset($login_result['token'])) {
         $eventName = "Event not found";
     }
 } else {
-    echo "Login failed: " . htmlspecialchars($login_result['message'] ?? 'Unknown error');
+    // echo "Login failed: " . htmlspecialchars($login_result['message'] ?? 'Unknown error');
 }
 
 ?>
