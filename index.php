@@ -100,44 +100,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="category-area">
-            <div class="container">
-                <div class="row">
-                    <div id="carouselCategory" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <?php
-                            if (!empty($result['lstCats'])) {
-                                $categories = $result['lstCats'];
-                                $chunkedCategories = array_chunk($categories, 7);
-
-                                foreach ($chunkedCategories as $index => $categoryGroup) {
-                                    $isActive = ($index === 0) ? 'active' : '';
-                                    echo '<div class="carousel-item ' . $isActive . '">';
-                                    echo '<div class="grid-container">';
-                                    foreach ($categoryGroup as $category) {
-                                        $catName = htmlspecialchars($category['name']);
-                                        $catImage = htmlspecialchars($category['img']);
-                                        echo '<div class="grid-item">';
-                                        echo '    <a href="#" class="category-item">';
-                                        echo '        <img src="' . $catImage . '" alt="' . $catName . '" class="img-fluid">';
-                                        echo '        <p class="text-center">' . $catName . '</p>';
-                                        echo '    </a>';
-                                        echo '</div>';
-                                    }
-                                    echo '</div>';
-                                    echo '</div>';
-                                }
-                            } else {
-                                echo '<div>No categories available</div>';
-                            }
-                            ?>
-                        </div>
-                        <img src="images/spons-right.png" alt="Next" class="category-right" data-bs-target="#carouselCategory" data-bs-slide="next">
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
         <div class="category-area">
             <div class="container">
                 <div class="row">
@@ -164,8 +126,6 @@
                 </div>
             </div>
         </div>
-
-
         <div class="popular-event">
             <div class="container">
                 <div class="row">
@@ -515,58 +475,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="sponsored-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="heading">
-                            <h5>Sponsored*</h5>
-                        </div>
-                        <div id="carouselSponsored" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-
-                                    <div class="row two-images-row">
-                                        <div class="col-12 col-md-6">
-                                            <img src="images/sponsored2.png" class="d-block w-100 spose" alt="...">
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <img src="images/sponsored1.png" class="d-block w-100 spose" alt="...">
-                                        </div>
-                                    </div>
-
-                                    <div class="row one-image-row">
-                                        <div class="col-12">
-                                            <img src="images/sponsored2.png" class="d-block w-100 spose" alt="...">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-
-                                    <div class="row two-images-row">
-                                        <div class="col-12 col-md-6">
-                                            <img src="images/sponsored2.png" class="d-block w-100 spose" alt="...">
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <img src="images/sponsored1.png" class="d-block w-100 spose" alt="...">
-                                        </div>
-                                    </div>
-
-                                    <div class="row one-image-row">
-                                        <div class="col-12">
-                                            <img src="images/sponsored1.png" class="d-block w-100 spose" alt="...">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <img src="images/spons-left.png" alt="Previous" class="spons-left" data-bs-target="#carouselSponsored" data-bs-slide="prev">
-                            <img src="images/spons-right.png" alt="Next" class="spons-right" data-bs-target="#carouselSponsored" data-bs-slide="next">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div class="sponsored-area">
             <div class="container">
                 <div class="row">
@@ -611,86 +519,6 @@
             </div>
         </div>
 
-        <!-- <div class="near-event">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="heading">
-                            <h3>Events Near You</h3>
-                            <p>Looking for something fun to do? From music to theatre, the Desi NRI Adda offers a variety of events happening near you to choose from.</p>
-                        </div>
-                    </div>
-                    <div id="carouselEvent" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <?php
-                            if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
-                                $events = $result['lstProds'];
-                                $chunkedEvents = array_chunk($events, 3);
-
-                                foreach ($chunkedEvents as $index => $eventGroup) {
-                                    $isActive = ($index === 0) ? 'active' : '';
-                                    echo '<div class="carousel-item ' . $isActive . '">';
-                                    echo '<div class="row row-cols-1 row-cols-md-3 g-4 mb-5 tab-b">';
-                                    $counter = 1;
-                                    foreach ($eventGroup as $event) {
-
-                                        $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
-
-                                        $name = htmlspecialchars($event['name']);
-                                        $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
-
-                                        $day = substr($event['dayMonth'], 0, 2);
-                                        $month = substr($event['dayMonth'], 2);
-
-                                        $slug = htmlspecialchars($event['slug']);
-
-                                        echo '<div class="col col-12 col-md-4">';
-                                        echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
-                                        echo '      <a href="event-detail?slug=' . $slug . '">';
-                                        echo '        <span class="date"><p class="date-a">' . htmlspecialchars($day) . '</p><p class="month-a">' . htmlspecialchars($month) . '</p></span>';
-                                        echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
-                                        echo '        <div class="card-body">';
-                                        echo '            <h5 class="card-title">' . $trimmedName . '</h5>';
-                                        echo '            <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
-                                        echo '            <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
-                                        echo '            <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
-                                        echo '            <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
-
-                                        if (!empty($event['discountTxt'])) {
-                                            echo '            <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
-                                        }
-
-                                        echo '        </div>';
-                                        echo '          </a>';
-                                        echo '    </div>';
-                                        echo '</div>';
-
-                                        $counter++;
-                                        if ($counter > 3) {
-                                            $counter = 1;
-                                        }
-                                    }
-                                    echo '</div>';
-                                    echo '</div>';
-                                }
-                            } else {
-                                echo '<p>No events found or incorrect data structure.</p>';
-                            }
-                            ?>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="event-arrow">
-                    <div class="col-md-12">
-                        <img src="images/event-left.png" alt="Previous" class="event-left" data-bs-target="#carouselEvent" data-bs-slide="prev">
-                        <img src="images/event-right.png" alt="Next" class="event-right" data-bs-target="#carouselEvent" data-bs-slide="next">
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
         <div class="near-event">
             <div class="container">
                 <div class="row">
@@ -702,55 +530,225 @@
                     </div>
                     <div class="event-slider">
                         <?php
-                        if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
-                            $events = $result['lstProds'];
+                        // if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
+                        //     $events = $result['lstProds'];
 
-                            foreach ($events as $index => $event) {
-                                $cardClass = ($index % 3 === 0) ? 'first' : (($index % 3 === 1) ? 'sec' : 'third');
+                        //     foreach ($events as $index => $event) {
+                        //         $cardClass = ($index % 3 === 0) ? 'first' : (($index % 3 === 1) ? 'sec' : 'third');
 
-                                $name = htmlspecialchars($event['name']);
-                                $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
+                        //         $name = htmlspecialchars($event['name']);
+                        //         $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
 
-                                $day = substr($event['dayMonth'], 0, 2);
-                                $month = substr($event['dayMonth'], 2);
+                        //         $day = substr($event['dayMonth'], 0, 2);
+                        //         $month = substr($event['dayMonth'], 2);
 
-                                $slug = htmlspecialchars($event['slug']);
-                                echo '<div>';
-                                echo '<div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
-                                echo '  <a href="event-detail?slug=' . $slug . '">';
-                                echo '    <span class="date"><p class="date-a">' . htmlspecialchars($day) . '</p><p class="month-a">' . htmlspecialchars($month) . '</p></span>';
-                                echo '    <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
-                                echo '    <div class="card-body">';
-                                echo '        <h5 class="card-title">' . $trimmedName . '</h5>';
-                                echo '        <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
-                                echo '        <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
-                                echo '        <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
-                                echo '        <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
-                                if (!empty($event['discountTxt'])) {
-                                    echo '        <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
-                                }
-                                echo '    </div>';
-                                echo '  </a>';
-                                echo '</div>';
-                                echo '</div>';
-                            }
-                        } else {
-                            echo '<p>No events found or incorrect data structure.</p>';
-                        }
+                        //         $slug = htmlspecialchars($event['slug']);
+                        //         echo '<div>';
+                        //         echo '<div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
+                        //         echo '  <a href="event-detail?slug=' . $slug . '">';
+                        //         echo '    <span class="date"><p class="date-a">' . htmlspecialchars($day) . '</p><p class="month-a">' . htmlspecialchars($month) . '</p></span>';
+                        //         echo '    <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
+                        //         echo '    <div class="card-body">';
+                        //         echo '        <h5 class="card-title">' . $trimmedName . '</h5>';
+                        //         echo '        <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
+                        //         echo '        <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
+                        //         echo '        <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
+                        //         echo '        <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
+                        //         if (!empty($event['discountTxt'])) {
+                        //             echo '        <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
+                        //         }
+                        //         echo '    </div>';
+                        //         echo '  </a>';
+                        //         echo '</div>';
+                        //         echo '</div>';
+                        //     }
+                        // } else {
+                        //     echo '<p>No events found or incorrect data structure.</p>';
+                        // }
                         ?>
                     </div>
                 </div>
-
-                <!-- Event arrows -->
                 <div class="event-arrow">
                     <div class="col-md-12">
-
                     </div>
                 </div>
             </div>
         </div>
 
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+
+                        console.log(`Your current location is: Latitude = ${latitude}, Longitude = ${longitude}`);
+
+                        // Reverse geocode to get city name
+                        fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`)
+                            .then(response => response.json())
+                            .then(locationData => {
+                                const city = locationData.city || locationData.locality || 'Unknown';
+                                console.log(`Detected city: ${city}`);
+
+                                fetch('get-events-by-location.php', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            city
+                                        })
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        const eventArrow = document.querySelector('.event-arrow');
+
+                                        if (data && data.success) {
+                                            if (data.events && data.events.length > 0) {
+                                                renderEvents(data.events);
+                                                eventArrow.style.display = 'block';
+                                            } else {
+                                                document.querySelector('.event-slider').innerHTML = '<p>No events found for your location.</p>';
+                                                eventArrow.style.display = 'none';
+                                            }
+                                        } else {
+                                            document.querySelector('.event-slider').innerHTML = `<p>${data.message || 'No events found for your location.'}</p>`;
+                                            eventArrow.style.display = 'none';
+                                        }
+                                    })
+                                    .catch(err => {
+                                        console.error('Error fetching events:', err);
+                                        document.querySelector('.event-slider').innerHTML = '<p>Error fetching events. Please try again later.</p>';
+                                        document.querySelector('.event-arrow').style.display = 'none';
+                                    });
+                            })
+                            .catch(err => {
+                                console.error('Error reverse geocoding:', err);
+                                showDefaultEvents(); // Fetch and show default events
+                            });
+                    },
+                    function(error) {
+                        console.error('Error obtaining location:', error.message);
+                        document.querySelector('.event-slider').innerHTML = '';
+                        showDefaultEvents(); // Fetch and show default events
+                    }
+                );
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+                document.querySelector('.event-slider').innerHTML = '<p>Geolocation not supported. Showing default events.</p>';
+                showDefaultEvents(); 
+            }
+        });
+
+        function showDefaultEvents() {
+            fetch('get-events-by-location.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        city: '' 
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const eventArrow = document.querySelector('.event-arrow');
+
+                    if (data && data.success) {
+                        if (data.events && data.events.length > 0) {
+                            renderEvents(data.events);
+                            eventArrow.style.display = 'block';
+                        } else {
+                            document.querySelector('.event-slider').innerHTML = '<p>No events found.</p>';
+                            eventArrow.style.display = 'none';
+                        }
+                    } else {
+                        document.querySelector('.event-slider').innerHTML = '<p>Error fetching default events. Please try again later.</p>';
+                        eventArrow.style.display = 'none';
+                    }
+                })
+                .catch(err => {
+                    console.error('Error fetching default events:', err);
+                    document.querySelector('.event-slider').innerHTML = '<p>Error fetching default events. Please try again later.</p>';
+                    document.querySelector('.event-arrow').style.display = 'none';
+                });
+        }
+
+
+        function renderEvents(events) {
+            const eventSlider = document.querySelector('.event-slider');
+            eventSlider.innerHTML = '';
+
+            events.forEach((event, index) => {
+                const cardClass = index % 3 === 0 ? 'first' : (index % 3 === 1 ? 'sec' : 'third');
+                const name = event.name.length > 54 ? `${event.name.substring(0, 54)}...` : event.name;
+                const day = event.dayMonth.substring(0, 2);
+                const month = event.dayMonth.substring(2);
+
+                const eventHTML = `
+            <div>
+                <div class="card ${cardClass}" title="Slug: ${event.slug}">
+                    <a href="event-detail?slug=${event.slug}">
+                        <span class="date">
+                            <p class="date-a">${day}</p>
+                            <p class="month-a">${month}</p>
+                        </span>
+                        <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
+                        <div class="card-body">
+                            <h5 class="card-title">${name}</h5>
+                            <h4 class="time">${event.dateRange}</h4>
+                            <h5 class="location">${event.venue}</h5>
+                            <p class="desc">${event.organiser}</p>
+                            <span class="price">Starting at ${event.costRange}</span>
+                            ${
+                                event.discountTxt
+                                    ? `<span class="price-icon"><img src="images/discount-icon.png" alt=""> ${event.discountTxt}</span>`
+                                    : ''
+                            }
+                        </div>
+                    </a>
+                </div>
+            </div>
+        `;
+                eventSlider.insertAdjacentHTML('beforeend', eventHTML);
+            });
+
+            if ($('.event-slider').hasClass('slick-initialized')) {
+                $('.event-slider').slick('unslick'); 
+            }
+
+            $('.event-slider').slick({
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+                dots: false,
+                arrows: true,
+                prevArrow: '<img src="images/event-left.png" alt="Previous" class="event-left">',
+                nextArrow: '<img src="images/event-right.png" alt="Next" class="event-right">',
+                appendArrows: '.event-arrow .col-md-12',
+                responsive: [{
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1
+                        }
+                    },
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1
+                        }
+                    }
+                ]
+            });
+        }
+    </script>
+
 
     <script>
         $(document).ready(function() {
@@ -871,7 +869,7 @@
         });
     </script>
 
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             $('.event-slider').slick({
                 slidesToShow: 3,
@@ -899,16 +897,16 @@
                 ]
             });
         });
-    </script>
+    </script> -->
 
     <script>
         $(document).ready(function() {
             $('.category-slider').slick({
-                slidesToShow: 7, 
-                slidesToScroll: 1, 
-                infinite: true, 
-                dots: false, 
-                arrows: true, 
+                slidesToShow: 7,
+                slidesToScroll: 1,
+                infinite: true,
+                dots: false,
+                arrows: true,
                 prevArrow: '<img src="images/spons-left.png" alt="Previous" class="category-left">',
                 nextArrow: '<img src="images/spons-right.png" alt="Next" class="category-right">',
                 responsive: [{
