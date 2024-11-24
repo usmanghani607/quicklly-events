@@ -111,8 +111,9 @@
                             foreach ($categories as $category) {
                                 $catName = htmlspecialchars($category['name']);
                                 $catImage = htmlspecialchars($category['img']);
+                                $catID = htmlspecialchars($category['catID']);
                                 echo '<div class="category-slide">';
-                                echo '    <a href="#" class="category-item">';
+                                echo '    <a href="javascript:void(0)" class="category-item" data-catid="' . $catID . '">';
                                 echo '        <img src="' . $catImage . '" alt="' . $catName . '" class="img-fluid">';
                                 echo '        <p class="text-center">' . $catName . '</p>';
                                 echo '    </a>';
@@ -126,6 +127,37 @@
                 </div>
             </div>
         </div>
+        <!-- <div class="category-filter">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="CategoryloaderOverlay" style="display: none;">
+                            <div id="Categoryloader" style="display: none; font-size: 18px; text-align: center; padding: 20px;">
+                                <img src="images/logo.png" alt="Loading...">
+                            </div>
+                        </div>
+                        <div id="category-results" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="category-filter">
+            <div id="CategoryloaderOverlay" style="display: none;">
+                <div id="Categoryloader">
+                    <img src="images/logo.png" alt="Loading...">
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="category-results" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="popular-event">
             <div class="container">
                 <div class="row">
@@ -638,7 +670,7 @@
             } else {
                 console.error('Geolocation is not supported by this browser.');
                 document.querySelector('.event-slider').innerHTML = '<p>Geolocation not supported. Showing default events.</p>';
-                showDefaultEvents(); 
+                showDefaultEvents();
             }
         });
 
@@ -649,7 +681,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        city: '' 
+                        city: ''
                     })
                 })
                 .then(response => response.json())
@@ -716,7 +748,7 @@
             });
 
             if ($('.event-slider').hasClass('slick-initialized')) {
-                $('.event-slider').slick('unslick'); 
+                $('.event-slider').slick('unslick');
             }
 
             $('.event-slider').slick({
@@ -852,6 +884,96 @@
 
     <script>
         $(document).ready(function() {
+            let ajaxRequest;
+
+            $(".category-item").on("click", function(e) {
+                e.preventDefault();
+
+                const selectedCategoryID = $(this).data("catid");
+
+                console.log("Selected Category ID:", selectedCategoryID);
+
+                if (ajaxRequest) ajaxRequest.abort();
+
+                searchEventsByCategory(selectedCategoryID || 0);
+
+                if (selectedCategoryID) {
+                    searchEventsByCategory(selectedCategoryID);
+                }
+            });
+
+            function searchEventsByCategory(catID) {
+                console.log("Sending catID to API:", catID);
+
+                $("#CategoryloaderOverlay").show();
+
+                ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: "category_data.php",
+                    data: {
+                        category: catID,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success) {
+                            displayCategoryEvents(response.events);
+                        } else {
+                            $("#category-results").html('<span style="display: block; text-align: center; margin: 20px auto; font-size: 16px; color: #555;">No events found for this category.</span>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        if (status !== "abort") console.error("An error occurred:", error);
+                    },
+                    complete: function() {
+                        
+                        $("#CategoryloaderOverlay").hide();
+                    },
+                });
+            }
+
+            function displayCategoryEvents(events) {
+                let html = '<div class="row row-cols-1 row-cols-md-3 g-4">';
+
+                events.forEach((event, index) => {
+                    const cardClass = (index % 3 === 0) ? 'first' : ((index % 3 === 1) ? 'sec' : 'third');
+                    const trimmedName = event.name.length > 54 ? event.name.substring(0, 54) + '...' : event.name;
+                    const day = event.dayMonth.substring(0, 2);
+                    const month = event.dayMonth.substring(2);
+
+                    html += `
+                    <div class="col">
+                        <div class="card ${cardClass}" title="Slug: ${event.slug}">
+                            <a href="event-detail?slug=${event.slug}">
+                                <span class="date">
+                                    <p class="date-a">${day}</p>
+                                    <p class="month-a">${month}</p>
+                                </span>
+                                <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
+                                <div class="card-body">
+                                    <h5 class="card-title">${trimmedName}</h5>
+                                    <h4 class="time">${event.dateRange}</h4>
+                                    <h5 class="location">${event.venue}</h5>
+                                    <p class="desc">${event.organiser}</p>
+                                    <span class="price">Starting at ${event.costRange}</span>`;
+                                if (event.discountTxt) {
+                                    html += `<span class="price-icon"><img src="images/discount-icon.png" alt=""> ${event.discountTxt}</span>`;
+                                }
+
+                                html += `
+                                </div>
+                            </a>
+                        </div>
+                    </div>`;
+                });
+
+                html += '</div>';
+                $("#category-results").html(html);
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
             $('.sponsored-slider').slick({
                 dots: false,
                 infinite: true,
@@ -866,41 +988,11 @@
         });
     </script>
 
-    <!-- <script>
-        $(document).ready(function() {
-            $('.event-slider').slick({
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                infinite: true,
-                dots: false,
-                arrows: true,
-                prevArrow: '<img src="images/event-left.png" alt="Previous" class="event-left">',
-                nextArrow: '<img src="images/event-right.png" alt="Next" class="event-right">',
-                appendArrows: '.event-arrow .col-md-12',
-                responsive: [{
-                        breakpoint: 768,
-                        settings: {
-                            slidesToShow: 1,
-                            slidesToScroll: 1
-                        }
-                    },
-                    {
-                        breakpoint: 1024,
-                        settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 1
-                        }
-                    }
-                ]
-            });
-        });
-    </script> -->
-
     <script>
         $(document).ready(function() {
             $('.category-slider').slick({
                 slidesToShow: 7,
-                slidesToScroll: 1,
+                slidesToScroll: 7,
                 infinite: true,
                 dots: false,
                 arrows: true,
