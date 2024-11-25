@@ -613,10 +613,14 @@ footer.footer-bg .container .col-md { padding: 0; }
 .event-detail .side-area-social h2 { text-align: center; font-size: 20px; font-weight: 500; margin-bottom: 20px; }
 .event-detail .side-area-social img { width: 35px; margin: 0 3px; }
 
-.event-detail .side-area.side-fixed { position: fixed; width: 312px; z-index: 111; }
-.event-detail .side-area-social.social-side-fixed { position: fixed; width: 312px; top: 66%; z-index: 111; }
+/* .event-detail .side-area.side-fixed { position: fixed; width: 312px; z-index: 111; }
+.event-detail .side-area-social.social-side-fixed { position: fixed; width: 312px; top: 66%; z-index: 111; } */
 
-.event-detail .side-area.side-fixed, .event-detail .side-area-social.social-side-fixed { position: fixed; width: 312px; z-index: 111; }
+.event-detail .side-area.side-fixed { position: fixed; width: 312px; z-index: 111; }
+.event-detail .side-area-social.social-side-fixed { position: fixed; width: 312px; z-index: 111; }
+
+
+/* .event-detail .side-area.side-fixed, .event-detail .side-area-social.social-side-fixed { position: fixed; width: 312px; z-index: 111; } */
 
 .event-detail .side-area.side-fixed .ticket-section img { width: 20px; margin-bottom: 5px; }
 

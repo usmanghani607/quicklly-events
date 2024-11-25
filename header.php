@@ -30,6 +30,12 @@
             background-color: yellow;
             font-weight: bold;
         }
+
+        .highlight {
+            background: #F05336;
+            color: black;
+            font-weight: 500;
+        }
     </style>
 </head>
 
@@ -100,6 +106,33 @@
                 setTimeout(function() {
                     window.location.href = 'header-logout.php';
                 }, 1500);
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            
+            const originalContent = $(".event-detail").html();
+
+            $("#header-search").on("input", function() {
+                const searchQuery = $(this).val().trim();
+
+                if (searchQuery) {
+                    $(".event-detail").html(originalContent); 
+
+                    const regex = new RegExp(`(${searchQuery})`, "gi");
+
+                    $(".event-detail *").contents().each(function() {
+                        if (this.nodeType === 3) { 
+                            const text = $(this).text();
+                            const replacedText = text.replace(regex, "<span class='highlight'>$1</span>");
+                            $(this).replaceWith(replacedText);
+                        }
+                    });
+                } else {
+                    $(".event-detail").html(originalContent); 
+                }
             });
         });
     </script>

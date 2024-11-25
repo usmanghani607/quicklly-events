@@ -179,12 +179,8 @@ session_start();
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const apiUrl = 'https://devrestapi.goquicklly.com/user/my-account';
-            // const bearerToken = localStorage.getItem('bearer_token');
             const bearerToken = "<?php echo $_SESSION['bearer_token']; ?>";
             const uid = localStorage.getItem('uid');
-
-            // console.log('Bearer Token:', bearerToken);
-            // console.log('User ID:', uid);
 
             async function loadUserProfile() {
                 try {

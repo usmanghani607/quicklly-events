@@ -130,7 +130,6 @@ if ($result_home['success'] && isset($result_home['lstProds'])) {
         } else {
             echo "Event address not found in API response.";
         }
-
     } else {
         echo "Event details not found.";
     }
@@ -229,7 +228,6 @@ $result_home = json_decode($response_home, true);
         .event-detail::after {
             opacity: 0;
         }
-
     </style>
 </head>
 
@@ -264,109 +262,6 @@ $result_home = json_decode($response_home, true);
                                 <span><?php echo $eventAddress; ?></span>
                             </div>
                         </div>
-
-                        <!-- <div class="ticket-info">
-                            <div class="heading">
-                                <h2>Tickets Information</h2>
-                            </div>
-                            <?php
-                            if (isset($result['lstSizes']) && is_array($result['lstSizes'])) {
-                                foreach ($result['lstSizes'] as $size) {
-                                    $sizeName = htmlspecialchars($size['name']);
-                                    $sizeDesc = htmlspecialchars($size['desp']);
-                                    $sizeCost = htmlspecialchars($size['cost']);
-                                    $sizeMRP = htmlspecialchars($size['mrp']);
-                                    $inStock = $size['inStock'];
-                                    $stockStatus = $inStock ? 'Available' : 'Sold Out';
-                                    $allowBooking = $size['allowBooking'];
-                                    $discountTxt = htmlspecialchars($size['discountTxt']);
-                                    $soldOutClass = !$inStock ? 'soldout' : '';
-                                    $sizeId = isset($size['sizeid']) ? htmlspecialchars($size['sizeid']) : 'unknown';
-
-                                    if ($allowBooking) {
-                                        echo "
-                                    <div class='card-info row {$soldOutClass}'>
-                                        <div class='col-md-8'>
-                                            <div class='event-name'>
-                                                <span class='tick-name'>{$sizeName}</span>";
-
-                                        if (!empty($discountTxt)) {
-                                            echo "<span class='price-icon'><img src='images/discount-icon.png' alt=''> {$discountTxt}</span>";
-                                        }
-
-                                        echo "
-                                                 <div class='aa'><span class='sold-p para' id='event-description-{$sizeId}'>
-                                                    {$sizeDesc}
-                                                </span>
-                                                <span><a href='javascript:void(0);' class='show-more'>show more</a></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class='col-4 col-md-2'>
-                                            <div class='counter'>
-                                                <button class='decrease' data-id='{$sizeId}'>-</button>
-                                                <span class='count' id='count-{$sizeId}'>0</span>
-                                                <button class='increase' data-id='{$sizeId}'>+</button>
-                                            </div>
-                                        </div>
-                                        <div class='col-8 col-md-2 pp'>
-                                            <div class='price'>
-                                                <h4 class='price-display' id='price-{$sizeId}'>\${$sizeCost}</h4>";
-                                        if (!empty($discountTxt)) {
-                                            echo "<span style='text-decoration: line-through; padding-right:10px;'>\${$sizeMRP}</span>";
-                                        }
-
-                                        echo "
-                                                <p class='avail'>{$stockStatus}</p>
-                                                <p><a class='btn seating' data-bs-toggle='modal' data-bs-target='#seatingModal'>Check Seating</a></p>
-                                            </div>
-                                        </div>
-                                    </div>";
-                                    } else {
-                                        echo "
-                                    <div class='soldout card-info row'>
-                                        <div class='col-md-8'>
-                                            <div class='event-name'>
-                                                <h5 class='sold-h'>{$sizeName}";
-
-                                        if (!empty($discountTxt)) {
-                                            echo "<span class='price-icon'><img src='images/discount-icon.png' alt=''> {$discountTxt}</span>";
-                                        }
-
-                                        echo "</h5>
-                                                <div class='aa'><span class='sold-p para' id='event-description-{$sizeId}'>
-                                                    {$sizeDesc}
-                                                </span>
-                                                <span><a href='javascript:void(0);' class='show-more'>show more</a></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class='col-4 col-md-2'>
-                                            <div class='counter'>
-                                                <button id='student-decrease'>-</button>
-                                                <span id='student-count'>0</span>
-                                                <button id='student-increase'>+</button>
-                                            </div>
-                                        </div>
-                                        <div class='col-8 col-md-2 pp sold-p'>
-                                            <div class='price'>
-                                                <h4 id='student-price'>\${$sizeCost}</h4>";
-                                        if (!empty($discountTxt)) {
-                                            echo "<span style='text-decoration: line-through; padding-right:10px;'>\${$sizeMRP}</span>";
-                                        }
-
-                                        echo "
-                                                <p>Sold Out</p>
-                                            </div>
-                                        </div>
-                                    </div>";
-                                    }
-                                }
-                            } else {
-                                echo "<p>No ticket information available.</p>";
-                            }
-                            ?>
-                        </div> -->
 
                         <div class="ticket-info ticket-fly">
                             <div class="heading">
@@ -475,7 +370,6 @@ $result_home = json_decode($response_home, true);
                             ?>
                         </div>
 
-
                         <div class="event-info">
                             <div class="heading">
                                 <h2>Event Information</h2>
@@ -514,24 +408,6 @@ $result_home = json_decode($response_home, true);
                                 <h2>Images</h2>
                             </div>
                             <div class="row">
-                                <!-- <div class="col-md-4">
-                                <img src="images/Img-1.png" alt="">
-                            </div>
-                            <div class="col-md-4">
-                                <img src="images/Img-2.png" alt="">
-                            </div>
-                            <div class="col-md-4">
-                                <img src="images/Img-3.png" alt="">
-                            </div>
-                            <div class="col-md-4">
-                                <img src="images/Img-4.png" alt="">
-                            </div>
-                            <div class="col-md-4">
-                                <img src="images/Img-5.png" alt="">
-                            </div>
-                            <div class="col-md-4">
-                                <img src="images/Img-6.png" alt="">
-                            </div> -->
                                 <?php
 
                                 if (!empty($result['lstGallery'])) {
@@ -640,47 +516,6 @@ $result_home = json_decode($response_home, true);
                                 }
                                 ?>
                             </div>
-
-                            <!-- <div class="accordion" id="accordionExample">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Accordion Item #1
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Accordion Item #2
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        Accordion Item #3
-                                    </button>
-                                </h2>
-                                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-
                         </div>
                     </div>
                     <div class="col-md-4 side">
@@ -725,279 +560,6 @@ $result_home = json_decode($response_home, true);
                 </div>
             </div>
         </div>
-
-        <!-- <div class="might-like">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="heading">
-                            <h2>You might also like this</h2>
-                        </div>
-                        <div id="carouselLike" class="carousel slide">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <div class="row row-cols-1 row-cols-md-3 g-4">
-                                        <div class="col">
-                                            <div class="card first">
-                                                <span class="date">
-                                                    <p class="date-a">30</p>
-                                                    <p class="month-a">Mar</p>
-                                                </span>
-                                                <img src="images/card1.png" class="card-img-top main-img" alt="...">
-                                                <div class="card-body sale">
-                                                    <h5 class="card-title">Bollywood Holi Mela with DJ Nish & Dj Anupi</h5>
-                                                    <h3>Sales end Soon</h3>
-                                                    <h4 class="time">Tue, Mar 30 • 4:00 PM - 8:00 PM</h4>
-                                                    <h5 class="location">Coco Beach ATX , 15505 North Interstate…</h5>
-                                                    <p class="desc">Desibytes Entertainment</p>
-                                                    <span class="price">Starting at $20.00</span>
-                                                    <span class="price-icon"><img src="images/discount-icon.png" alt=""> 20% off</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="card sec">
-                                                <span class="date">
-                                                    <p class="date-a">05</p>
-                                                    <p class="month-a">Apr</p>
-                                                </span>
-                                                <img src="images/card2.png" class="card-img-top main-img" alt="...">
-                                                <div class="card-body fast">
-                                                    <h5 class="card-title">The Non-Obvious 7 Minute Meetup | The SHORTEST SXSW…</h5>
-                                                    <h3>Filling Fast</h3>
-                                                    <h4 class="time">Fri, Apr 5 • 5:30 PM - 8.00 PM</h4>
-                                                    <h5 class="location">SXSW Registrant’s Lounge (Parking Lot P3…</h5>
-                                                    <p class="desc">Non-Obvious Company</p>
-                                                    <span class="price">Starting at $20.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="card third">
-                                                <span class="date">
-                                                    <p class="date-a">06</p>
-                                                    <p class="month-a">Apr</p>
-                                                </span>
-                                                <img src="images/card3.png" class="card-img-top main-img" alt="...">
-                                                <div class="card-body salesoon">
-                                                    <h5 class="card-title">Hennything Austin, Tx - Event Tickets</h5>
-                                                    <h3>Sales end Soon</h3>
-                                                    <h4 class="time">Sat, Apr 6 • 3:00 PM - 6.00 PM</h4>
-                                                    <h5 class="location">Millennium Entertainment Complex</h5>
-                                                    <p class="desc">Late. Nites. Early. Mornings. 365</p>
-                                                    <span class="price">Starting at $20.00</span>
-                                                    <span class="price-icon"><img src="images/discount-icon.png" alt=""> 20% off</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <?php
-                                    if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
-                                        $counter = 1;
-                                        foreach ($result['lstProds'] as $event) {
-
-                                            $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
-
-                                            $name = htmlspecialchars($event['name']);
-                                            $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
-
-                                            $eid = htmlspecialchars($event['eid']);
-
-                                            echo '<div class="col">';
-                                            echo '    <div class="card ' . $cardClass . '">';
-                                            echo '      <a href="">';
-                                            echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
-                                            echo '        <div class="card-body">';
-                                            echo '            <h5 class="card-title">' . $trimmedName . '</h5>';
-                                            echo '            <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
-                                            echo '            <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
-                                            echo '            <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
-                                            echo '            <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
-
-                                            if (!empty($event['discountTxt'])) {
-                                                echo '            <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
-                                            }
-
-                                            echo '        </div>';
-                                            echo '      </a>';
-                                            echo '    </div>';
-                                            echo '</div>';
-
-                                            $counter++;
-                                            if ($counter > 3) {
-                                                $counter = 1;
-                                            }
-                                        }
-                                    } else {
-                                        echo '<p>No events found or incorrect data structure.</p>';
-                                    }
-                                    ?>
-                                </div>
-
-                                </div>
-                                <div class="carousel-item">
-                                    <div class="row row-cols-1 row-cols-md-3 g-4">
-                                        <div class="col">
-                                            <div class="card first">
-                                                <span class="date">
-                                                    <p class="date-a">30</p>
-                                                    <p class="month-a">Mar</p>
-                                                </span>
-                                                <img src="images/card1.png" class="card-img-top main-img" alt="...">
-                                                <div class="card-body sale">
-                                                    <h5 class="card-title">Bollywood Holi Mela with DJ Nish & Dj Anupi</h5>
-                                                    <h3>Sales end Soon</h3>
-                                                    <h4 class="time">Tue, Mar 30 • 4:00 PM - 8:00 PM</h4>
-                                                    <h5 class="location">Coco Beach ATX , 15505 North Interstate…</h5>
-                                                    <p class="desc">Desibytes Entertainment</p>
-                                                    <span class="price">Starting at $20.00</span>
-                                                    <span class="price-icon"><img src="images/discount-icon.png" alt=""> 20% off</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="card sec">
-                                                <span class="date">
-                                                    <p class="date-a">05</p>
-                                                    <p class="month-a">Apr</p>
-                                                </span>
-                                                <img src="images/card2.png" class="card-img-top main-img" alt="...">
-                                                <div class="card-body fast">
-                                                    <h5 class="card-title">The Non-Obvious 7 Minute Meetup | The SHORTEST SXSW…</h5>
-                                                    <h3>Filling Fast</h3>
-                                                    <h4 class="time">Fri, Apr 5 • 5:30 PM - 8.00 PM</h4>
-                                                    <h5 class="location">SXSW Registrant’s Lounge (Parking Lot P3…</h5>
-                                                    <p class="desc">Non-Obvious Company</p>
-                                                    <span class="price">Starting at $20.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="card third">
-                                                <span class="date">
-                                                    <p class="date-a">06</p>
-                                                    <p class="month-a">Apr</p>
-                                                </span>
-                                                <img src="images/card3.png" class="card-img-top main-img" alt="...">
-                                                <div class="card-body salesoon">
-                                                    <h5 class="card-title">Hennything Austin, Tx - Event Tickets</h5>
-                                                    <h3>Sales end Soon</h3>
-                                                    <h4 class="time">Sat, Apr 6 • 3:00 PM - 6.00 PM</h4>
-                                                    <h5 class="location">Millennium Entertainment Complex</h5>
-                                                    <p class="desc">Late. Nites. Early. Mornings. 365</p>
-                                                    <span class="price">Starting at $20.00</span>
-                                                    <span class="price-icon"><img src="images/discount-icon.png" alt=""> 20% off</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <?php
-                                    if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
-                                        $counter = 1;
-                                        foreach ($result['lstProds'] as $event) {
-
-                                            $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
-
-                                            $name = htmlspecialchars($event['name']);
-                                            $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
-
-                                            $eid = htmlspecialchars($event['eid']);
-
-                                            echo '<div class="col">';
-                                            echo '    <div class="card ' . $cardClass . '">';
-                                            echo '      <a href="">';
-                                            echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
-                                            echo '        <div class="card-body">';
-                                            echo '            <h5 class="card-title">' . $trimmedName . '</h5>';
-                                            echo '            <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
-                                            echo '            <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
-                                            echo '            <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
-                                            echo '            <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
-
-                                            if (!empty($event['discountTxt'])) {
-                                                echo '            <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
-                                            }
-
-                                            echo '        </div>';
-                                            echo '      </a>';
-                                            echo '    </div>';
-                                            echo '</div>';
-
-                                            $counter++;
-                                            if ($counter > 3) {
-                                                $counter = 1;
-                                            }
-                                        }
-                                    } else {
-                                        echo '<p>No events found or incorrect data structure.</p>';
-                                    }
-                                    ?>
-                                </div>
-                                </div>
-                            </div>
-                            <img src="images/spons-right.png" alt="Next" class="category-right" data-bs-target="#carouselLike" data-bs-slide="next">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-        <!-- <div class="might-like">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="heading">
-                            <h2>You might also like this</h2>
-                        </div>
-                        <div class="event-slider-detail">
-                            <?php
-                            if (isset($result_home['lstProds']) && count($result_home['lstProds']) > 0) {
-                                $events = $result_home['lstProds'];
-
-                                foreach ($events as $index => $event) {
-                                    $cardClass = ($index % 3 === 0) ? 'first' : (($index % 3 === 1) ? 'sec' : 'third');
-
-                                    $name = htmlspecialchars($event['name']);
-                                    $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
-
-                                    $day = substr($event['dayMonth'], 0, 2);
-                                    $month = substr($event['dayMonth'], 2);
-
-                                    $slug = htmlspecialchars($event['slug']);
-                                    echo '<div>';
-                                    echo '<div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
-                                    echo '  <a href="event-detail?slug=' . $slug . '">';
-                                    echo '    <span class="date"><p class="date-a">' . htmlspecialchars($day) . '</p><p class="month-a">' . htmlspecialchars($month) . '</p></span>';
-                                    echo '    <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
-                                    echo '    <div class="card-body">';
-                                    echo '        <h5 class="card-title">' . $trimmedName . '</h5>';
-                                    echo '        <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
-                                    echo '        <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
-                                    echo '        <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
-                                    echo '        <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
-                                    if (!empty($event['discountTxt'])) {
-                                        echo '        <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
-                                    }
-                                    echo '    </div>';
-                                    echo '  </a>';
-                                    echo '</div>';
-                                    echo '</div>';
-                                }
-                            } else {
-                                echo '<p>No events found or incorrect data structure.</p>';
-                            }
-                            ?>
-                            <div class="event-slider-detail">
-                                <img src="images/spons-right.png" alt="Next" class="category-right-arrow" data-bs-target="#carouselLike" data-bs-slide="next">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
 
         <div class="might-like">
             <div class="container">
@@ -1050,8 +612,6 @@ $result_home = json_decode($response_home, true);
                 </div>
             </div>
         </div>
-
-
 
         <div id="ticket-info" class="ticket-attached" style="display: none;">
             <div class="ticket-area">
@@ -1352,7 +912,7 @@ $result_home = json_decode($response_home, true);
                         }
 
                         setTimeout(() => {
-                            updateTicketArrayDisplay(); 
+                            updateTicketArrayDisplay();
                         }, 1000);
 
                     } else {
@@ -1505,7 +1065,7 @@ $result_home = json_decode($response_home, true);
                         animateAddToCart(ticketElement, ticketName);
 
                         setTimeout(() => {
-                            updateTicketArrayDisplay(); 
+                            updateTicketArrayDisplay();
                         }, 1000);
 
                         document.querySelector('.btn-process').style.display = 'block';
@@ -1568,7 +1128,7 @@ $result_home = json_decode($response_home, true);
                         text: 'Please select at least one ticket before proceeding.',
                         confirmButtonText: 'OK'
                     });
-                    return; 
+                    return;
                 }
 
                 var ticketsToSave = [];
@@ -1803,7 +1363,7 @@ $result_home = json_decode($response_home, true);
 
                     if (scrollY >= eventDetailOffsetTop && scrollY <= stopSocialStickPosition) {
                         sideSocial.style.position = 'fixed';
-                        sideSocial.style.top = '66%';
+                        // sideSocial.style.top = '66%';
                         sideSocial.style.display = 'none';
                     } else if (scrollY > stopSocialStickPosition) {
                         sideSocial.style.position = 'absolute';
@@ -1822,6 +1382,73 @@ $result_home = json_decode($response_home, true);
             window.addEventListener('resize', applyScrollBehavior);
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sideArea = document.querySelector('.side-area.side-fixed');
+            const socialArea = document.querySelector('.side-area-social.social-side-fixed');
+            const eventDetail = document.querySelector('.event-detail');
+
+            function applyScrollBehavior() {
+                const sideHeight = sideArea.offsetHeight;
+                const eventDetailHeight = eventDetail.offsetHeight;
+                const eventDetailOffsetTop = eventDetail.offsetTop;
+                const eventDetailBottom = eventDetailOffsetTop + eventDetailHeight;
+
+                const scrollY = window.scrollY;
+
+                // Disable fixed positioning for mobile screens (width <= 768px)
+                if (window.innerWidth <= 768) {
+                    sideArea.style.position = 'relative';
+                    socialArea.style.position = 'relative';
+                    socialArea.style.top = 'initial';
+                    socialArea.style.marginTop = '0';
+                    return;
+                }
+
+                const sideAreaBottom = sideArea.getBoundingClientRect().bottom + scrollY;
+
+                if (scrollY >= eventDetailOffsetTop && sideAreaBottom + socialArea.offsetHeight <= eventDetailBottom) {
+                    
+                    socialArea.style.position = 'fixed';
+                    socialArea.style.top = `${sideArea.getBoundingClientRect().bottom + 10}px`;
+                    socialArea.style.marginTop = '0';
+                } else if (scrollY + socialArea.offsetHeight > eventDetailBottom) {
+                    
+                    socialArea.style.position = 'absolute';
+                    socialArea.style.top = `${eventDetailBottom - socialArea.offsetHeight - eventDetailOffsetTop}px`;
+                    socialArea.style.marginTop = '10px';
+                } else {
+                    
+                    socialArea.style.position = 'absolute';
+                    socialArea.style.top = `${sideAreaBottom - eventDetailOffsetTop}px`;
+                    socialArea.style.marginTop = '10px';
+                }
+            }
+
+            function initializePosition() {
+                if (window.innerWidth > 768) {
+                    const sideAreaBottom = sideArea.getBoundingClientRect().bottom + window.scrollY;
+                    socialArea.style.position = 'absolute';
+                    socialArea.style.top = `${sideAreaBottom - eventDetail.offsetTop + 10}px`; 
+                    socialArea.style.marginTop = '10px';
+                } else {
+                    socialArea.style.position = 'relative';
+                    socialArea.style.top = 'initial';
+                    socialArea.style.marginTop = '0';
+                }
+            }
+
+            initializePosition();
+
+            window.addEventListener('scroll', applyScrollBehavior);
+            window.addEventListener('resize', () => {
+                initializePosition();
+                applyScrollBehavior();
+            });
+        });
+    </script>
+    
 
     <script>
         var eventId = <?php echo json_encode($event_id); ?>;
