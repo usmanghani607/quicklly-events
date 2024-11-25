@@ -548,7 +548,7 @@ $countryCodes = [
             }
 
             // Format the phone number to match the pattern (+1 ******789)
-            var formattedPhone = '+' + countryCode.replace('+', '') + ' ' + '******' + phone.slice(-3); 
+            var formattedPhone = '+' + countryCode.replace('+', '') + ' ' + '******' + phone.slice(-3);
 
             $('#otpModal .head span').text(formattedPhone);
 
@@ -594,7 +594,7 @@ $countryCodes = [
                                 title: 'OTP Sent',
                                 text: 'Please check your phone for the OTP.'
                             }).then(() => {
-                                  
+
                                 $('#otpModal').modal('show');
                                 $('#signupModal').modal('hide');
                             });
@@ -622,7 +622,7 @@ $countryCodes = [
         });
 
         $("#resendCodeLink").on("click", function(event) {
-            event.preventDefault(); 
+            event.preventDefault();
 
             var signupData = JSON.parse(sessionStorage.getItem("signupData"));
             var countryCode = $("#countryCode").val();
@@ -631,7 +631,7 @@ $countryCodes = [
             var firstName = signupData.firstName;
             var lastName = signupData.lastName;
 
-            var formattedPhone = '+' + countryCode.replace('+', '') + ' ' + '******' + phone.slice(-3); 
+            var formattedPhone = '+' + countryCode.replace('+', '') + ' ' + '******' + phone.slice(-3);
 
             $('#otpModal .head span').text(formattedPhone);
 
@@ -671,7 +671,7 @@ $countryCodes = [
 
             var otp = Array.from(document.querySelectorAll('.otp-input'))
                 .map(input => input.value.trim())
-                .join(""); 
+                .join("");
 
             var signupData = JSON.parse(sessionStorage.getItem("signupData"));
             var otpTag = sessionStorage.getItem("otpTag");
@@ -703,9 +703,9 @@ $countryCodes = [
                             text: 'OTP verification successful. You can now proceed to register.'
                         }).then(() => {
                             $("#sendOtpButton").hide();
-                            $("#registerButton").show(); 
+                            $("#registerButton").show();
                             $('#otpModal').modal('hide');
-                            $('#signupModal').modal('show'); 
+                            $('#signupModal').modal('show');
                         });
                         sessionStorage.setItem("isOtpVerified", "true");
                     } else {
@@ -787,6 +787,50 @@ $countryCodes = [
                         title: 'Error',
                         text: 'An error occurred: ' + error
                     });
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const modals = document.querySelectorAll('.modal');
+
+        modals.forEach(modal => {
+
+            modal.addEventListener('shown.bs.modal', function() {
+                document.body.classList.add('modal-open');
+                modal.style.overflowY = 'auto';
+            });
+
+            modal.addEventListener('hidden.bs.modal', function() {
+                modal.style.overflowY = ''; // Reset overflow
+                if (!document.querySelector('.modal.show')) {
+                    document.body.classList.remove('modal-open');
+                }
+            });
+        });
+
+        const modalTriggers = document.querySelectorAll('[data-bs-toggle="modal"]');
+        modalTriggers.forEach(trigger => {
+            trigger.addEventListener('click', function() {
+                const targetModalID = this.getAttribute('data-bs-target');
+                const currentModal = document.querySelector('.modal.show');
+
+                if (currentModal) {
+
+                    currentModal.addEventListener('hidden.bs.modal', function() {
+                        const targetModal = document.querySelector(targetModalID);
+                        const modalInstance = bootstrap.Modal.getOrCreateInstance(targetModal);
+                        modalInstance.show();
+                    }, {
+                        once: true
+                    });
+
+                    bootstrap.Modal.getInstance(currentModal).hide();
                 }
             });
         });

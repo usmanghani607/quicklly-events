@@ -112,7 +112,7 @@ h1,h2,h3,h4,h5,h6{ font-family: 'Poppins'; }
 #loginModal label { text-align: center; font-size: 16px; font-weight: 500; }  
 #loginModal .modal-header { border-bottom: 0; padding-bottom: 0;}
 #loginModal .modal-body { padding-top: 0; }
-#loginModal .modal-body { max-height: 65vh; overflow-y: auto; }
+/* #loginModal .modal-body { max-height: 65vh; overflow-y: auto; } */
 #loginModal .modal-body .check-remember { border: 1px solid #E4E4E4; border-radius: 4px; opacity: 1; }
 #loginModal .modal-body span { padding-left: 10px; }
 #loginModal input { text-align: left; font: normal normal normal 15px/27px Poppins; letter-spacing: 0px; color: #707070; opacity: 1; border-radius: 4px; border: 1px solid #E4E4E4; }

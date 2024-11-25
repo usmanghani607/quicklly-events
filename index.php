@@ -112,10 +112,14 @@
                                 $catName = htmlspecialchars($category['name']);
                                 $catImage = htmlspecialchars($category['img']);
                                 $catID = htmlspecialchars($category['catID']);
+
+                                $formattedCatName = $catName;
+                                
                                 echo '<div class="category-slide">';
                                 echo '    <a href="javascript:void(0)" class="category-item" data-catid="' . $catID . '">';
                                 echo '        <img src="' . $catImage . '" alt="' . $catName . '" class="img-fluid">';
-                                echo '        <p class="text-center">' . $catName . '</p>';
+                                // echo '        <p class="text-center">' . $catName . '</p>';
+                                echo '        <p class="text-center category-name">' . $formattedCatName . '</p>';
                                 echo '    </a>';
                                 echo '</div>';
                             }
