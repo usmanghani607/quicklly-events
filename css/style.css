@@ -1092,10 +1092,10 @@ button.clsClosebtnbtn { background: #333333; width: 100%; color: #fff; padding: 
 #otpModal .modal-dialog { width: 30%; }
 #otpModal .modal-title { font-size: 20px; font-weight: 600; }
 #otpModal .modal-header { border: none; padding-bottom: 0; }
-#otpModal .modal-body { padding-top: 10px; max-height: 55vh; overflow-y: auto; }
+/* #otpModal .modal-body { padding-top: 10px; max-height: 55vh; overflow-y: auto; } */
 #otpModal .modal-body .head p { font-size: 16px; padding-right: 30px; margin-bottom: 10px; }
 #otpModal .modal-body .phone-edit p { font-size: 16px; font-weight: 500; color: #F05336; margin-bottom: 0; }
-#otpModal .modal-body .phone-edit .edit-pencil { width: 20px; height: 20px; color: #F05336; margin-left: 10px; }
+#otpModal .modal-body .phone-edit .edit-pencil { width: 20px; height: 20px; color: #F05336; margin-left: 10px; margin-bottom: 5px; }
 #otpModal .modal-body .otp-code { font-size: 16px; font-weight: 500; padding: 20px 0 10px 0; }
 #otpModal .modal-body .not-recieve span.no-rec { font-size: 16px; color: #707070; }
 #otpModal .modal-body .not-recieve span.re-send a { font-size: 16px; color: #F05336; text-decoration: none; padding-left: 10px; }

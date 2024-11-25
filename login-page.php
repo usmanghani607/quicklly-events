@@ -299,12 +299,10 @@ $countryCodes = [
                                             <option value="<?php echo $code; ?>"><?php echo $code; ?></option>
                                         <?php endforeach; ?>
                                     </select>
-                                    <input type="text" name="phone" class="form-control signupphone" placeholder="Phone Number">
+                                    <input type="tel" name="phone" class="form-control signupphone" placeholder="Phone Number" minlength="10" maxlength="10" id="phone" pattern="\d*" inputmode="numeric">
                                 </div>
                                 <div id="phoneError" class="error-message text-danger"></div>
                             </div>
-
-
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -354,21 +352,18 @@ $countryCodes = [
                     <p>We are sending you an OTP to verify your Phone Number <span>+1 ******789</span></p>
                 </div>
                 <div class="phone-edit">
-                    <p>Edit phone number<a href="#" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square edit-pencil" viewBox="0 0 16 16">
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-                            </svg></a></p>
+                    <p>Edit phone number<a href="#" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal"><img src="images/icon-edit.png" alt="" class="edit-pencil"></a></p>
                 </div>
                 <div class="otp-code">
                     Please enter your code here
                 </div>
                 <div class="code-box mb-3">
                     <div id="otpInputBoxes" class="d-flex otp-container">
-                        <input type="text" maxlength="1" class="form-control otp-input">
-                        <input type="text" maxlength="1" class="form-control otp-input">
-                        <input type="text" maxlength="1" class="form-control otp-input">
-                        <input type="text" maxlength="1" class="form-control otp-input">
-                        <input type="text" maxlength="1" class="form-control otp-input">
+                        <input type="tel" maxlength="1" class="form-control otp-input" inputmode="numeric">
+                        <input type="tel" maxlength="1" class="form-control otp-input" inputmode="numeric">
+                        <input type="tel" maxlength="1" class="form-control otp-input" inputmode="numeric">
+                        <input type="tel" maxlength="1" class="form-control otp-input" inputmode="numeric">
+                        <input type="tel" maxlength="1" class="form-control otp-input" inputmode="numeric">
                     </div>
                     <span id="otpError" class="text-danger"></span>
                 </div>
@@ -383,7 +378,7 @@ $countryCodes = [
     </div>
 </div>
 
-<script>
+<!-- <script>
     const otpInputs = document.querySelectorAll('.otp-input');
 
     otpInputs.forEach((input, index) => {
@@ -400,6 +395,37 @@ $countryCodes = [
         input.addEventListener('keydown', (event) => {
             if (!/[0-9]/.test(event.key) && event.key !== 'Backspace') {
                 event.preventDefault();
+            }
+        });
+    });
+</script> -->
+
+<script>
+    const otpInputs = document.querySelectorAll('.otp-input');
+
+    otpInputs.forEach((input, index) => {
+        input.addEventListener('input', (event) => {
+            const value = event.target.value;
+
+            if (value.length === 1) {
+                if (index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            } else if (value.length === 0 && index > 0) {
+                otpInputs[index - 1].focus();
+            }
+        });
+
+        input.addEventListener('keydown', (event) => {
+            const key = event.key;
+
+            if (!/^\d$/.test(key) && key !== 'Backspace') {
+                event.preventDefault();
+            }
+
+            if (key === 'Backspace' && index > 0 && input.value === '') {
+                otpInputs[index - 1].focus();
+                otpInputs[index - 1].value = ''; 
             }
         });
     });
@@ -793,7 +819,6 @@ $countryCodes = [
     });
 </script>
 
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -834,5 +859,11 @@ $countryCodes = [
                 }
             });
         });
+    });
+</script>
+
+<script>
+    document.querySelector('.signupphone').addEventListener('input', function (e) {
+        this.value = this.value.replace(/[^0-9]/g, ''); 
     });
 </script>
