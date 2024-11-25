@@ -276,7 +276,7 @@ if (isset($_SESSION['cart_events'])) {
                                 <span class="service">Service Fee</span>
                                 <span class="ser-icon">
                                     <img src="images/circle.png" alt="">
-                                    <span class="tooltipcheckoutbody">This fee helps cover Quicklly's operational costs</span>
+                                    <span class="tooltipcheckoutbody">This fee helps cover Quicklly's operational cost</span>
                                 </span>
                             </div>
                             <div class="col-4 col-md-4 text-end">

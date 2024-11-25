@@ -542,7 +542,7 @@ $countryCodes = [
                 Swal.fire({
                     icon: 'error',
                     title: 'Validation Error',
-                    text: 'Please fill all required fields.'
+                    text: 'Please fill in all required fields.'
                 });
                 return;
             }

@@ -160,7 +160,7 @@ session_start();
                         isValid = false;
                     }
                     if (newPass.length < 6) {
-                        $("#newPassError").text("Must Enter Minimum 6 characters.");
+                        $("#newPassError").text("You must Enter at least 6 characters");
                         isValid = false;
                     }
                     if (newPass !== confirmPass) {
