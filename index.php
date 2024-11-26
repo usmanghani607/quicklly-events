@@ -170,7 +170,7 @@
                             <h2>Popular Events in Chicago</h2>
                         </div>
 
-                        <div class="nav-tabs-wrapper">
+                        <!-- <div class="nav-tabs-wrapper">
                             <ul class="nav nav-tabs tappes" id="myTab" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active week" id="tab-1" data-bs-toggle="tab" data-bs-target="#tabs-1" type="button" role="tab" aria-controls="tabs-1" aria-selected="true">
@@ -337,7 +337,317 @@
                                     ?>
                                 </div>
                             </div>
+                            <div class="tab-pane fade" id="tabs-3" role="tabpanel" aria-labelledby="tab-3">
+                                <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 tab-b">
+                                    <?php
+                                    $currentMonth = date('M');
+                                    $currentYear = date('Y');
 
+                                    $foundCurrentMonthEvents = false;
+
+                                    if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
+                                        $counter = 1;
+
+                                        foreach ($result['lstProds'] as $event) {
+
+                                            $eventDayMonth = explode(' ', $event['dayMonth']);
+                                            if (count($eventDayMonth) == 2) {
+                                                $eventDay = $eventDayMonth[0];
+                                                $eventMonth = $eventDayMonth[1];
+
+                                                $eventDateRangeParts = explode(' ', $event['dateRange']);
+                                                if (count($eventDateRangeParts) >= 4) {
+                                                    $eventYear = date('Y');
+
+                                                    $eventDate = DateTime::createFromFormat('j M Y', "$eventDay $eventMonth $eventYear");
+
+                                                    if ($eventDate && $eventDate->format('M') == $currentMonth && $eventDate->format('Y') == $currentYear) {
+                                                        $foundCurrentMonthEvents = true;
+
+                                                        $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
+                                                        $name = htmlspecialchars($event['name']);
+                                                        $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
+                                                        // $eid = htmlspecialchars($event['eid']);
+                                                        $slug = htmlspecialchars($event['slug']);
+
+
+                                                        echo '<div class="col" data-date="' . $eventDate->format('Y-m-d') . '">';
+                                                        // echo '    <div class="card ' . $cardClass . '">';
+                                                        // echo '      <a href="event-detail?eid=' . $eid . '">';
+                                                        echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
+                                                        echo '      <a href="event-detail?slug=' . $slug . '">';
+                                                        echo '        <span class="date"><p class="date-a">' . htmlspecialchars($eventDay) . '</p><p class="month-a">' . htmlspecialchars($eventMonth) . '</p></span>';
+                                                        echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
+                                                        echo '        <div class="card-body">';
+                                                        echo '            <h5 class="card-title">' . $trimmedName . '</h5>';
+                                                        echo '            <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
+                                                        echo '            <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
+                                                        echo '            <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
+                                                        echo '            <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
+
+                                                        if (!empty($event['discountTxt'])) {
+                                                            echo '            <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
+                                                        }
+
+                                                        echo '        </div>';
+                                                        echo '      </a>';
+                                                        echo '    </div>';
+                                                        echo '</div>';
+
+                                                        $counter++;
+                                                        if ($counter > 3) {
+                                                            $counter = 1;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        if (!$foundCurrentMonthEvents) {
+                                            echo '<p>No events found for the current month.</p>';
+                                        }
+                                    } else {
+                                        echo '<p>No events found or incorrect data structure.</p>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tabs-4" role="tabpanel" aria-labelledby="tab-4">
+                                <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 tab-b">
+                                    <?php
+                                    if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
+                                        $counter = 1;
+                                        foreach ($result['lstProds'] as $event) {
+
+                                            $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
+
+                                            $name = htmlspecialchars($event['name']);
+                                            $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
+
+                                            $day = substr($event['dayMonth'], 0, 2);
+                                            $month = substr($event['dayMonth'], 2);
+
+                                            // $eid = htmlspecialchars($event['eid']);
+                                            $slug = htmlspecialchars($event['slug']);
+
+                                            echo '<div class="col">';
+                                            // echo '    <div class="card ' . $cardClass . '">';
+                                            // echo '      <a href="event-detail?eid=' . $eid . '">';
+                                            echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
+                                            echo '      <a href="event-detail?slug=' . $slug . '">';
+                                            // echo '      <a href="event-detail/' . $slug . '">';
+                                            echo '        <span class="date"><p class="date-a">' . htmlspecialchars($day) . '</p><p class="month-a">' . htmlspecialchars($month) . '</p></span>';
+                                            echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
+                                            echo '        <div class="card-body">';
+                                            echo '            <h5 class="card-title">' . $trimmedName . '</h5>';
+                                            // echo '            <h3>' . htmlspecialchars($event['status']) . '</h3>';
+                                            echo '            <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
+                                            echo '            <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
+                                            echo '            <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
+                                            echo '            <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
+
+                                            if (!empty($event['discountTxt'])) {
+                                                echo '            <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
+                                            }
+
+                                            echo '        </div>';
+                                            echo '          </a>';
+                                            echo '    </div>';
+                                            echo '</div>';
+
+                                            $counter++;
+                                            if ($counter > 3) {
+                                                $counter = 1;
+                                            }
+                                        }
+                                    } else {
+                                        echo '<p>No events found or incorrect data structure.</p>';
+                                    }
+
+                                    ?>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="nav-tabs-wrapper">
+                            <ul class="nav nav-tabs tappes" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active week" id="tab-1" data-bs-toggle="tab" data-bs-target="#tabs-1" type="button" role="tab" aria-controls="tabs-1" aria-selected="true">
+                                        This Week
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link weekend" id="tab-2" data-bs-toggle="tab" data-bs-target="#tabs-2" type="button" role="tab" aria-controls="tabs-2" aria-selected="false">
+                                        This Weekend
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link month" id="tab-3" data-bs-toggle="tab" data-bs-target="#tabs-3" type="button" role="tab" aria-controls="tabs-3" aria-selected="false">
+                                        This Month
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link all" id="tab-4" data-bs-toggle="tab" data-bs-target="#tabs-4" type="button" role="tab" aria-controls="tabs-4" aria-selected="false">
+                                        All
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tabs-1" role="tabpanel" aria-labelledby="tab-1">
+                                <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 tab-b">
+
+
+                                    <?php
+                                    // echo date('jM');
+                                    $currentDay = date('d');  
+                                    $currentMonth = date('M');  
+                                    $currentYear = date('Y');  
+
+                                    $nextFriday = new DateTime('next friday');
+                                    $today = new DateTime();
+                                    $foundEvents = false;
+
+                                    if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
+                                        $counter = 1;
+
+                                        foreach ($result['lstProds'] as $event) {
+                                            // print_r($event);
+                                            $eventDayMonth = explode(' ', $event['dayMonth']);
+                                            if (count($eventDayMonth) == 2) {
+                                                $eventDay = $eventDayMonth[0];
+                                                $eventMonth = $eventDayMonth[1];
+
+                                                $eventDateRangeParts = explode(' ', $event['dateRange']);
+                                                if (count($eventDateRangeParts) >= 4) {
+                                                    $eventYear = date('Y');  
+
+                                                    $eventDate = DateTime::createFromFormat('j M Y', "$eventDay $eventMonth $eventYear");
+
+                                                    if ($eventDate && $eventDate >= $today->format('Y-m-d') == $eventDate <= $nextFriday) {
+                                                    // if ($eventDate && $eventDate->format('Y-m-d') == $today->format('Y-m-d')) {
+                                                        $foundEvents = true;
+
+                                                        $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
+                                                        $name = htmlspecialchars($event['name']);
+                                                        $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
+                                                        $slug = htmlspecialchars($event['slug']);
+
+                                                        echo '<div class="col" data-date="' . $eventDate->format('Y-m-d') . '">';
+                                                        echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
+                                                        echo '      <a href="event-detail?slug=' . $slug . '">';
+                                                        echo '        <span class="date"><p class="date-a">' . htmlspecialchars($eventDay) . '</p><p class="month-a">' . htmlspecialchars($eventMonth) . '</p></span>';
+                                                        echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
+                                                        echo '        <div class="card-body">';
+                                                        echo '            <h5 class="card-title">' . $trimmedName . '</h5>';
+                                                        echo '            <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
+                                                        echo '            <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
+                                                        echo '            <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
+                                                        echo '            <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
+
+                                                        if (!empty($event['discountTxt'])) {
+                                                            echo '            <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
+                                                        }
+
+                                                        echo '        </div>';
+                                                        echo '      </a>';
+                                                        echo '    </div>';
+                                                        echo '</div>';
+
+                                                        $counter++;
+                                                        if ($counter > 3) {
+                                                            $counter = 1;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        if (!$foundEvents) {
+                                            echo '<p>No events found for this week.</p>';
+                                        }
+                                    } else {
+                                        echo '<p>No events found or incorrect data structure.</p>';
+                                    }
+                                    ?>
+
+
+
+
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tabs-2" role="tabpanel" aria-labelledby="tab-2">
+                                <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 tab-b">
+                                    <?php
+                                    if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
+                                        $counter = 1;
+
+                                        $today = new DateTime();
+                                        $currentWeekSaturday = (clone $today)->modify('next saturday');
+                                        $currentWeekSunday = (clone $today)->modify('next sunday');
+
+                                        foreach ($result['lstProds'] as $event) {
+                                            // print_r($event['dateRange']);
+
+                                            $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
+
+                                            $name = htmlspecialchars($event['name']);
+                                            $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
+
+                                            $day = substr($event['dayMonth'], 0, 2);
+                                            $month = substr($event['dayMonth'], 2);
+
+                                            // $eid = htmlspecialchars($event['eid']);
+                                            $slug = htmlspecialchars($event['slug']);
+
+// echo $day . $month . " ". $today->format('Y');
+
+
+                                            $eventDate = DateTime::createFromFormat('d M Y', $day . $month . " ". $today->format('Y'));
+// var_dump($eventDate);
+                                            // echo $currentWeekSaturday->format('Y-m-d');
+                                            if ($eventDate && ($eventDate->format('Y-m-d') == $currentWeekSaturday->format('Y-m-d') || $eventDate->format('Y-m-d') == $currentWeekSunday->format('Y-m-d'))) {
+                                                echo '<div class="col">';
+                                                // echo '    <div class="card ' . $cardClass . '">';
+                                                // echo '      <a href="event-detail?eid=' . $eid . '">';
+                                                echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
+                                                echo '      <a href="event-detail?slug=' . $slug . '">';
+                                                echo '        <span class="date"><p class="date-a">' . htmlspecialchars($day) . '</p><p class="month-a">' . htmlspecialchars($month) . '</p></span>';
+                                                echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
+                                                echo '        <div class="card-body">';
+                                                echo '            <h5 class="card-title">' . $trimmedName . '</h5>';
+                                                echo '            <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
+                                                echo '            <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
+                                                echo '            <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
+                                                echo '            <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
+
+                                                if (!empty($event['discountTxt'])) {
+                                                    echo '            <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
+                                                }
+
+                                                echo '        </div>';
+                                                echo '      </a>';
+                                                echo '    </div>';
+                                                echo '</div>';
+
+                                                $counter++;
+                                                if ($counter > 3) {
+                                                    $counter = 1;
+                                                }
+                                            }
+                                        }
+
+                                        if ($counter == 1) {
+                                            echo '<p>No events found for the current weekend.</p>';
+                                        }
+                                    } else {
+                                        echo '<p>No events found or incorrect data structure.</p>';
+                                    }
+                                    ?>
+
+
+                                </div>
+                            </div>
                             <div class="tab-pane fade" id="tabs-3" role="tabpanel" aria-labelledby="tab-3">
                                 <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 tab-b">
                                     <?php

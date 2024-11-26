@@ -33,7 +33,7 @@
 
         .highlight {
             background: #F05336;
-            color: black;
+            color: #fff;
             font-weight: 500;
         }
     </style>
@@ -134,6 +134,17 @@
                     $(".event-detail").html(originalContent); 
                 }
             });
+
+            $("form").on("submit", function(event) {
+            event.preventDefault(); 
+        });
+        
+        $("#header-search").on("keypress", function(e) {
+            if (e.which === 13) { 
+                e.preventDefault();
+            }
+        });
+
         });
     </script>
 
