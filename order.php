@@ -40,6 +40,11 @@ if (isset($_SESSION['cart_events'])) {
         .offer.error {
             color: #FF0000 !important;
         }
+
+        .form-control[readonly] {
+            background-color: #fff;
+            opacity: 1;
+        }
     </style>
 
 </head>
@@ -174,19 +179,19 @@ if (isset($_SESSION['cart_events'])) {
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="first-name" class="form-label">First Name *</label>
-                                            <input type="text" class="form-control" id="first-name">
+                                            <input type="text" class="form-control" id="first-name" readonly>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="last-name" class="form-label">Last Name *</label>
-                                            <input type="text" class="form-control" id="last-name">
+                                            <input type="text" class="form-control" id="last-name" readonly>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="phone" class="form-label">Phone *</label>
-                                            <input type="text" class="form-control" id="phone">
+                                            <input type="text" class="form-control" id="user-phone" readonly>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="email" class="form-label">Email Address *</label>
-                                            <input type="email" class="form-control" id="email">
+                                            <input type="email" class="form-control" id="email" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -495,315 +500,10 @@ if (isset($_SESSION['cart_events'])) {
                     <div class="col-md-12">
                         <h2>${ticket.name}</h2>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-8 col-md-8">
                         <h5 data-id="${ticket.sizeid}">$${ticket.cost.toFixed(2)} x ${ticket.qty} = $${(ticket.cost * ticket.qty).toFixed(2)}</h5>
                     </div>
-                    <div class="col-md-4">
-                        <h3 class="ticket-total" data-id="${ticket.sizeid}">$${(ticket.cost * ticket.qty).toFixed(2)}</h3>
-                    </div>
-                `;
-
-                ticketContainer.appendChild(ticketRow);
-                ticketSummery.appendChild(summeryRow);
-
-                total += ticket.cost * ticket.qty;
-            });
-
-            totalPriceElements.forEach(function(el) {
-                el.textContent = `$${total.toFixed(2)}`;
-            });
-
-            updateTotalPrice(total);
-            updateTaxDisplay();
-            updateGrandTotal();
-            sendCartToSession();
-
-            attachEventListeners();
-        }
-
-        function updateTotalPrice(total) {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-
-            var totalPriceElements = document.querySelectorAll('.total-price');
-            totalPriceElements.forEach(function(el) {
-                el.textContent = `$${total.toFixed(2)}`;
-            });
-
-            if (tickets.addOns) {
-                tickets.addOns.forEach(function(ticket) {
-                    var ticketTotalElement = document.querySelector(`.ticket-total[data-id="${ticket.sizeid}"]`);
-                    if (ticketTotalElement) {
-                        ticketTotalElement.textContent = `$${(ticket.cost * ticket.qty).toFixed(2)}`;
-                    }
-                });
-            }
-
-            updateServiceFee(total);
-            updateTaxDisplay(total);
-
-            updateSessionDetails();
-            updateGrandTotal();
-            sendCartToSession();
-        }
-
-
-        function updateServiceFee(total) {
-            const serviceFeeRate = 0.075;
-            const serviceFee = total * serviceFeeRate;
-            document.querySelector('.s-fee').textContent = `$${serviceFee.toFixed(2)}`;
-            // document.querySelector('.tooltipwrapv').textContent = `$${serviceFee.toFixed(2)}`;
-            updateGrandTotal();
-            sendCartToSession();
-        }
-
-        function updatePrice(sizeId, count) {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events'));
-            var ticket = tickets.addOns.find(t => t.sizeid === sizeId);
-            if (ticket) {
-                ticket.qty = count;
-
-                var priceElement = document.querySelector(`.t-price[data-id="${sizeId}"]`);
-                if (priceElement) {
-                    priceElement.textContent = `$${(ticket.cost * count).toFixed(2)}`;
-                }
-
-                var ticketTotalElement = document.querySelector(`.ticket-total[data-id="${sizeId}"]`);
-                if (ticketTotalElement) {
-                    ticketTotalElement.textContent = `$${(ticket.cost * count).toFixed(2)}`;
-                }
-
-                var detailedPriceElement = document.querySelector(`.row.mb-2 h5[data-id="${sizeId}"]`);
-                if (detailedPriceElement) {
-                    detailedPriceElement.textContent = `$${ticket.cost.toFixed(2)} x ${count} = $${(ticket.cost * count).toFixed(2)}`;
-                }
-
-                sessionStorage.setItem('cart_events', JSON.stringify(tickets));
-
-                updateSessionStorage(sizeId, count);
-                updateTotalPrice(getTotalCost());
-                sendCartToSession();
-            }
-        }
-
-
-        function updateSessionStorage(sizeId, count) {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events'));
-            var ticket = tickets.addOns.find(t => t.sizeid === sizeId);
-            if (ticket) {
-                ticket.qty = count;
-                sessionStorage.setItem('cart_events', JSON.stringify(tickets));
-
-                sendCartToSession();
-            }
-        }
-
-        function updateSessionDetails() {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-            var totalQuantity = tickets.addOns.reduce((total, ticket) => total + ticket.qty, 0);
-            var totalCost = getTotalCost();
-            const serviceFeeRate = 0.075; // 7.5% service fee
-            const serviceFeeValue = (totalCost * serviceFeeRate).toFixed(2);
-            var remarks = tickets.addOns.map(ticket => `${ticket.name}(x${ticket.qty})`).join(", ");
-
-            var taxRate = tickets.taxRate || 0;
-
-            var addOnBaseQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
-            var addOnQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
-
-            tickets.totalcalcqty = totalQuantity;
-            tickets.remarks = remarks;
-            tickets.customize = remarks;
-            tickets.calcprice = totalCost.toFixed(2);
-            tickets.total = totalCost.toFixed(2);
-            tickets.servicefeevalue = serviceFeeValue;
-            tickets.price = totalCost.toFixed(2);
-            tickets.taxRate = taxRate;
-            tickets.addOnBaseQtys = addOnBaseQtys;
-            tickets.addOnQtys = addOnQtys;
-
-            sessionStorage.setItem('cart_events', JSON.stringify(tickets));
-
-            sendCartToSession();
-        }
-
-        function attachEventListeners() {
-            document.querySelectorAll('.t-decrease').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    var sizeId = this.getAttribute('data-id');
-                    var countElement = this.nextElementSibling;
-                    var count = parseInt(countElement.textContent);
-                    if (count > 1) {
-                        count--;
-                        countElement.textContent = count;
-                        updatePrice(sizeId, count);
-                    }
-                });
-            });
-
-            document.querySelectorAll('.t-increase').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    var sizeId = this.getAttribute('data-id');
-                    var countElement = this.previousElementSibling;
-                    var count = parseInt(countElement.textContent);
-
-                    var tickets = JSON.parse(sessionStorage.getItem('cart_events'));
-                    var ticket = tickets.addOns.find(t => t.sizeid === sizeId);
-
-                    if (count < 20) {
-                        count++;
-                        countElement.textContent = count;
-                        updatePrice(sizeId, count);
-                    } else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Maximum Limit Reached',
-                            text: 'You can only buy a maximum of 20 tickets!',
-                        });
-                    }
-                });
-            });
-
-            document.querySelectorAll('.delete-ticket').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    var sizeId = this.getAttribute('data-id');
-                    removeTicket(sizeId);
-                });
-            });
-
-            // document.querySelectorAll('.delete-ticket').forEach(function(button) {
-            //     button.addEventListener('click', function() {
-            //         var sizeId = this.getAttribute('data-id');
-
-            //         Swal.fire({
-            //             title: 'Are you sure?',
-            //             text: "Do you really want to delete this ticket?",
-            //             icon: 'warning',
-            //             showCancelButton: true,
-            //             confirmButtonColor: '#d33',
-            //             cancelButtonColor: '#3085d6',
-            //             confirmButtonText: 'Yes, delete it!',
-            //             cancelButtonText: 'Cancel'
-            //         }).then((result) => {
-            //             if (result.isConfirmed) {
-
-            //                 removeTicket(sizeId);
-            //                 Swal.fire(
-            //                     'Deleted!',
-            //                     'The ticket has been removed.',
-            //                     'success'
-            //                 );
-            //             }
-            //         });
-            //     });
-            // });
-        }
-
-
-        function getTotalTicketCount() {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-            return tickets.addOns.reduce((total, ticket) => total + ticket.qty, 0);
-        }
-
-        function getTotalCost() {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-            return tickets.addOns.reduce((total, ticket) => total + (ticket.qty * ticket.cost), 0);
-        }
-
-
-        function updateTaxDisplay() {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-            var total = getTotalCost();
-
-            // var taxRate = parseFloat(tickets.taxRate) || 0;
-            var taxRate = 0;
-
-            var estimatedTax = total * taxRate;
-            document.querySelector('.est-tax').textContent = `$${estimatedTax.toFixed(2)}`;
-            // document.querySelector('.tooltipwrapv.tax').textContent = `$${estimatedTax.toFixed(2)}`;
-
-            updateGrandTotal();
-            sendCartToSession();
-        }
-
-
-        function removeTicket(sizeId) {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events'));
-            if (tickets && tickets.addOns) {
-                var ticketIndex = tickets.addOns.findIndex(t => t.sizeid === sizeId);
-                if (ticketIndex !== -1) {
-                    tickets.addOns.splice(ticketIndex, 1);
-                    sessionStorage.setItem('cart_events', JSON.stringify(tickets));
-
-                    sendCartToSession();
-                    loadTickets();
-                }
-            }
-        }
-
-        window.onload = loadTickets;
-    </script> -->
-
-    <script>
-        function loadTickets() {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-            var ticketContainer = document.getElementById('ticket-container');
-            var ticketSummery = document.getElementById('ticketSummery');
-            var totalPriceElements = document.querySelectorAll('.total-price');
-
-            ticketContainer.innerHTML = '';
-            ticketSummery.innerHTML = '';
-            let total = 0;
-
-            if (!tickets.addOns || tickets.addOns.length === 0) {
-                ticketContainer.innerHTML = '<p>No tickets selected.</p>';
-                ticketSummery.innerHTML = '<p>No tickets selected.</p>';
-                totalPriceElements.forEach(function(el) {
-                    el.textContent = '$0.00';
-                });
-                updateTaxDisplay(0);
-                updateServiceFee(0);
-                updateGrandTotal();
-                sendCartToSession();
-                return;
-            }
-
-            tickets.addOns.forEach(function(ticket) {
-                var ticketRow = document.createElement('div');
-                var summeryRow = document.createElement('div');
-                ticketRow.className = 'card-info row';
-                ticketRow.innerHTML = `
-                    <div class="col-md-6">
-                        <div class="event-name">
-                            <h5>${ticket.name}</h5>
-                            <h5>$${ticket.cost.toFixed(2)}</h5>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <span class="t-counter">
-                            <button class="t-decrease" data-id="${ticket.sizeid}">-</button>
-                            <span class="t-count">${ticket.qty}</span>
-                            <button class="t-increase" data-id="${ticket.sizeid}">+</button>
-                        </span>
-                        <span class="recycle">
-                            <img src="images/delete.png" alt="Delete" class="delete-ticket" data-id="${ticket.sizeid}" title="Remove this ticket">
-                        </span>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="price">
-                            <h5 class="t-price" data-id="${ticket.sizeid}">$${(ticket.cost * ticket.qty).toFixed(2)}</h5>
-                        </div>
-                    </div>
-                `;
-
-                summeryRow.className = 'row mb-2';
-                summeryRow.innerHTML = `
-                    <div class="col-md-12">
-                        <h2>${ticket.name}</h2>
-                    </div>
-                    <div class="col-md-8">
-                        <h5 data-id="${ticket.sizeid}">$${ticket.cost.toFixed(2)} x ${ticket.qty} = $${(ticket.cost * ticket.qty).toFixed(2)}</h5>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-4 col-md-4">
                         <h3 class="ticket-total" data-id="${ticket.sizeid}">$${(ticket.cost * ticket.qty).toFixed(2)}</h3>
                     </div>
                 `;
@@ -1029,6 +729,358 @@ if (isset($_SESSION['cart_events'])) {
             //         });
             //     });
             // });
+            
+        }
+
+
+        function getTotalTicketCount() {
+            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
+            return tickets.addOns.reduce((total, ticket) => total + ticket.qty, 0);
+        }
+
+        function getTotalCost() {
+            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
+            return tickets.addOns.reduce((total, ticket) => total + (ticket.qty * ticket.cost), 0);
+        }
+
+
+        function updateTaxDisplay() {
+            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
+            var total = getTotalCost();
+
+            // var taxRate = parseFloat(tickets.taxRate) || 0;
+            var taxRate = 0;
+
+            var estimatedTax = total * taxRate;
+            document.querySelector('.est-tax').textContent = `$${estimatedTax.toFixed(2)}`;
+            // document.querySelector('.tooltipwrapv.tax').textContent = `$${estimatedTax.toFixed(2)}`;
+
+            updateGrandTotal();
+            sendCartToSession();
+        }
+
+
+        function removeTicket(sizeId) {
+            var tickets = JSON.parse(sessionStorage.getItem('cart_events'));
+            if (tickets && tickets.addOns) {
+                var ticketIndex = tickets.addOns.findIndex(t => t.sizeid === sizeId);
+                if (ticketIndex !== -1) {
+                    tickets.addOns.splice(ticketIndex, 1);
+                    sessionStorage.setItem('cart_events', JSON.stringify(tickets));
+
+                    sendCartToSession();
+                    loadTickets();
+                }
+            }
+        }
+
+        window.onload = loadTickets;
+    </script> -->
+
+    <script>
+        function loadTickets() {
+            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
+            var ticketContainer = document.getElementById('ticket-container');
+            var ticketSummery = document.getElementById('ticketSummery');
+            var totalPriceElements = document.querySelectorAll('.total-price');
+
+            ticketContainer.innerHTML = '';
+            ticketSummery.innerHTML = '';
+            let total = 0;
+
+            if (!tickets.addOns || tickets.addOns.length === 0) {
+                ticketContainer.innerHTML = '<p>No tickets selected.</p>';
+                ticketSummery.innerHTML = '<p>No tickets selected.</p>';
+                totalPriceElements.forEach(function(el) {
+                    el.textContent = '$0.00';
+                });
+                updateTaxDisplay(0);
+                updateServiceFee(0);
+                updateGrandTotal();
+                sendCartToSession();
+                return;
+            }
+
+            tickets.addOns.forEach(function(ticket) {
+                var ticketRow = document.createElement('div');
+                var summeryRow = document.createElement('div');
+                ticketRow.className = 'card-info row';
+                ticketRow.innerHTML = `
+                    <div class="col-md-6">
+                        <div class="event-name">
+                            <h5>${ticket.name}</h5>
+                            <h5>$${ticket.cost.toFixed(2)}</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="t-counter">
+                            <button class="t-decrease" data-id="${ticket.sizeid}">-</button>
+                            <span class="t-count">${ticket.qty}</span>
+                            <button class="t-increase" data-id="${ticket.sizeid}">+</button>
+                        </span>
+                        <span class="recycle">
+                            <img src="images/delete.png" alt="Delete" class="delete-ticket" data-id="${ticket.sizeid}" title="Remove this ticket">
+                        </span>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="price">
+                            <h5 class="t-price" data-id="${ticket.sizeid}">$${(ticket.cost * ticket.qty).toFixed(2)}</h5>
+                        </div>
+                    </div>
+                `;
+
+                summeryRow.className = 'row mb-2';
+                summeryRow.innerHTML = `
+                    <div class="col-md-12">
+                        <h2>${ticket.name}</h2>
+                    </div>
+                    <div class="col-8 col-md-8">
+                        <h5 data-id="${ticket.sizeid}">$${ticket.cost.toFixed(2)} x ${ticket.qty} = $${(ticket.cost * ticket.qty).toFixed(2)}</h5>
+                    </div>
+                    <div class="col-4 col-md-4">
+                        <h3 class="ticket-total" data-id="${ticket.sizeid}">$${(ticket.cost * ticket.qty).toFixed(2)}</h3>
+                    </div>
+                `;
+
+                ticketContainer.appendChild(ticketRow);
+                ticketSummery.appendChild(summeryRow);
+
+                total += ticket.cost * ticket.qty;
+            });
+
+            totalPriceElements.forEach(function(el) {
+                el.textContent = `$${total.toFixed(2)}`;
+            });
+
+            updateTotalPrice(total);
+            updateTaxDisplay();
+            updateGrandTotal();
+            sendCartToSession();
+
+            attachEventListeners();
+        }
+
+        // function updateTotalPrice(total) {
+        //     var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
+
+        //     var totalPriceElements = document.querySelectorAll('.total-price');
+        //     totalPriceElements.forEach(function(el) {
+        //         el.textContent = `$${total.toFixed(2)}`;
+        //     });
+
+        //     if (tickets.addOns) {
+        //         tickets.addOns.forEach(function(ticket) {
+        //             var ticketTotalElement = document.querySelector(`.ticket-total[data-id="${ticket.sizeid}"]`);
+        //             if (ticketTotalElement) {
+        //                 ticketTotalElement.textContent = `$${(ticket.cost * ticket.qty).toFixed(2)}`;
+        //             }
+        //         });
+        //     }
+
+        //     updateServiceFee(total);
+        //     updateTaxDisplay(total);
+
+        //     updateSessionDetails();
+        //     updateGrandTotal();
+        //     sendCartToSession();
+        // }
+
+        function updateTotalPrice(total) {
+            const totalPriceElements = document.querySelectorAll('.total-price');
+            const discountSection = document.getElementById('discountSection');
+            let discount = 0;
+
+            // Check if promo code is applied
+            if (promoApplied) {
+                discount = total * 0.10; // 10% discount
+                total -= discount;
+            }
+
+            totalPriceElements.forEach(function (el) {
+                el.textContent = `$${total.toFixed(2)}`;
+            });
+
+            if (promoApplied) {
+                discountSection.style.display = 'block';
+                discountSection.querySelector('h3').textContent = `-$${discount.toFixed(2)}`;
+            } else {
+                discountSection.style.display = 'none';
+            }
+
+            updateServiceFee(total);
+            updateTaxDisplay(total);
+            updateGrandTotal();
+            sendCartToSession();
+        }
+
+
+        function updateServiceFee(total) {
+            const serviceFeeRate = 0.075;
+            const serviceFee = total * serviceFeeRate;
+            document.querySelector('.s-fee').textContent = `$${serviceFee.toFixed(2)}`;
+            // document.querySelector('.tooltipwrapv').textContent = `$${serviceFee.toFixed(2)}`;
+            updateGrandTotal();
+            sendCartToSession();
+        }
+
+        function updatePrice(sizeId, count) {
+            var tickets = JSON.parse(sessionStorage.getItem('cart_events'));
+            var ticket = tickets.addOns.find(t => t.sizeid === sizeId);
+            if (ticket) {
+                ticket.qty = count;
+
+                var priceElement = document.querySelector(`.t-price[data-id="${sizeId}"]`);
+                if (priceElement) {
+                    priceElement.textContent = `$${(ticket.cost * count).toFixed(2)}`;
+                }
+
+                var ticketTotalElement = document.querySelector(`.ticket-total[data-id="${sizeId}"]`);
+                if (ticketTotalElement) {
+                    ticketTotalElement.textContent = `$${(ticket.cost * count).toFixed(2)}`;
+                }
+
+                var detailedPriceElement = document.querySelector(`.row.mb-2 h5[data-id="${sizeId}"]`);
+                if (detailedPriceElement) {
+                    detailedPriceElement.textContent = `$${ticket.cost.toFixed(2)} x ${count} = $${(ticket.cost * count).toFixed(2)}`;
+                }
+
+                sessionStorage.setItem('cart_events', JSON.stringify(tickets));
+
+                updateSessionStorage(sizeId, count);
+                updateTotalPrice(getTotalCost());
+                sendCartToSession();
+            }
+        }
+
+
+        function updateSessionStorage(sizeId, count) {
+            var tickets = JSON.parse(sessionStorage.getItem('cart_events'));
+            var ticket = tickets.addOns.find(t => t.sizeid === sizeId);
+            if (ticket) {
+                ticket.qty = count;
+                sessionStorage.setItem('cart_events', JSON.stringify(tickets));
+
+                sendCartToSession();
+            }
+        }
+
+        function updateSessionDetails() {
+            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
+            var totalQuantity = tickets.addOns.reduce((total, ticket) => total + ticket.qty, 0);
+            var totalCost = getTotalCost();
+            const serviceFeeRate = 0.075; // 7.5% service fee
+            const serviceFeeValue = (totalCost * serviceFeeRate).toFixed(2);
+            var remarks = tickets.addOns.map(ticket => `${ticket.name}(x${ticket.qty})`).join(", ");
+
+            var taxRate = tickets.taxRate || 0;
+
+            var addOnBaseQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
+            var addOnQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
+
+            tickets.totalcalcqty = totalQuantity;
+            tickets.remarks = remarks;
+            tickets.customize = remarks;
+            tickets.calcprice = totalCost.toFixed(2);
+            tickets.total = totalCost.toFixed(2);
+            tickets.servicefeevalue = serviceFeeValue;
+            tickets.price = totalCost.toFixed(2);
+            tickets.taxRate = taxRate;
+            tickets.addOnBaseQtys = addOnBaseQtys;
+            tickets.addOnQtys = addOnQtys;
+
+            sessionStorage.setItem('cart_events', JSON.stringify(tickets));
+
+            sendCartToSession();
+        }
+
+        function attachEventListeners() {
+            document.querySelectorAll('.t-decrease').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var sizeId = this.getAttribute('data-id');
+                    var countElement = this.nextElementSibling;
+                    var count = parseInt(countElement.textContent);
+                    if (count > 1) {
+                        count--;
+                        countElement.textContent = count;
+                        updatePrice(sizeId, count);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.t-increase').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var sizeId = this.getAttribute('data-id');
+                    var countElement = this.previousElementSibling;
+                    var count = parseInt(countElement.textContent);
+
+                    var tickets = JSON.parse(sessionStorage.getItem('cart_events'));
+                    var ticket = tickets.addOns.find(t => t.sizeid === sizeId);
+
+                    if (count < 20) {
+                        count++;
+                        countElement.textContent = count;
+                        updatePrice(sizeId, count);
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Maximum Limit Reached',
+                            text: 'You can only buy a maximum of 20 tickets!',
+                        });
+                    }
+                });
+            });
+
+            // document.querySelectorAll('.delete-ticket').forEach(function(button) {
+            //     button.addEventListener('click', function() {
+            //         var sizeId = this.getAttribute('data-id');
+            //         removeTicket(sizeId);
+            //     });
+            // });
+
+            // document.querySelectorAll('.delete-ticket').forEach(function(button) {
+            //     button.addEventListener('click', function() {
+            //         var sizeId = this.getAttribute('data-id');
+
+            //         Swal.fire({
+            //             title: 'Are you sure?',
+            //             text: "Do you really want to delete this ticket?",
+            //             icon: 'warning',
+            //             showCancelButton: true,
+            //             confirmButtonColor: '#d33',
+            //             cancelButtonColor: '#3085d6',
+            //             confirmButtonText: 'Yes, delete it!',
+            //             cancelButtonText: 'Cancel'
+            //         }).then((result) => {
+            //             if (result.isConfirmed) {
+
+            //                 removeTicket(sizeId);
+            //                 Swal.fire(
+            //                     'Deleted!',
+            //                     'The ticket has been removed.',
+            //                     'success'
+            //                 );
+            //             }
+            //         });
+            //     });
+            // });
+
+            document.querySelectorAll('.delete-ticket').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var sizeId = this.getAttribute('data-id');
+
+                    var isConfirmed = confirm("Do you really want to delete this ticket?");
+         
+                    if (isConfirmed) {
+                        removeTicket(sizeId);
+
+                        // alert('The ticket has been removed.');
+                    } else {
+                        
+                        // alert('The ticket was not deleted.');
+                    }
+                });
+            });
+            
         }
 
 
@@ -1400,7 +1452,7 @@ if (isset($_SESSION['cart_events'])) {
                 if (data && data.success) {
                     document.getElementById("first-name").value = data.firstName || '';
                     document.getElementById("last-name").value = data.lastName || '';
-                    document.getElementById("phone").value = data.phone || '';
+                    document.getElementById("user-phone").value = data.phone || '';
                     document.getElementById("email").value = data.email || '';
                 } else {
                     console.log("Data fields are missing in the API response.");

@@ -834,56 +834,6 @@ $result_home = json_decode($response_home, true);
             }
         }
 
-        // function updateTicketArrayDisplay() {
-        //     var cart_events = [];
-
-        //     for (var key in ticketData) {
-        //         if (ticketData.hasOwnProperty(key) && ticketData[key].count > 0) {
-        //             cart_events.push({
-        //                 id: key,
-        //                 name: ticketData[key].name,
-        //                 count: ticketData[key].count,
-        //                 totalPrice: (ticketData[key].count * ticketData[key].pricePerTicket).toFixed(2)
-        //             });
-        //         }
-        //     }
-
-        //     var displayDiv = document.getElementById('selected-tickets');
-        //     displayDiv.innerHTML = '';
-
-        //     cart_events.forEach(function(ticket) {
-        //         var ticketHTML = `
-        //     <div class="total-ticket-area" data-id="${ticket.id}">
-        //         <div class="container">
-        //             <div class="card-info row">
-        //                 <div class="col-md-4">
-        //                     <div class="event-name">
-        //                         <h5>${ticket.name}</h5>
-        //                     </div>
-        //                 </div>
-        //                 <div class="col-6 col-md-4 text-center mob-v">
-        //                     <div class="t-counter">
-        //                         <button class="decrease" data-id="${ticket.id}">-</button>
-        //                         <span class="count">${ticket.count}</span>
-        //                         <button class="increase" data-id="${ticket.id}">+</button>
-        //                     </div>
-        //                 </div>
-        //                 <div class="col-6 col-md-4">
-        //                     <div class="price">
-        //                         <h5>$<span class="price-value">${ticket.totalPrice}</span></h5>
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     </div>
-        // `;
-
-        //         displayDiv.innerHTML += ticketHTML;
-        //     });
-
-        //     attachDynamicButtonListeners();
-        // }
-
         function updateTicketArrayDisplay() {
             var cart_events = [];
 
@@ -899,47 +849,98 @@ $result_home = json_decode($response_home, true);
             }
 
             var displayDiv = document.getElementById('selected-tickets');
-            displayDiv.innerHTML = ''; 
+            displayDiv.innerHTML = '';
 
-            if (cart_events.length === 0) {
-                
-                document.getElementById('ticket-info').style.display = 'none';
-            } else {
-                
-                document.getElementById('ticket-info').style.display = 'block';
-
-                cart_events.forEach(function(ticket) {
-                    var ticketHTML = `
-                        <div class="total-ticket-area" data-id="${ticket.id}">
-                            <div class="container">
-                                <div class="card-info row">
-                                    <div class="col-md-4">
-                                        <div class="event-name">
-                                            <h5>${ticket.name}</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-4 text-center mob-v">
-                                        <div class="t-counter">
-                                            <button class="decrease" data-id="${ticket.id}">-</button>
-                                            <span class="count">${ticket.count}</span>
-                                            <button class="increase" data-id="${ticket.id}">+</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-4">
-                                        <div class="price">
-                                            <h5>$<span class="price-value">${ticket.totalPrice}</span></h5>
-                                        </div>
-                                    </div>
-                                </div>
+            cart_events.forEach(function(ticket) {
+                var ticketHTML = `
+            <div class="total-ticket-area" data-id="${ticket.id}">
+                <div class="container">
+                    <div class="card-info row">
+                        <div class="col-md-4">
+                            <div class="event-name">
+                                <h5>${ticket.name}</h5>
                             </div>
                         </div>
-                    `;
-                    displayDiv.innerHTML += ticketHTML;
-                });
+                        <div class="col-6 col-md-4 text-center mob-v">
+                            <div class="t-counter">
+                                <button class="decrease" data-id="${ticket.id}">-</button>
+                                <span class="count">${ticket.count}</span>
+                                <button class="increase" data-id="${ticket.id}">+</button>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="price">
+                                <h5>$<span class="price-value">${ticket.totalPrice}</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
 
-                attachDynamicButtonListeners();
-            }
+                displayDiv.innerHTML += ticketHTML;
+            });
+
+            attachDynamicButtonListeners();
         }
+
+        // function updateTicketArrayDisplay() {
+        //     var cart_events = [];
+
+        //     for (var key in ticketData) {
+        //         if (ticketData.hasOwnProperty(key) && ticketData[key].count > 0) {
+        //             cart_events.push({
+        //                 id: key,
+        //                 name: ticketData[key].name,
+        //                 count: ticketData[key].count,
+        //                 totalPrice: (ticketData[key].count * ticketData[key].pricePerTicket).toFixed(2)
+        //             });
+        //         }
+        //     }
+
+        //     var displayDiv = document.getElementById('selected-tickets');
+        //     displayDiv.innerHTML = ''; 
+
+        //     if (cart_events.length === 0) {
+                
+        //         document.getElementById('ticket-info').style.display = 'none';
+        //         document.querySelector('.event-detail').classList.remove('fade-background');
+        //     } else {
+                
+        //         // document.getElementById('ticket-info').style.display = 'block';
+
+        //         cart_events.forEach(function(ticket) {
+        //             var ticketHTML = `
+        //                 <div class="total-ticket-area" data-id="${ticket.id}">
+        //                     <div class="container">
+        //                         <div class="card-info row">
+        //                             <div class="col-md-4">
+        //                                 <div class="event-name">
+        //                                     <h5>${ticket.name}</h5>
+        //                                 </div>
+        //                             </div>
+        //                             <div class="col-6 col-md-4 text-center mob-v">
+        //                                 <div class="t-counter">
+        //                                     <button class="decrease" data-id="${ticket.id}">-</button>
+        //                                     <span class="count">${ticket.count}</span>
+        //                                     <button class="increase" data-id="${ticket.id}">+</button>
+        //                                 </div>
+        //                             </div>
+        //                             <div class="col-6 col-md-4">
+        //                                 <div class="price">
+        //                                     <h5>$<span class="price-value">${ticket.totalPrice}</span></h5>
+        //                                 </div>
+        //                             </div>
+        //                         </div>
+        //                     </div>
+        //                 </div>
+        //             `;
+        //             displayDiv.innerHTML += ticketHTML;
+        //         });
+
+        //         attachDynamicButtonListeners();
+        //     }
+        // }
 
         function attachDynamicButtonListeners() {
             document.querySelectorAll('#selected-tickets .decrease').forEach(function(button) {
@@ -948,7 +949,7 @@ $result_home = json_decode($response_home, true);
                     if (ticketData[sizeId] && ticketData[sizeId].count > 0) {
                         ticketData[sizeId].count--;
                         updatePrice(sizeId);
-                        updateTicketArrayDisplay();
+                        // updateTicketArrayDisplay();
                     }
                 });
             });
@@ -959,7 +960,7 @@ $result_home = json_decode($response_home, true);
                     if (ticketData[sizeId] && ticketData[sizeId].count < maxTickets) {
                         ticketData[sizeId].count++;
                         updatePrice(sizeId);
-                        updateTicketArrayDisplay();
+                        // updateTicketArrayDisplay();
 
                         const ticketElement = this.closest('.card-info').querySelector('.event-name h5');
                         if (ticketElement) {
