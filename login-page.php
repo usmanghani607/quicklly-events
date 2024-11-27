@@ -425,13 +425,13 @@ $countryCodes = [
 
             if (key === 'Backspace' && index > 0 && input.value === '') {
                 otpInputs[index - 1].focus();
-                otpInputs[index - 1].value = ''; 
+                otpInputs[index - 1].value = '';
             }
         });
     });
 </script>
 
-<script>
+<!-- <script>
     $(document).ready(function() {
 
         updateUI();
@@ -494,6 +494,131 @@ $countryCodes = [
                         setTimeout(function() {
                             // window.location.href = 'index';
                             location.reload();
+                        }, 1500);
+                    } else {
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred: ' + error
+                    });
+                }
+            });
+        });
+
+        if (localStorage.getItem('email') && localStorage.getItem('password')) {
+            $('.loginemail').val(localStorage.getItem('email'));
+            $('.loginpassword').val(localStorage.getItem('password'));
+            $('#rememberMe').prop('checked', true);
+        }
+
+        function updateUI() {
+            var firstName = localStorage.getItem('firstName');
+            if (firstName) {
+                $('.dropdown').show();
+                $('.btn_signup').hide();
+                $('.dropdown-toggle').text(firstName);
+            } else {
+                $('.dropdown').hide();
+                $('.btn_signup').show();
+            }
+        }
+
+        $(document).on('click', '#logoutBtn', function() {
+            localStorage.removeItem('firstName');
+            localStorage.removeItem('lastName');
+            localStorage.removeItem('uid');
+            updateUI();
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Logged Out',
+                text: 'You have successfully logged out.',
+                timer: 1500,
+                showConfirmButton: false
+            });
+        });
+
+    });
+</script> -->
+
+<script>
+    $(document).ready(function() {
+
+        updateUI();
+
+        $(".loginemail, .loginpassword").on("keypress", function(e) {
+            if (e.which === 13) { 
+                $("#loginBtn").click(); 
+            }
+        });
+
+        $("#loginBtn").on("click", function() {
+
+            $(".error-message").text(""); 
+
+            var email = $(".loginemail").val().trim();
+            var password = $(".loginpassword").val().trim();
+            var isValid = true;
+
+            if (email === "") {
+                $("#emailError").text("Email is required.");
+                isValid = false;
+            }
+            if (password === "") {
+                $("#passwordError").text("Password is required.");
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return;
+            }
+
+            if ($('.login-rememberMe').is(':checked')) {
+                localStorage.setItem('email', email);
+                localStorage.setItem('password', password);
+            } else {
+                localStorage.removeItem('email');
+                localStorage.removeItem('password');
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "login.php",
+                data: {
+                    email: email,
+                    pass: password
+                },
+                success: function(response) {
+                    var data = JSON.parse(response);
+
+                    if (data.success) {
+
+                        localStorage.setItem('firstName', data.firstName);
+                        localStorage.setItem('lastName', data.lastName);
+                        localStorage.setItem('uid', data.uid);
+
+                        updateUI();
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: data.message,
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+
+                        setTimeout(function() {
+                            location.reload(); 
                         }, 1500);
                     } else {
 
@@ -863,7 +988,7 @@ $countryCodes = [
 </script>
 
 <script>
-    document.querySelector('.signupphone').addEventListener('input', function (e) {
-        this.value = this.value.replace(/[^0-9]/g, ''); 
+    document.querySelector('.signupphone').addEventListener('input', function(e) {
+        this.value = this.value.replace(/[^0-9]/g, '');
     });
 </script>

@@ -184,7 +184,7 @@ footer.footer-bg .container .col-md { padding: 0; }
 .category-area img { height: 110px; border-radius: 55px; margin: 0 28px; }
 .category-area img.img-fluid { height: 100px; width: 100px; object-fit: fill; }
 
-.category-area p { margin: 0; font-weight: 500; padding: 10px 5px 0 5px; color: #333333; }
+.category-area p { margin: 0; font-weight: 500; padding: 10px 5px 0 0; color: #333333; }
 .category-area p.music { padding-left: 33px; }
 .category-area a { text-decoration: none; }
 
