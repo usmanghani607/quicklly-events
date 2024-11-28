@@ -524,7 +524,7 @@
 
                                                     $eventDate = DateTime::createFromFormat('j M Y', "$eventDay $eventMonth $eventYear");
 
-                                                    if ($eventDate && $eventDate >= $today->format('Y-m-d') == $eventDate <= $nextFriday) {
+                                                    if ($eventDate && $eventDate >= $today->format('Y-m-d') == $eventDate->format('Y-m-d') <= $nextFriday->format('Y-m-d')) {
                                                     // if ($eventDate && $eventDate->format('Y-m-d') == $today->format('Y-m-d')) {
                                                         $foundEvents = true;
 
@@ -570,9 +570,6 @@
                                         echo '<p>No events found or incorrect data structure.</p>';
                                     }
                                     ?>
-
-
-
 
                                 </div>
                             </div>

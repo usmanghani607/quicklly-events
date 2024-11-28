@@ -856,19 +856,19 @@ $result_home = json_decode($response_home, true);
             <div class="total-ticket-area" data-id="${ticket.id}">
                 <div class="container">
                     <div class="card-info row">
-                        <div class="col-md-4">
+                        <div class="col-4 col-md-4">
                             <div class="event-name">
                                 <h5>${ticket.name}</h5>
                             </div>
                         </div>
-                        <div class="col-6 col-md-4 text-center mob-v">
+                        <div class="col-4 col-md-4 text-center mob-v">
                             <div class="t-counter">
                                 <button class="decrease" data-id="${ticket.id}">-</button>
                                 <span class="count">${ticket.count}</span>
                                 <button class="increase" data-id="${ticket.id}">+</button>
                             </div>
                         </div>
-                        <div class="col-6 col-md-4">
+                        <div class="col-4 col-md-4">
                             <div class="price">
                                 <h5>$<span class="price-value">${ticket.totalPrice}</span></h5>
                             </div>
