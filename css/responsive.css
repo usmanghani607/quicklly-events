@@ -5,7 +5,7 @@
     .home-banner .banner-text .search-area { padding: 0; }
     .home-banner .banner-text { padding: 40px 0; }
 
-    .home-banner .form-select.country { background-image: url(../images/location-icon.png), url(../images/arrow-dropdown.png); background-repeat: no-repeat; background-position: left 5px center, right 5px center; background-size: 10px 15px, 12px 8px; border: none; border-radius: 4px; padding: 8px 18px 8px 20px; font-size: 14px; width: auto; }
+    .home-banner .form-select.country { background-image: url(../images/location-icon.png), url(../images/arrow-dropdown.png); background-repeat: no-repeat; background-position: left 5px center, right 5px center; background-size: 10px 15px, 12px 8px; border: none; border-radius: 4px; padding: 8px 18px 8px 20px; font-size: 12px; width: auto; }
     .home-banner { height: auto; }
     .popular-event .tab-content .card.first { margin-right: 0; }
     .popular-event .tab-content .card.sec { margin: 0; }
@@ -53,12 +53,14 @@
     .event-detail .col-md-4.side { width: 100%; }
     .event-detail .side-area { margin-left: 0; }
     .event-detail .side-area-social { margin-left: 0; }
-    .might-like .card.first { margin: 0; }
+    .might-like .card.first { margin: 0 4px 0 4px; }
+    .might-like .card.sec { margin: 0 4px 0 4px; }
+    .might-like .card.third { margin: 0 4px 0 4px; }
     .might-like .card { height: auto; }
     .might-like .card .card-body.sale h3 { width: 52%; }
     .might-like .card .card-body.fast h3 { width: 39%; }
     .might-like .card .card-body.salesoon h3 { width: 52%; }
-    .might-like { padding: 0; }
+    .might-like { padding: 0; padding-bottom: 10px; }
     .might-like .card.third { margin: 0; }
     .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2 { width: auto; }
     .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-8 { width: 100%; }
@@ -83,11 +85,21 @@
     .event-detail .col-md-8.main-area .ticket-info .card-info.row .event-name .price-icon { float: right; }
     .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2 .counter { float: right; }
     /* .event-detail .col-md-8.main-area .ticket-info .card-info.row .price { float: left; padding-left: 60px; } */
-    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp .price { float: left; padding-left: 48px; }
-    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp.sold-p .price { float: left; padding-left: 53px; }
 
+    /* .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp .price { float: left; padding-left: 48px; }
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp.sold-p .price { float: left; padding-left: 53px; } */
 
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp .price { float: left; padding-left: 50px; }
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp.sold-p .price { float: left; padding-left: 60px; }
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp { padding-right: 0; }
 
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .price h4 { font-size: 12px; font-weight: 500; }
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .price span { font-size: 12px; font-weight: 500; }
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .price p { font-size: 12px; }
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .seating { font-size: 12px; }
+    .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .price h4 { font-size: 12px; font-weight: 500; }
+    .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .price span { font-size: 12px; font-weight: 500; }
+    .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .price p { font-size: 12px; }
 
     .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .price { float: left; }
     .order-detail .col-md-8.main-area { width: 100%; }
@@ -157,7 +169,7 @@
     /* .search-area.row form#searchForm { width: 215px; position: relative; left: 40px; } */
     .search-area.row form#searchForm { width: auto; margin-left: 30px; }
     .home-banner .search-form { border: none; }
-    .home-banner .search-form { padding: 8px 10px 8px 10px; font-size: 14px; }
+    .home-banner .search-form { padding: 8px 10px 8px 10px; font-size: 12px; }
 
     .event-detail .side-area.side-fixed { width: 100%; }
     .event-detail .side-area-social.social-side-fixed.social-p { width: 100%; }
@@ -179,6 +191,16 @@
     .category-filter #category-results .card.third { margin-left: 0; }
 
     .category-name { white-space: normal; word-wrap: break-word; overflow-wrap: break-word; max-width: 12ch; }
+
+    .search-filter #search-results .card.first { margin-right: 0; }
+    .search-filter #search-results .card.sec { margin: 0; }
+    .search-filter #search-results .card.third { margin-left: 0; }
+
+    #seatingModal .seat-zoom { position: relative; float: left; left: 50%; transform: translate(-58%, -115px); width: 24px !important; }
+    .event-detail .col-md-8.main-area .event-faqs .accordion-item:first-of-type .accordion-button { font-size: 14px; text-align: left; }
+    .event-detail .col-md-8.main-area .event-faqs .accordion-collapse .accordion-body { font-size: 14px; }
+    .event-detail .col-md-8.main-area .event-faqs .accordion-button.collapsed { font-size: 14px; text-align: left; font-weight: 500; }
+    .event-detail .col-md-8.main-area .event-faqs button.accordion-button { font-size: 14px; text-align: left; font-weight: 500; }
 
 }
 

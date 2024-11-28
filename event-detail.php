@@ -902,11 +902,11 @@ $result_home = json_decode($response_home, true);
         //     displayDiv.innerHTML = ''; 
 
         //     if (cart_events.length === 0) {
-                
+
         //         document.getElementById('ticket-info').style.display = 'none';
         //         document.querySelector('.event-detail').classList.remove('fade-background');
         //     } else {
-                
+
         //         // document.getElementById('ticket-info').style.display = 'block';
 
         //         cart_events.forEach(function(ticket) {
@@ -1469,17 +1469,17 @@ $result_home = json_decode($response_home, true);
                 const sideAreaBottom = sideArea.getBoundingClientRect().bottom + scrollY;
 
                 if (scrollY >= eventDetailOffsetTop && sideAreaBottom + socialArea.offsetHeight <= eventDetailBottom) {
-                    
+
                     socialArea.style.position = 'fixed';
                     socialArea.style.top = `${sideArea.getBoundingClientRect().bottom + 10}px`;
                     socialArea.style.marginTop = '0';
                 } else if (scrollY + socialArea.offsetHeight > eventDetailBottom) {
-                    
+
                     socialArea.style.position = 'absolute';
                     socialArea.style.top = `${eventDetailBottom - socialArea.offsetHeight - eventDetailOffsetTop}px`;
                     socialArea.style.marginTop = '10px';
                 } else {
-                    
+
                     socialArea.style.position = 'absolute';
                     socialArea.style.top = `${sideAreaBottom - eventDetailOffsetTop}px`;
                     socialArea.style.marginTop = '10px';
@@ -1490,7 +1490,7 @@ $result_home = json_decode($response_home, true);
                 if (window.innerWidth > 768) {
                     const sideAreaBottom = sideArea.getBoundingClientRect().bottom + window.scrollY;
                     socialArea.style.position = 'absolute';
-                    socialArea.style.top = `${sideAreaBottom - eventDetail.offsetTop + 10}px`; 
+                    socialArea.style.top = `${sideAreaBottom - eventDetail.offsetTop + 10}px`;
                     socialArea.style.marginTop = '10px';
                 } else {
                     socialArea.style.position = 'relative';
@@ -1508,7 +1508,7 @@ $result_home = json_decode($response_home, true);
             });
         });
     </script>
-    
+
 
     <script>
         var eventId = <?php echo json_encode($event_id); ?>;

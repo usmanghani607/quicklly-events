@@ -812,7 +812,7 @@ if (isset($_SESSION['cart_events'])) {
                             <h5>$${ticket.cost.toFixed(2)}</h5>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-8 col-md-4">
                         <span class="t-counter">
                             <button class="t-decrease" data-id="${ticket.sizeid}">-</button>
                             <span class="t-count">${ticket.qty}</span>
@@ -822,7 +822,7 @@ if (isset($_SESSION['cart_events'])) {
                             <img src="images/delete.png" alt="Delete" class="delete-ticket" data-id="${ticket.sizeid}" title="Remove this ticket">
                         </span>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-4 col-md-2">
                         <div class="price">
                             <h5 class="t-price" data-id="${ticket.sizeid}">$${(ticket.cost * ticket.qty).toFixed(2)}</h5>
                         </div>
