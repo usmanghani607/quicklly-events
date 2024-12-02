@@ -57,7 +57,7 @@
                                 </form>
                             </div>
                             <div class="col">
-                                <div class="right_btn d-flex align-items-center">
+                                <!-- <div class="right_btn d-flex align-items-center">
                                     <?php if (isset($_SESSION['firstName'])): ?>
                                         <button class="btn_create"><img src="images/add-icon.png"> Create Event</button>
                                         <div class="dropdown">
@@ -73,6 +73,19 @@
                                     <?php else: ?>
                                         <button class="btn_signup" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</button>
                                     <?php endif; ?>
+                                </div> -->
+                                <div class="right_btn d-flex align-items-center">
+                                    <button class="btn_create"><img src="images/add-icon.png"> Create Event</button>
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle login-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        </button>
+                                        <ul class="dropdown-menu custom-dropdown-menu">
+                                            <li><a class="dropdown-item" href="account">My Account</a></li>
+                                            <li><a class="dropdown-item" href="booking">My Bookings</a></li>
+                                            <li><a class="dropdown-item" href="logout.php" id="logoutBtn">Logout</a></li>
+                                        </ul>
+                                    </div>
+                                    <button class="btn_signup" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</button>
                                 </div>
                             </div>
                         </div>

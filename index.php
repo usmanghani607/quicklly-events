@@ -593,15 +593,11 @@
 
                                             $day = substr($event['dayMonth'], 0, 2);
                                             $month = substr($event['dayMonth'], 2);
-
                                             // $eid = htmlspecialchars($event['eid']);
                                             $slug = htmlspecialchars($event['slug']);
-
-// echo $day . $month . " ". $today->format('Y');
-
-
+                                            // echo $day . $month . " ". $today->format('Y');
                                             $eventDate = DateTime::createFromFormat('d M Y', $day . $month . " ". $today->format('Y'));
-// var_dump($eventDate);
+                                            // var_dump($eventDate);
                                             // echo $currentWeekSaturday->format('Y-m-d');
                                             if ($eventDate && ($eventDate->format('Y-m-d') == $currentWeekSaturday->format('Y-m-d') || $eventDate->format('Y-m-d') == $currentWeekSunday->format('Y-m-d'))) {
                                                 echo '<div class="col">';
@@ -634,11 +630,11 @@
                                             }
                                         }
 
-                                        if ($counter == 1) {
-                                            echo '<p>No events found for the current weekend.</p>';
-                                        }
+                                        // if ($counter == 1) {
+                                        //     echo '<p>No events found for the current weekend.</p>';
+                                        // }
                                     } else {
-                                        echo '<p>No events found or incorrect data structure.</p>';
+                                        echo '<p>No events found for the current weekend.</p>';
                                     }
                                     ?>
 
@@ -769,7 +765,7 @@
                                             }
                                         }
                                     } else {
-                                        echo '<p>No events found or incorrect data structure.</p>';
+                                        echo '<p>No events found.</p>';
                                     }
 
                                     ?>

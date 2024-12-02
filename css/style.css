@@ -303,8 +303,8 @@ footer.footer-bg .container .col-md { padding: 0; }
 .sponsored-area .heading h5 { color: #707070; font-size: 14px; margin-bottom: 10px;}
 
 .sponsored-area .spons-left, .spons-right { position: absolute; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 10; }
-.sponsored-area .spons-left { left: -5%; }
-.sponsored-area .spons-right { right: -5%; }
+.sponsored-area .spons-left { left: -4%; width: 50px; }
+.sponsored-area .spons-right { right: -4%; width: 50px; }
 
 .sponsored-area #carouselSponsored .spose { width: 100%; max-height: 180px; object-fit: fill; }
 
@@ -522,8 +522,8 @@ footer.footer-bg .container .col-md { padding: 0; }
 
 .event-detail .col-md-8.main-area .event-images { background: #FFFFFF 0% 0% no-repeat padding-box; box-shadow: 0px 0px 4px #0000001A; border-radius: 16px; opacity: 1; padding: 20px 20px 7px 20px; margin-bottom: 25px; }
 .event-detail .col-md-8.main-area .event-images h2 { text-align: left; font-size: 20px; font-weight: 500; letter-spacing: 0px; color: #000000; opacity: 1; margin-bottom: 15px;}
-.event-detail .col-md-8.main-area .event-images img { width: 208px; margin-bottom: 13px; }
-
+.event-detail .col-md-8.main-area .event-images img { width: 225px; height: 120px; object-fit: fill; margin-bottom: 22px; }
+/* .event-detail .col-md-8.main-area .event-images .col-md-4 { padding: 0 10px; } */
 /*event venue*/
 
 .event-detail .col-md-8.main-area .venu-detail { background: #FFFFFF 0% 0% no-repeat padding-box; box-shadow: 0px 0px 4px #0000001A; border-radius: 16px; opacity: 1; padding: 20px 20px 7px 20px; margin-bottom: 25px; }
@@ -573,10 +573,10 @@ footer.footer-bg .container .col-md { padding: 0; }
 .event-detail .col-md-8.main-area .event-faqs { background: #FFFFFF 0% 0% no-repeat padding-box; box-shadow: 0px 0px 4px #0000001A; border-radius: 16px; opacity: 1; padding: 20px 20px 20px 20px; margin-bottom: 25px; }
 .event-detail .col-md-8.main-area .event-faqs h2 { text-align: left; font-size: 20px; font-weight: 500; letter-spacing: 0px; color: #000000; opacity: 1; margin-bottom: 15px;}
 .event-detail .col-md-8.main-area .event-faqs .accordion-item:first-of-type .accordion-button { background: #fff; color: #000; border: none; padding-left: 0; padding-right: 0; font-size: 16px; font-weight: 500; }
-.event-detail .col-md-8.main-area .event-faqs .accordion-button.collapsed { border: none; padding-left: 0; padding-right: 0; }
+.event-detail .col-md-8.main-area .event-faqs .accordion-button.collapsed { border: none; padding-left: 0; padding-right: 0; font-size: 16px; font-weight: 500; }
 .event-detail .col-md-8.main-area .event-faqs .accordion-collapse { border: none; }
 .event-detail .col-md-8.main-area .event-faqs .accordion-collapse .accordion-body { padding-left: 0; padding-right: 0; padding-top: 0; border-bottom: 1px solid #E4E4E4; opacity: 1; }
-.event-detail .col-md-8.main-area .event-faqs button.accordion-button { padding-left: 0; padding-right: 0; padding-bottom: 0; background: #fff; color: #000; border: none; }
+.event-detail .col-md-8.main-area .event-faqs button.accordion-button { padding-left: 0; padding-right: 0; padding-bottom: 0; background: #fff; color: #000; border: none; font-size: 16px; font-weight: 500; }
 .event-detail .col-md-8.main-area .event-faqs .accordion-button:not(.collapsed)::after { background-image: url('../images/faq-down.png'); transform: rotate(180deg); }
 .event-detail .col-md-8.main-area .event-faqs .accordion-button::after { flex-shrink: 0; width: 1.25rem; height: 1.25rem; margin-left: auto; content: ""; background-image: url('../images/faq-down.png'); background-repeat: no-repeat; background-size: 1.25rem; transition: transform .2s ease-in-out; }
 
@@ -700,6 +700,7 @@ footer.footer-bg .container .col-md { padding: 0; }
 
 /*booking*/
 
+.dashboard.booking .side-bar { background: #fff; padding: 20px 13px; height: 100%; }
 .dashboard .side-bar { background: #fff; padding: 20px 13px; height: 100vh; }
 .dashboard .side-bar img { width: 20px; }
 

@@ -99,7 +99,8 @@
                             });
 
                             setTimeout(function() {
-                                location.reload();
+                                // location.reload();
+                                window.location.href = 'index';
                             }, 1500);
                         }
                     },

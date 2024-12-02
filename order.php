@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+// echo $_SESSION['bearer_token'];
+// print_r($_SESSION);
+
 /*$_SESSION['value_user_id'];
 if (isset($_SESSION['cart_events'])) {
     echo '<pre>', print_r($_SESSION['cart_events'], true), '</pre>';

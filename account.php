@@ -61,7 +61,7 @@ session_start();
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label for="" class="form-label">Mobile Number</label>
-                                                <input type="text" class="form-control phoneField" name="phone">
+                                                <input type="text" class="form-control phoneField" name="phone" minlength="10" maxlength="10" pattern="\d*" inputmode="numeric">
                                                 <div id="phoneError" class="error-message text-danger"></div>
                                             </div>
                                         </div>
@@ -223,6 +223,12 @@ session_start();
             }
 
             loadUserProfile();
+        });
+    </script>
+
+    <script>
+        document.querySelector('.phoneField').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
         });
     </script>
 

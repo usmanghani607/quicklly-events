@@ -11,7 +11,7 @@
     .popular-event .tab-content .card.sec { margin: 0; }
     .popular-event .tab-content .card.third { margin-left: 0; }
     .popular-event .tab-content .card .card-body h5.card-title { height: auto; }
-    .popular-event { padding: 30px 0 0px 0; }
+    .popular-event { padding: 0; }
     .card.fst { margin-right: 0; }
     .host-area .card.sec { margin: 0; }
     .host-area .card.third { margin-left: 0; }
@@ -202,6 +202,7 @@
     .event-detail .col-md-8.main-area .event-faqs .accordion-button.collapsed { font-size: 14px; text-align: left; font-weight: 500; }
     .event-detail .col-md-8.main-area .event-faqs button.accordion-button { font-size: 14px; text-align: left; font-weight: 500; }
 
+    .event-detail .col-md-8.main-area .event-images img { width: 100%; height: auto; }
 }
 
 @media screen and (max-width: 768px) {
@@ -254,6 +255,7 @@
     .popular-event .tab-content .card.first { margin-right: 0; }
     .popular-event .tab-content .card.sec { margin: 0; }
     .popular-event .tab-content .card.third { margin-left: 0px; }
+    .event-detail .col-md-8.main-area .event-images img { width: 100%; }
 
 }
 
@@ -339,3 +341,23 @@
     .topheader .collapse.navbar-collapse .city-filter { display: none; }
 
 }
+
+
+@media screen and (min-width: 1367px) {
+    .home-banner .banner-text .search-area {
+        margin: 0 auto;
+        width: 1490px;
+    }
+}
+
+
+/* @media screen and (min-width: 1240px) {
+    .sponsored-area .spons-left {
+        left: -2%;
+        width: 50px;
+    }
+    .sponsored-area .spons-right {
+        right: -2%;
+        width: 50px;
+    }
+} */

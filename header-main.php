@@ -63,6 +63,8 @@
 
 session_start();
 
+// echo $_SESSION['bearer_token'];
+
 $login_api_url = 'https://devrestapi.goquicklly.com/login';
 $login_data = array(
     "email" => getenv('LOGIN_EMAIL'),
