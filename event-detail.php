@@ -566,7 +566,7 @@ $result_home = json_decode($response_home, true);
                                     foreach ($result['lstGallery'] as $image) {
 
                                         $imageUrl = htmlspecialchars($image);
-                                        echo '<div class="col-md-4">';
+                                        echo '<div class="col-6 col-md-4">';
                                         echo '<img src="' . $imageUrl . '" alt="">';
                                         echo '</div>';
                                     }

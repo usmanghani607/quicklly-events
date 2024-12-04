@@ -53,16 +53,17 @@
     .event-detail .col-md-4.side { width: 100%; }
     .event-detail .side-area { margin-left: 0; }
     .event-detail .side-area-social { margin-left: 0; }
-    .might-like .card.first { margin: 0 4px 0 4px; }
-    .might-like .card.sec { margin: 0 4px 0 4px; }
-    .might-like .card.third { margin: 0 4px 0 4px; }
+    .might-like .card.first { margin: 0 4px 4px 4px; }
+    .might-like .card.sec { margin: 0 4px 4px 4px; }
+    .might-like .card.third { margin: 0 4px 4px 4px; }
     .might-like .card { height: auto; }
     .might-like .card .card-body.sale h3 { width: 52%; }
     .might-like .card .card-body.fast h3 { width: 39%; }
     .might-like .card .card-body.salesoon h3 { width: 52%; }
     .might-like { padding: 0; padding-bottom: 10px; }
     .might-like .card.third { margin: 0; }
-    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2 { width: auto; }
+    /* .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2 { width: auto; } */
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2 { width: 50%; }
     .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-8 { width: 100%; }
 
     .event-detail .col-md-8.main-area .ticket-info .card-info.row .aa { padding-top: 10px; } 
@@ -83,23 +84,25 @@
     .event-detail .col-md-8.main-area .location-time .loc img.loc-mob { display: inline; }
 
     .event-detail .col-md-8.main-area .ticket-info .card-info.row .event-name .price-icon { float: right; }
-    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2 .counter { float: right; }
+    /* .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2 .counter { float: right; } */
+
+
     /* .event-detail .col-md-8.main-area .ticket-info .card-info.row .price { float: left; padding-left: 60px; } */
 
     /* .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp .price { float: left; padding-left: 48px; }
     .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp.sold-p .price { float: left; padding-left: 53px; } */
 
-    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp .price { float: left; padding-left: 50px; }
-    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp.sold-p .price { float: left; padding-left: 60px; }
-    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp { padding-right: 0; }
+    /* .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp .price { float: left; padding-left: 50px; } */
+    .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp.sold-p .price { float: right; }
+    /* .event-detail .col-md-8.main-area .ticket-info .card-info.row .col-md-2.pp { padding-right: 0; } */
 
-    .event-detail .col-md-8.main-area .ticket-info .card-info.row .price h4 { font-size: 12px; font-weight: 500; }
-    .event-detail .col-md-8.main-area .ticket-info .card-info.row .price span { font-size: 12px; font-weight: 500; }
-    .event-detail .col-md-8.main-area .ticket-info .card-info.row .price p { font-size: 12px; }
-    .event-detail .col-md-8.main-area .ticket-info .card-info.row .seating { font-size: 12px; }
-    .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .price h4 { font-size: 12px; font-weight: 500; }
-    .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .price span { font-size: 12px; font-weight: 500; }
-    .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .price p { font-size: 12px; }
+    /* .event-detail .col-md-8.main-area .ticket-info .card-info.row .price h4 { font-size: 12px; font-weight: 500; } */
+    /* .event-detail .col-md-8.main-area .ticket-info .card-info.row .price span { font-size: 12px; font-weight: 500; } */
+    /* .event-detail .col-md-8.main-area .ticket-info .card-info.row .price p { font-size: 12px; } */
+    /* .event-detail .col-md-8.main-area .ticket-info .card-info.row .seating { font-size: 12px; } */
+    /* .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .price h4 { font-size: 12px; font-weight: 500; } */
+    /* .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .price span { font-size: 12px; font-weight: 500; } */
+    /* .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .price p { font-size: 12px; } */
 
     .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .price { float: left; }
     .order-detail .col-md-8.main-area { width: 100%; }
@@ -173,7 +176,7 @@
 
     .event-detail .side-area.side-fixed { width: 100%; }
     .event-detail .side-area-social.social-side-fixed.social-p { width: 100%; }
-    .inner-header .collapse.navbar-collapse .dropdown { display: block !important; }
+    /* .inner-header .collapse.navbar-collapse .dropdown { display: block !important; } */
 
     #selected-tickets .total-ticket-area .col-6.col-md-4.text-center.mob-v { text-align: left !important; padding-left: 20px; }
     #selected-tickets .total-ticket-area .col-6.col-md-4 .price { padding-right: 10px; }
@@ -202,7 +205,7 @@
     .event-detail .col-md-8.main-area .event-faqs .accordion-button.collapsed { font-size: 14px; text-align: left; font-weight: 500; }
     .event-detail .col-md-8.main-area .event-faqs button.accordion-button { font-size: 14px; text-align: left; font-weight: 500; }
 
-    .event-detail .col-md-8.main-area .event-images img { width: 100%; height: auto; }
+    .event-detail .col-md-8.main-area .event-images img { width: 100%; height: 90px; }
 }
 
 @media screen and (max-width: 768px) {
@@ -256,6 +259,15 @@
     .popular-event .tab-content .card.sec { margin: 0; }
     .popular-event .tab-content .card.third { margin-left: 0px; }
     .event-detail .col-md-8.main-area .event-images img { width: 100%; }
+    .event-detail .col-md-8.main-area { width: 100%; }
+    .event-detail .col-md-4.side { display: none; }
+
+}
+
+@media only screen and (max-width: 890px) and (min-width: 400px) and (orientation: landscape) { 
+
+    .event-detail .col-md-8.main-area { width: 100%; }
+    .event-detail .col-md-4.side { display: none; }
 
 }
 

@@ -188,11 +188,11 @@ if (isset($_SESSION['cart_events'])) {
                                             <label for="last-name" class="form-label">Last Name *</label>
                                             <input type="text" class="form-control" id="last-name" readonly>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mb-3">
                                             <label for="phone" class="form-label">Phone *</label>
                                             <input type="text" class="form-control" id="user-phone" readonly>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mb-3">
                                             <label for="email" class="form-label">Email Address *</label>
                                             <input type="email" class="form-control" id="email" readonly>
                                         </div>

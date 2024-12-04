@@ -1289,7 +1289,7 @@
                 arrows: true,
                 prevArrow: '<img src="images/spons-left.png" alt="Previous" class="spons-left">',
                 nextArrow: '<img src="images/spons-right.png" alt="Next" class="spons-right">',
-                autoplay: true,
+                autoplay: false,
                 autoplaySpeed: 3000
             });
         });
