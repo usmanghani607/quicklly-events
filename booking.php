@@ -245,7 +245,7 @@ session_start();
 
                         </div>
 
-                        <div class="modal fade" id="ticketModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true">
+                        <!-- <div class="modal fade" id="ticketModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -308,6 +308,19 @@ session_start();
                                             </div>
                                         </div>
 
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="modal fade" id="ticketModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header cancel-text">
+                                        <img class="cross-cancel-modal" src="images/modal-cross.png" alt="" data-bs-dismiss="modal" aria-label="Close">
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>To cancel an order, we kindly request you to reach out to our Customer Support team at <a href="tel:+17084069922" style="text-decoration: none;">+1 708 406 9922</a></p>
                                     </div>
                                 </div>
                             </div>

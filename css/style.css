@@ -823,6 +823,9 @@ footer.footer-bg .container .col-md { padding: 0; }
 .dashboard.booking #ticketModal .modal-dialog .modal-body.bot .t-btn button { background: transparent; border: none; color: #fff; }
 .dashboard.booking #ticketModal .modal-dialog .modal-header img.cross { position: relative; bottom: 118px; cursor: pointer; }
 
+.dashboard.booking #ticketModal .modal-dialog .modal-header img.cross-cancel-modal { position: absolute; right: 10px; top: 10px; cursor: pointer; width: 22px; }
+.dashboard.booking #ticketModal .modal-dialog .modal-header.cancel-text { padding: 13px; border-bottom: 0; }
+
 .dashboard.booking #ticketModal .modal-dialog .modal-body .ticket-border::after { content: ''; position: absolute; width: 25px; height: 25px; background-color: #B2B2B2; border-radius: 50%; clip-path: inset(0 50% 0 0); }
 .dashboard.booking #ticketModal .modal-dialog .modal-body .ticket-border::before { content: ''; position: absolute; width: 25px; height: 25px; background-color: #B2B2B2; border-radius: 50%; clip-path: inset(0 0 0 50%); }
 .dashboard.booking #ticketModal .modal-dialog .modal-body .ticket-border::before { top: 50%; left: -29px; transform: translateY(-50%); }
@@ -848,7 +851,7 @@ footer.footer-bg .container .col-md { padding: 0; }
 .dashboard.booking #ticketScanModal .modal-dialog .modal-body.bot .refer p { font-size: 12px; font-weight: 400; color: #707070; margin-bottom: 10px; }
 .dashboard.booking #ticketScanModal .modal-dialog .modal-body.bot .t-btn { background: #E75E15; border-radius: 4px; text-align: center; margin-left: 10px; width: 94%; padding: 5px; }
 .dashboard.booking #ticketScanModal .modal-dialog .modal-body.bot .t-btn button { background: transparent; border: none; color: #fff; }
-.dashboard.booking #ticketScanModal .modal-dialog .modal-header img.cross { position: relative; bottom: 85px; cursor: pointer; width: 24px; }
+.dashboard.booking #ticketScanModal .modal-dialog .modal-header img.cross { position: absolute; top: -12px; right: -12px; cursor: pointer; width: 22px; }
 
 .dashboard.booking #ticketScanModal .modal-dialog .modal-body .ticket-border::after { content: ''; position: absolute; width: 25px; height: 25px; background-color: #B2B2B2; border-radius: 50%; clip-path: inset(0 50% 0 0); }
 .dashboard.booking #ticketScanModal .modal-dialog .modal-body .ticket-border::before { content: ''; position: absolute; width: 25px; height: 25px; background-color: #B2B2B2; border-radius: 50%; clip-path: inset(0 0 0 50%); }
