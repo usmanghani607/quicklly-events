@@ -499,65 +499,142 @@
 
 
                                     <?php
-                                    // echo date('jM');
+                                    // // echo date('jM');
+                                    // $currentDay = date('d');  
+                                    // $currentMonth = date('M');  
+                                    // $currentYear = date('Y');  
+
+                                    // $nextFriday = new DateTime('next friday');
+                                    // $today = new DateTime();
+                                    // $foundEvents = false;
+
+                                    // if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
+                                    //     $counter = 1;
+
+                                    //     foreach ($result['lstProds'] as $event) {
+                                    //         // print_r($event);
+                                    //         $eventDayMonth = explode(' ', $event['dayMonth']);
+                                    //         if (count($eventDayMonth) == 2) {
+                                    //             $eventDay = $eventDayMonth[0];
+                                    //             $eventMonth = $eventDayMonth[1];
+
+                                    //             $eventDateRangeParts = explode(' ', $event['dateRange']);
+                                    //             if (count($eventDateRangeParts) >= 4) {
+                                    //                 $eventYear = date('Y');  
+
+                                    //                 $eventDate = DateTime::createFromFormat('j M Y', "$eventDay $eventMonth $eventYear");
+
+                                    //                 if ($eventDate && $eventDate >= $today->format('Y-m-d') == $eventDate->format('Y-m-d') <= $nextFriday->format('Y-m-d')) {
+                                    //                 // if ($eventDate && $eventDate->format('Y-m-d') == $today->format('Y-m-d')) {
+                                    //                     $foundEvents = true;
+
+                                    //                     $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
+                                    //                     $name = htmlspecialchars($event['name']);
+                                    //                     $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
+                                    //                     $slug = htmlspecialchars($event['slug']);
+
+                                    //                     echo '<div class="col" data-date="' . $eventDate->format('Y-m-d') . '">';
+                                    //                     echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
+                                    //                     echo '      <a href="event-detail?slug=' . $slug . '">';
+                                    //                     echo '        <span class="date"><p class="date-a">' . htmlspecialchars($eventDay) . '</p><p class="month-a">' . htmlspecialchars($eventMonth) . '</p></span>';
+                                    //                     echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
+                                    //                     echo '        <div class="card-body">';
+                                    //                     echo '            <h5 class="card-title">' . $trimmedName . '</h5>';
+                                    //                     echo '            <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
+                                    //                     echo '            <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
+                                    //                     echo '            <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
+                                    //                     echo '            <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
+
+                                    //                     if (!empty($event['discountTxt'])) {
+                                    //                         echo '            <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
+                                    //                     }
+
+                                    //                     echo '        </div>';
+                                    //                     echo '      </a>';
+                                    //                     echo '    </div>';
+                                    //                     echo '</div>';
+
+                                    //                     $counter++;
+                                    //                     if ($counter > 3) {
+                                    //                         $counter = 1;
+                                    //                     }
+                                    //                 }
+                                    //             }
+                                    //         }
+                                    //     }
+
+                                    //     if (!$foundEvents) {
+                                    //         echo '<p>No events found for this week.</p>';
+                                    //     }
+                                    // } else {
+                                    //     echo '<p>No events found or incorrect data structure.</p>';
+                                    // }
+                                    ?>
+
+                                    <?php
                                     $currentDay = date('d');  
                                     $currentMonth = date('M');  
                                     $currentYear = date('Y');  
 
-                                    $nextFriday = new DateTime('next friday');
                                     $today = new DateTime();
+                                    $today->setTime(0, 0, 0);
+
+                                    $nextSunday = new DateTime('next Sunday');
+                                    $nextSunday->setTime(0, 0, 0);
+
+                                    if ($today->format('l') == 'Sunday') {
+                                        $nextSunday = $today;  
+                                    }
+
                                     $foundEvents = false;
 
                                     if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
                                         $counter = 1;
 
                                         foreach ($result['lstProds'] as $event) {
-                                            // print_r($event);
+                                            
                                             $eventDayMonth = explode(' ', $event['dayMonth']);
                                             if (count($eventDayMonth) == 2) {
                                                 $eventDay = $eventDayMonth[0];
                                                 $eventMonth = $eventDayMonth[1];
 
-                                                $eventDateRangeParts = explode(' ', $event['dateRange']);
-                                                if (count($eventDateRangeParts) >= 4) {
-                                                    $eventYear = date('Y');  
+                                                $eventYear = date('Y');  
 
-                                                    $eventDate = DateTime::createFromFormat('j M Y', "$eventDay $eventMonth $eventYear");
+                                                $eventDate = DateTime::createFromFormat('j M Y', "$eventDay $eventMonth $eventYear");
+                                                $eventDate->setTime(0, 0, 0);
 
-                                                    if ($eventDate && $eventDate >= $today->format('Y-m-d') == $eventDate->format('Y-m-d') <= $nextFriday->format('Y-m-d')) {
-                                                    // if ($eventDate && $eventDate->format('Y-m-d') == $today->format('Y-m-d')) {
-                                                        $foundEvents = true;
+                                                if ($eventDate && $eventDate >= $today && $eventDate <= $nextSunday) {
+                                                    $foundEvents = true;
 
-                                                        $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
-                                                        $name = htmlspecialchars($event['name']);
-                                                        $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
-                                                        $slug = htmlspecialchars($event['slug']);
+                                                    $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
+                                                    $name = htmlspecialchars($event['name']);
+                                                    $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
+                                                    $slug = htmlspecialchars($event['slug']);
 
-                                                        echo '<div class="col" data-date="' . $eventDate->format('Y-m-d') . '">';
-                                                        echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
-                                                        echo '      <a href="event-detail?slug=' . $slug . '">';
-                                                        echo '        <span class="date"><p class="date-a">' . htmlspecialchars($eventDay) . '</p><p class="month-a">' . htmlspecialchars($eventMonth) . '</p></span>';
-                                                        echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
-                                                        echo '        <div class="card-body">';
-                                                        echo '            <h5 class="card-title">' . $trimmedName . '</h5>';
-                                                        echo '            <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
-                                                        echo '            <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
-                                                        echo '            <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
-                                                        echo '            <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
+                                                    echo '<div class="col" data-date="' . $eventDate->format('Y-m-d') . '">';
+                                                    echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
+                                                    echo '      <a href="event-detail?slug=' . $slug . '">';
+                                                    echo '        <span class="date"><p class="date-a">' . htmlspecialchars($eventDay) . '</p><p class="month-a">' . htmlspecialchars($eventMonth) . '</p></span>';
+                                                    echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
+                                                    echo '        <div class="card-body">';
+                                                    echo '            <h5 class="card-title">' . $trimmedName . '</h5>';
+                                                    echo '            <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
+                                                    echo '            <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
+                                                    echo '            <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
+                                                    echo '            <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
 
-                                                        if (!empty($event['discountTxt'])) {
-                                                            echo '            <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
-                                                        }
+                                                    if (!empty($event['discountTxt'])) {
+                                                        echo '            <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
+                                                    }
 
-                                                        echo '        </div>';
-                                                        echo '      </a>';
-                                                        echo '    </div>';
-                                                        echo '</div>';
+                                                    echo '        </div>';
+                                                    echo '      </a>';
+                                                    echo '    </div>';
+                                                    echo '</div>';
 
-                                                        $counter++;
-                                                        if ($counter > 3) {
-                                                            $counter = 1;
-                                                        }
+                                                    $counter++;
+                                                    if ($counter > 3) {
+                                                        $counter = 1;
                                                     }
                                                 }
                                             }
