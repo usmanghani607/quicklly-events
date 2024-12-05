@@ -59,7 +59,9 @@
                                             </ul>
                                         </div>
                                     <?php else: ?>
-                                        <button class="btn_signup" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</button>
+                                        <button class="btn_signup_checkout" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</button>
+                                        <span>/</span>
+                                        <button class="btn_signin_checkout" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</button>
                                     <?php endif; ?>
                                 </div>
                             </div>
