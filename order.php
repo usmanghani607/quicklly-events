@@ -720,21 +720,44 @@ if (isset($_SESSION['cart_events'])) {
 
 
 
+        // function updateTaxDisplay() {
+        //     var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
+        //     var total = getTotalCost();
+        //     var taxRate = parseFloat(sessionStorage.getItem('totalTax')) || 0;
+
+        //     console.log('Estimated Tax Rate:', taxRate);
+        //     console.log('Total:', total);
+
+        //     var estimatedTax = 0;
+
+        //     if (tickets.addOns && Array.isArray(tickets.addOns)) {
+        //         tickets.addOns.forEach(function(addOn) {
+                    
+        //             var addOnTax = addOn.qty * taxRate;
+        //             estimatedTax += addOnTax;  
+        //             console.log(`Add-on ${addOn.name}: Quantity = ${addOn.qty}, Tax = $${addOnTax.toFixed(2)}`);
+        //         });
+        //     }
+
+        //     document.querySelector('.est-tax').textContent = `$${estimatedTax.toFixed(2)}`;
+
+        //     updateGrandTotal();
+        //     sendCartToSession();
+        // }
+
         function updateTaxDisplay() {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-            var total = getTotalCost();
-            var taxRate = parseFloat(sessionStorage.getItem('totalTax')) || 0;
+            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || []; 
+            var total = getTotalCost();  
+            var estimatedTax = 0;  
 
-            console.log('Estimated Tax Rate:', taxRate);
             console.log('Total:', total);
-
-            var estimatedTax = 0;
 
             if (tickets.addOns && Array.isArray(tickets.addOns)) {
                 tickets.addOns.forEach(function(addOn) {
-                    
-                    var addOnTax = addOn.qty * taxRate;
-                    estimatedTax += addOnTax;  
+                
+                    var addOnTax = parseFloat(addOn.tax || 0) * parseInt(addOn.qty || 1);
+                    estimatedTax += addOnTax; 
+
                     console.log(`Add-on ${addOn.name}: Quantity = ${addOn.qty}, Tax = $${addOnTax.toFixed(2)}`);
                 });
             }
@@ -744,6 +767,7 @@ if (isset($_SESSION['cart_events'])) {
             updateGrandTotal();
             sendCartToSession();
         }
+
 
 
 

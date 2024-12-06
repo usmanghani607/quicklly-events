@@ -222,7 +222,7 @@ session_start();
     </div>
 
 
-    <script>
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", function() {
             const zipcode = "60610";
             const uid = "<?php echo isset($_SESSION['value_user_id']) ? $_SESSION['value_user_id'] : 'No User ID'; ?>";
@@ -373,6 +373,171 @@ session_start();
 
             document.getElementById("tab-3").addEventListener("click", function() {
                 const completedEvents = eventsData.filter(event => event.isCancelled);
+                displayEvents(completedEvents);
+            });
+        });
+    </script> -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const zipcode = "60610";
+            const uid = "<?php echo isset($_SESSION['value_user_id']) ? $_SESSION['value_user_id'] : 'No User ID'; ?>";
+            const bearer_token = "<?php echo isset($_SESSION['bearer_token']) ? $_SESSION['bearer_token'] : ''; ?>";
+
+            let eventsData = [];
+
+            fetch(`https://devrestapi.goquicklly.com/events/get-dashboard`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${bearer_token}`
+                    },
+                    body: JSON.stringify({
+                        zipcode,
+                        uid
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.lstEvents) {
+                        eventsData = data.lstEvents;
+                        displayEvents(eventsData);
+                    } else {
+                        console.error('No events available or invalid data');
+                        displayNoEventsMessage();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching event data:', error);
+                    displayNoEventsMessage();
+                });
+
+            function displayEvents(events) {
+                const container = document.getElementById("ticket-container");
+                container.innerHTML = '';
+
+                if (events.length === 0) {
+                    displayNoEventsMessage();
+                    return;
+                }
+
+                events.sort((a, b) => {
+
+                    const bookDateA = new Date(a.orderDate);
+                    const bookDateB = new Date(b.orderDate);
+
+                    return bookDateB - bookDateA;
+                });
+
+                events.forEach(event => {
+                    const eventHTML = `
+                    <div class="row mb-4 ticket-area">
+                        <div class="col-md-3">
+                            <img class="t-img" src="${event.photo || 'images/dummy.jpg'}" alt="Event Image">
+                        </div>
+                        <div class="col-md-5">
+                            <h2 class="event-name">${event.name || 'Event Name Not Available'}</h2>
+                            <div class="date-time">
+                                <span class="time">${event.date} ${event.time || 'Date and Time Not Available'}</span>
+                                <img class="icon" src="images/loc.png" alt="">
+                                <span class="place">${event.addr || 'Location Not Available'}</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 left">
+                                    <p class="order-s"><span class="order-id">Order Id:</span> <span class="order-number">${event.bookingID || 'Unknown Order ID'}</span></p>
+                                    <p class="quantity-s"><span class="quantity">Quantity:</span> <span class="ticket">${event.qty || '0'}</span></p>
+                                </div>
+                                <div class="col-md-6 right">
+                                    <p class="stat"><span class="status">Status:</span> <span class="t-status success">${isEventCompleted(event.date) ? 'Completed' : 'Upcoming'}</span></p>
+                                    <p class="pay"><span class="payment">Payment:</span> <span class="price">$${event.payment || '0.00'}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="booking">
+                                <p><span class="book-text">Booking Date:</span> <span class="book-date">${event.orderDate || 'Unknown Date'}</span></p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="ticket-button">
+                                <button class="view" data-event='${JSON.stringify(event)}' data-bs-toggle="modal" data-bs-target="#ticketScanModal">View Ticket</button>
+                                <button class="cancel" data-event='${JSON.stringify(event)}' data-bs-toggle="modal" data-bs-target="#ticketModal">Cancel Booking</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                    container.insertAdjacentHTML('beforeend', eventHTML);
+                });
+
+                attachEventListeners();
+            }
+
+            function isEventCompleted(eventDate) {
+                
+                const currentDate = new Date();
+                
+                const eventDateObj = new Date(eventDate);
+                
+                return eventDateObj < currentDate;
+            }
+
+            function displayNoEventsMessage() {
+                const container = document.getElementById("ticket-container");
+                container.innerHTML = '<p class="alert alert-info">Events not found</p>';
+            }
+
+            function attachEventListeners() {
+                document.querySelectorAll(".view").forEach(button => {
+                    button.addEventListener("click", function() {
+                        const event = JSON.parse(this.getAttribute("data-event"));
+                        const firstName = localStorage.getItem('firstName') || 'Guest';
+                        const lastName = localStorage.getItem('lastName') || '';
+
+                        const fullName = firstName + (lastName ? ' ' + lastName : '');
+
+                        document.getElementById("modal-event-image").src = event.photo || 'images/dummy.jpg';
+                        document.getElementById("modal-event-name").textContent = event.name || 'Event Name Not Available';
+                        document.getElementById("modal-event-date").textContent = `${event.date || ''} ${event.time || ''}`;
+                        document.getElementById("modal-event-location").textContent = event.addr || 'Location Not Available';
+                        document.getElementById("modal-user-name").textContent = fullName || 'User Name Not Available';
+                        document.getElementById("modal-booking-id").textContent = event.bookingID || 'Unknown Order ID';
+                        document.getElementById("modal-quantity").textContent = `${event.qty || '0'}`;
+                        // document.getElementById("modal-total-price").textContent = `$${event.payment || '0.00'}`;
+                        document.getElementById("modal-total-price").textContent = `$${(parseFloat(event.payment || '0.00') + parseFloat(event.tax || '0.00')).toFixed(2)}`;
+                        document.getElementById("modal-event-qr").src = event.qr || 'images/dummy.jpg';
+                    });
+                });
+
+                document.querySelectorAll(".cancel").forEach(button => {
+                    button.addEventListener("click", function() {
+                        const event = JSON.parse(this.getAttribute("data-event"));
+
+                        document.getElementById("ticketModal-image").src = event.photo || 'images/dummy.jpg';
+                        document.getElementById("ticketModal-name").textContent = event.name || 'Event Name Not Available';
+                        document.getElementById("ticketModal-date").textContent = `${event.date || ''} ${event.time || ''}`;
+                        document.getElementById("ticketModal-location").textContent = event.addr || 'Location Not Available';
+                        document.getElementById("ticketModal-booking-id").textContent = event.bookingID || 'Unknown Order ID';
+                        document.getElementById("ticketModal-quantity").textContent = `${event.qty || '0'}`;
+                        document.getElementById("ticketModal-total-price").textContent = `$${event.payment || '0.00'}`;
+                        document.getElementById("ticketModal-refund").textContent = `$${event.refundAmt || '0.00'}`;
+                        document.getElementById("ticketModal-paid-amount").textContent = `$${event.payment || '0.00'}`;
+                        document.getElementById("ticketModal-service-fee").textContent = `$${event.eServiceFees || '0.00'}`;
+                        document.getElementById("ticketModal-cancel-fee").textContent = `$${event.cancelCharges || '0.00'}`;
+                    });
+                });
+            }
+
+            document.getElementById("tab-1").addEventListener("click", function() {
+                displayEvents(eventsData);
+            });
+
+            document.getElementById("tab-2").addEventListener("click", function() {
+                const upcomingEvents = eventsData.filter(event => event.isUpcoming === true);
+                displayEvents(upcomingEvents);
+            });
+
+            document.getElementById("tab-3").addEventListener("click", function() {
+                const completedEvents = eventsData.filter(event => event.isUpcoming === false);
                 displayEvents(completedEvents);
             });
         });
