@@ -276,7 +276,7 @@ if (isset($_SESSION['cart_events'])) {
                                 <h2>Estimated Tax</h2>
                             </div>
                             <div class="col-4 col-md-4 text-end">
-                                <h3 class="est-tax">$0.00</h3>
+                                <h3 class="est-tax"></h3>
                             </div>
                         </div>
                         <div class="mob row align-items-center mb-2">
@@ -446,340 +446,6 @@ if (isset($_SESSION['cart_events'])) {
         });
     </script>
 
-    <!-- <script>
-        function loadTickets() {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-            var ticketContainer = document.getElementById('ticket-container');
-            var ticketSummery = document.getElementById('ticketSummery');
-            var totalPriceElements = document.querySelectorAll('.total-price');
-
-            ticketContainer.innerHTML = '';
-            ticketSummery.innerHTML = '';
-            let total = 0;
-
-            if (!tickets.addOns || tickets.addOns.length === 0) {
-                ticketContainer.innerHTML = '<p>No tickets selected.</p>';
-                ticketSummery.innerHTML = '<p>No tickets selected.</p>';
-                totalPriceElements.forEach(function(el) {
-                    el.textContent = '$0.00';
-                });
-                updateTaxDisplay(0);
-                updateServiceFee(0);
-                updateGrandTotal();
-                sendCartToSession();
-                return;
-            }
-
-            tickets.addOns.forEach(function(ticket) {
-                var ticketRow = document.createElement('div');
-                var summeryRow = document.createElement('div');
-                ticketRow.className = 'card-info row';
-                ticketRow.innerHTML = `
-                    <div class="col-md-6">
-                        <div class="event-name">
-                            <h5>${ticket.name}</h5>
-                            <h5>$${ticket.cost.toFixed(2)}</h5>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <span class="t-counter">
-                            <button class="t-decrease" data-id="${ticket.sizeid}">-</button>
-                            <span class="t-count">${ticket.qty}</span>
-                            <button class="t-increase" data-id="${ticket.sizeid}">+</button>
-                        </span>
-                        <span class="recycle">
-                            <img src="images/delete.png" alt="Delete" class="delete-ticket" data-id="${ticket.sizeid}" title="Remove this ticket">
-                        </span>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="price">
-                            <h5 class="t-price" data-id="${ticket.sizeid}">$${(ticket.cost * ticket.qty).toFixed(2)}</h5>
-                        </div>
-                    </div>
-                `;
-
-                summeryRow.className = 'row mb-2';
-                summeryRow.innerHTML = `
-                    <div class="col-md-12">
-                        <h2>${ticket.name}</h2>
-                    </div>
-                    <div class="col-8 col-md-8">
-                        <h5 data-id="${ticket.sizeid}">$${ticket.cost.toFixed(2)} x ${ticket.qty} = $${(ticket.cost * ticket.qty).toFixed(2)}</h5>
-                    </div>
-                    <div class="col-4 col-md-4">
-                        <h3 class="ticket-total" data-id="${ticket.sizeid}">$${(ticket.cost * ticket.qty).toFixed(2)}</h3>
-                    </div>
-                `;
-
-                ticketContainer.appendChild(ticketRow);
-                ticketSummery.appendChild(summeryRow);
-
-                total += ticket.cost * ticket.qty;
-            });
-
-            totalPriceElements.forEach(function(el) {
-                el.textContent = `$${total.toFixed(2)}`;
-            });
-
-            updateTotalPrice(total);
-            updateTaxDisplay();
-            updateGrandTotal();
-            sendCartToSession();
-
-            attachEventListeners();
-        }
-
-        // function updateTotalPrice(total) {
-        //     var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-
-        //     var totalPriceElements = document.querySelectorAll('.total-price');
-        //     totalPriceElements.forEach(function(el) {
-        //         el.textContent = `$${total.toFixed(2)}`;
-        //     });
-
-        //     if (tickets.addOns) {
-        //         tickets.addOns.forEach(function(ticket) {
-        //             var ticketTotalElement = document.querySelector(`.ticket-total[data-id="${ticket.sizeid}"]`);
-        //             if (ticketTotalElement) {
-        //                 ticketTotalElement.textContent = `$${(ticket.cost * ticket.qty).toFixed(2)}`;
-        //             }
-        //         });
-        //     }
-
-        //     updateServiceFee(total);
-        //     updateTaxDisplay(total);
-
-        //     updateSessionDetails();
-        //     updateGrandTotal();
-        //     sendCartToSession();
-        // }
-
-        function updateTotalPrice(total) {
-            const totalPriceElements = document.querySelectorAll('.total-price');
-            const discountSection = document.getElementById('discountSection');
-            let discount = 0;
-
-            // Check if promo code is applied
-            if (promoApplied) {
-                discount = total * 0.10; // 10% discount
-                total -= discount;
-            }
-
-            totalPriceElements.forEach(function (el) {
-                el.textContent = `$${total.toFixed(2)}`;
-            });
-
-            if (promoApplied) {
-                discountSection.style.display = 'block';
-                discountSection.querySelector('h3').textContent = `-$${discount.toFixed(2)}`;
-            } else {
-                discountSection.style.display = 'none';
-            }
-
-            updateServiceFee(total);
-            updateTaxDisplay(total);
-            updateGrandTotal();
-            sendCartToSession();
-        }
-
-
-        function updateServiceFee(total) {
-            const serviceFeeRate = 0.075;
-            const serviceFee = total * serviceFeeRate;
-            document.querySelector('.s-fee').textContent = `$${serviceFee.toFixed(2)}`;
-            // document.querySelector('.tooltipwrapv').textContent = `$${serviceFee.toFixed(2)}`;
-            updateGrandTotal();
-            sendCartToSession();
-        }
-
-        function updatePrice(sizeId, count) {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events'));
-            var ticket = tickets.addOns.find(t => t.sizeid === sizeId);
-            if (ticket) {
-                ticket.qty = count;
-
-                var priceElement = document.querySelector(`.t-price[data-id="${sizeId}"]`);
-                if (priceElement) {
-                    priceElement.textContent = `$${(ticket.cost * count).toFixed(2)}`;
-                }
-
-                var ticketTotalElement = document.querySelector(`.ticket-total[data-id="${sizeId}"]`);
-                if (ticketTotalElement) {
-                    ticketTotalElement.textContent = `$${(ticket.cost * count).toFixed(2)}`;
-                }
-
-                var detailedPriceElement = document.querySelector(`.row.mb-2 h5[data-id="${sizeId}"]`);
-                if (detailedPriceElement) {
-                    detailedPriceElement.textContent = `$${ticket.cost.toFixed(2)} x ${count} = $${(ticket.cost * count).toFixed(2)}`;
-                }
-
-                sessionStorage.setItem('cart_events', JSON.stringify(tickets));
-
-                updateSessionStorage(sizeId, count);
-                updateTotalPrice(getTotalCost());
-                sendCartToSession();
-            }
-        }
-
-
-        function updateSessionStorage(sizeId, count) {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events'));
-            var ticket = tickets.addOns.find(t => t.sizeid === sizeId);
-            if (ticket) {
-                ticket.qty = count;
-                sessionStorage.setItem('cart_events', JSON.stringify(tickets));
-
-                sendCartToSession();
-            }
-        }
-
-        function updateSessionDetails() {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-            var totalQuantity = tickets.addOns.reduce((total, ticket) => total + ticket.qty, 0);
-            var totalCost = getTotalCost();
-            const serviceFeeRate = 0.075; // 7.5% service fee
-            const serviceFeeValue = (totalCost * serviceFeeRate).toFixed(2);
-            var remarks = tickets.addOns.map(ticket => `${ticket.name}(x${ticket.qty})`).join(", ");
-
-            var taxRate = tickets.taxRate || 0;
-
-            var addOnBaseQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
-            var addOnQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
-
-            tickets.totalcalcqty = totalQuantity;
-            tickets.remarks = remarks;
-            tickets.customize = remarks;
-            tickets.calcprice = totalCost.toFixed(2);
-            tickets.total = totalCost.toFixed(2);
-            tickets.servicefeevalue = serviceFeeValue;
-            tickets.price = totalCost.toFixed(2);
-            tickets.taxRate = taxRate;
-            tickets.addOnBaseQtys = addOnBaseQtys;
-            tickets.addOnQtys = addOnQtys;
-
-            sessionStorage.setItem('cart_events', JSON.stringify(tickets));
-
-            sendCartToSession();
-        }
-
-        function attachEventListeners() {
-            document.querySelectorAll('.t-decrease').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    var sizeId = this.getAttribute('data-id');
-                    var countElement = this.nextElementSibling;
-                    var count = parseInt(countElement.textContent);
-                    if (count > 1) {
-                        count--;
-                        countElement.textContent = count;
-                        updatePrice(sizeId, count);
-                    }
-                });
-            });
-
-            document.querySelectorAll('.t-increase').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    var sizeId = this.getAttribute('data-id');
-                    var countElement = this.previousElementSibling;
-                    var count = parseInt(countElement.textContent);
-
-                    var tickets = JSON.parse(sessionStorage.getItem('cart_events'));
-                    var ticket = tickets.addOns.find(t => t.sizeid === sizeId);
-
-                    if (count < 20) {
-                        count++;
-                        countElement.textContent = count;
-                        updatePrice(sizeId, count);
-                    } else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Maximum Limit Reached',
-                            text: 'You can only buy a maximum of 20 tickets!',
-                        });
-                    }
-                });
-            });
-
-            document.querySelectorAll('.delete-ticket').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    var sizeId = this.getAttribute('data-id');
-                    removeTicket(sizeId);
-                });
-            });
-
-            // document.querySelectorAll('.delete-ticket').forEach(function(button) {
-            //     button.addEventListener('click', function() {
-            //         var sizeId = this.getAttribute('data-id');
-
-            //         Swal.fire({
-            //             title: 'Are you sure?',
-            //             text: "Do you really want to delete this ticket?",
-            //             icon: 'warning',
-            //             showCancelButton: true,
-            //             confirmButtonColor: '#d33',
-            //             cancelButtonColor: '#3085d6',
-            //             confirmButtonText: 'Yes, delete it!',
-            //             cancelButtonText: 'Cancel'
-            //         }).then((result) => {
-            //             if (result.isConfirmed) {
-
-            //                 removeTicket(sizeId);
-            //                 Swal.fire(
-            //                     'Deleted!',
-            //                     'The ticket has been removed.',
-            //                     'success'
-            //                 );
-            //             }
-            //         });
-            //     });
-            // });
-            
-        }
-
-
-        function getTotalTicketCount() {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-            return tickets.addOns.reduce((total, ticket) => total + ticket.qty, 0);
-        }
-
-        function getTotalCost() {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-            return tickets.addOns.reduce((total, ticket) => total + (ticket.qty * ticket.cost), 0);
-        }
-
-
-        function updateTaxDisplay() {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-            var total = getTotalCost();
-
-            // var taxRate = parseFloat(tickets.taxRate) || 0;
-            var taxRate = 0;
-
-            var estimatedTax = total * taxRate;
-            document.querySelector('.est-tax').textContent = `$${estimatedTax.toFixed(2)}`;
-            // document.querySelector('.tooltipwrapv.tax').textContent = `$${estimatedTax.toFixed(2)}`;
-
-            updateGrandTotal();
-            sendCartToSession();
-        }
-
-
-        function removeTicket(sizeId) {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events'));
-            if (tickets && tickets.addOns) {
-                var ticketIndex = tickets.addOns.findIndex(t => t.sizeid === sizeId);
-                if (ticketIndex !== -1) {
-                    tickets.addOns.splice(ticketIndex, 1);
-                    sessionStorage.setItem('cart_events', JSON.stringify(tickets));
-
-                    sendCartToSession();
-                    loadTickets();
-                }
-            }
-        }
-
-        window.onload = loadTickets;
-    </script> -->
-
     <script>
         function loadTickets() {
             var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
@@ -863,31 +529,6 @@ if (isset($_SESSION['cart_events'])) {
             attachEventListeners();
         }
 
-        // function updateTotalPrice(total) {
-        //     var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
-
-        //     var totalPriceElements = document.querySelectorAll('.total-price');
-        //     totalPriceElements.forEach(function(el) {
-        //         el.textContent = `$${total.toFixed(2)}`;
-        //     });
-
-        //     if (tickets.addOns) {
-        //         tickets.addOns.forEach(function(ticket) {
-        //             var ticketTotalElement = document.querySelector(`.ticket-total[data-id="${ticket.sizeid}"]`);
-        //             if (ticketTotalElement) {
-        //                 ticketTotalElement.textContent = `$${(ticket.cost * ticket.qty).toFixed(2)}`;
-        //             }
-        //         });
-        //     }
-
-        //     updateServiceFee(total);
-        //     updateTaxDisplay(total);
-
-        //     updateSessionDetails();
-        //     updateGrandTotal();
-        //     sendCartToSession();
-        // }
-
         function updateTotalPrice(total) {
             const totalPriceElements = document.querySelectorAll('.total-price');
             const discountSection = document.getElementById('discountSection');
@@ -1033,40 +674,6 @@ if (isset($_SESSION['cart_events'])) {
                 });
             });
 
-            // document.querySelectorAll('.delete-ticket').forEach(function(button) {
-            //     button.addEventListener('click', function() {
-            //         var sizeId = this.getAttribute('data-id');
-            //         removeTicket(sizeId);
-            //     });
-            // });
-
-            // document.querySelectorAll('.delete-ticket').forEach(function(button) {
-            //     button.addEventListener('click', function() {
-            //         var sizeId = this.getAttribute('data-id');
-
-            //         Swal.fire({
-            //             title: 'Are you sure?',
-            //             text: "Do you really want to delete this ticket?",
-            //             icon: 'warning',
-            //             showCancelButton: true,
-            //             confirmButtonColor: '#d33',
-            //             cancelButtonColor: '#3085d6',
-            //             confirmButtonText: 'Yes, delete it!',
-            //             cancelButtonText: 'Cancel'
-            //         }).then((result) => {
-            //             if (result.isConfirmed) {
-
-            //                 removeTicket(sizeId);
-            //                 Swal.fire(
-            //                     'Deleted!',
-            //                     'The ticket has been removed.',
-            //                     'success'
-            //                 );
-            //             }
-            //         });
-            //     });
-            // });
-
             document.querySelectorAll('.delete-ticket').forEach(function(button) {
                 button.addEventListener('click', function() {
                     var sizeId = this.getAttribute('data-id');
@@ -1098,20 +705,46 @@ if (isset($_SESSION['cart_events'])) {
         }
 
 
+        // function updateTaxDisplay() {
+        //     var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
+        //     var total = getTotalCost();
+
+        //     var taxRate = 0;
+
+        //     var estimatedTax = total * taxRate;
+        //     document.querySelector('.est-tax').textContent = `$${estimatedTax.toFixed(2)}`;
+
+        //     updateGrandTotal();
+        //     sendCartToSession();
+        // }
+
+
+
         function updateTaxDisplay() {
             var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
             var total = getTotalCost();
+            var taxRate = parseFloat(sessionStorage.getItem('totalTax')) || 0;
 
-            // var taxRate = parseFloat(tickets.taxRate) || 0;
-            var taxRate = 0;
+            console.log('Estimated Tax Rate:', taxRate);
+            console.log('Total:', total);
 
-            var estimatedTax = total * taxRate;
+            var estimatedTax = 0;
+
+            if (tickets.addOns && Array.isArray(tickets.addOns)) {
+                tickets.addOns.forEach(function(addOn) {
+                    
+                    var addOnTax = addOn.qty * taxRate;
+                    estimatedTax += addOnTax;  
+                    console.log(`Add-on ${addOn.name}: Quantity = ${addOn.qty}, Tax = $${addOnTax.toFixed(2)}`);
+                });
+            }
+
             document.querySelector('.est-tax').textContent = `$${estimatedTax.toFixed(2)}`;
-            // document.querySelector('.tooltipwrapv.tax').textContent = `$${estimatedTax.toFixed(2)}`;
 
             updateGrandTotal();
             sendCartToSession();
         }
+
 
 
         function removeTicket(sizeId) {
@@ -1189,137 +822,6 @@ if (isset($_SESSION['cart_events'])) {
             // loadEventAddress();
         };
     </script>
-
-    <!-- <script>
-        document.getElementById('applyButton').addEventListener('click', function() {
-            const promoCode = document.getElementById('promoCodeInput').value;
-            const totalPriceElement = document.querySelector('.total-price');
-            let totalPrice = parseFloat(totalPriceElement.textContent.replace('$', '')) || 0;
-
-            if (promoCode === 'HappyEvents10') {
-                const discount = totalPrice * 0.10;
-                const discountedTotal = totalPrice - discount;
-
-                document.querySelectorAll('.total-price').forEach(function(el) {
-                    el.textContent = `$${discountedTotal.toFixed(2)}`;
-                });
-
-                document.getElementById('discountSection').style.display = 'block';
-                document.getElementById('discountSection').querySelector('h3').textContent = `-$${discount.toFixed(2)}`;
-
-                updateGrandTotal();
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Invalid Promo Code',
-                    text: 'Please enter a valid promo code.',
-                });
-            }
-        });
-
-        function updateGrandTotal() {
-            const totalPrice = parseFloat(document.querySelector('.total-price').textContent.replace('$', '')) || 0;
-            const estimatedTax = parseFloat(document.querySelector('.est-tax').textContent.replace('$', '')) || 0;
-            const serviceFee = parseFloat(document.querySelector('.s-fee').textContent.replace('$', '')) || 0;
-
-            const grandTotal = totalPrice + estimatedTax + serviceFee;
-
-            document.querySelector('.val').textContent = `$${grandTotal.toFixed(2)}`;
-            document.querySelector('.final-p').textContent = `$${grandTotal.toFixed(2)}`;
-        }
-    </script> -->
-
-    <!-- <script>
-        let promoApplied = false;
-        let originalPrice = null;
-
-        document.getElementById('applyButton').addEventListener('click', function() {
-            const promoCode = document.getElementById('promoCodeInput').value.trim();
-            const totalPriceElement = document.querySelector('.total-price');
-            let totalPrice = parseFloat(totalPriceElement.textContent.replace('$', '')) || 0;
-
-            const offerMessage = document.querySelector('.offer');
-            const discountSection = document.getElementById('discountSection');
-
-            offerMessage.style.display = 'none';
-            offerMessage.textContent = '';
-
-            if (!originalPrice) {
-                originalPrice = totalPrice;
-            }
-
-            if (promoApplied) {
-
-                offerMessage.style.display = 'block';
-                offerMessage.className = 'offer error';
-                offerMessage.textContent = 'Promo code can only be used once.';
-
-                discountSection.style.display = 'none';
-                return;
-            }
-
-            if (promoCode === 'HappyEvents10') {
-
-                const discount = totalPrice * 0.10;
-                const discountedTotal = totalPrice - discount;
-
-                document.querySelectorAll('.total-price').forEach(function(el) {
-                    el.textContent = `$${discountedTotal.toFixed(2)}`;
-                });
-
-                discountSection.style.display = 'block';
-                discountSection.querySelector('h3').textContent = `-$${discount.toFixed(2)}`;
-
-                promoApplied = true;
-                updateGrandTotal();
-
-                offerMessage.style.display = 'block';
-                offerMessage.className = 'offer success';
-                offerMessage.textContent = 'Promo code applied successfully!';
-            } else {
-
-                offerMessage.style.display = 'block';
-                offerMessage.className = 'offer error';
-                offerMessage.textContent = 'Invalid promo code. Please try again.';
-
-                discountSection.style.display = 'none';
-            }
-        });
-
-        document.getElementById('removeBtn').addEventListener('click', function() {
-            const totalPriceElement = document.querySelector('.total-price');
-            const offerMessage = document.querySelector('.offer');
-            const discountSection = document.getElementById('discountSection');
-            const promoCodeInput = document.getElementById('promoCodeInput');
-
-            if (originalPrice) {
-                document.querySelectorAll('.total-price').forEach(function(el) {
-                    el.textContent = `$${originalPrice.toFixed(2)}`;
-                });
-            }
-
-            updateGrandTotal();
-
-            discountSection.style.display = 'none';
-            promoCodeInput.value = '';
-
-            offerMessage.style.display = 'none';
-
-            promoApplied = false;
-            originalPrice = null;
-        });
-
-        function updateGrandTotal() {
-            const totalPrice = parseFloat(document.querySelector('.total-price').textContent.replace('$', '')) || 0;
-            const estimatedTax = parseFloat(document.querySelector('.est-tax')?.textContent.replace('$', '')) || 0;
-            const serviceFee = parseFloat(document.querySelector('.s-fee')?.textContent.replace('$', '')) || 0;
-
-            const grandTotal = totalPrice + estimatedTax + serviceFee;
-
-            document.querySelector('.val').textContent = `$${grandTotal.toFixed(2)}`;
-            document.querySelector('.final-p').textContent = `$${grandTotal.toFixed(2)}`;
-        }
-    </script> -->
 
     <script>
         let promoApplied = false;
