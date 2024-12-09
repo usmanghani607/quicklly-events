@@ -639,35 +639,68 @@ $result_home = json_decode($response_home, true);
                             <div class="accordion" id="accordionExample">
                                 <?php
 
-                                if (!empty($result['lstFAQ'])) {
-                                    foreach ($result['lstFAQ'] as $index => $faq) {
+                                // if (!empty($result['lstFAQ'])) {
+                                //     foreach ($result['lstFAQ'] as $index => $faq) {
 
-                                        $question = htmlspecialchars($faq['Q']);
-                                        $answer = htmlspecialchars($faq['N']);
+                                //         $question = htmlspecialchars($faq['Q']);
+                                //         $answer = htmlspecialchars($faq['N']);
 
-                                        $collapseId = "collapse" . ($index + 1);
-                                        $headingId = "heading" . ($index + 1);
-                                        $isExpanded = $index === 0 ? 'true' : 'false';
-                                        $showClass = $index === 0 ? 'show' : '';
+                                //         $collapseId = "collapse" . ($index + 1);
+                                //         $headingId = "heading" . ($index + 1);
+                                //         $isExpanded = $index === 0 ? 'true' : 'false';
+                                //         $showClass = $index === 0 ? 'show' : '';
 
-                                        echo '<div class="accordion-item">';
-                                        echo '<h2 class="accordion-header" id="' . $headingId . '">';
-                                        echo '<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#' . $collapseId . '" aria-expanded="' . $isExpanded . '" aria-controls="' . $collapseId . '">';
-                                        echo $question;
-                                        echo '</button>';
-                                        echo '</h2>';
-                                        echo '<div id="' . $collapseId . '" class="accordion-collapse collapse ' . $showClass . '" data-bs-parent="#accordionExample">';
-                                        echo '<div class="accordion-body">';
-                                        echo $answer;
-                                        echo '</div>';
-                                        echo '</div>';
-                                        echo '</div>';
-                                    }
-                                } else {
-                                    echo '<p>No FAQs available.</p>';
-                                }
+                                //         echo '<div class="accordion-item">';
+                                //         echo '<h2 class="accordion-header" id="' . $headingId . '">';
+                                //         echo '<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#' . $collapseId . '" aria-expanded="' . $isExpanded . '" aria-controls="' . $collapseId . '">';
+                                //         echo $question;
+                                //         echo '</button>';
+                                //         echo '</h2>';
+                                //         echo '<div id="' . $collapseId . '" class="accordion-collapse collapse ' . $showClass . '" data-bs-parent="#accordionExample">';
+                                //         echo '<div class="accordion-body">';
+                                //         echo $answer;
+                                //         echo '</div>';
+                                //         echo '</div>';
+                                //         echo '</div>';
+                                //     }
+                                // } else {
+                                //     echo '<p>No FAQs available.</p>';
+                                // }
                                 ?>
+
+                                    <?php
+                                    if (!empty($result['lstFAQ'])) {
+                                        foreach ($result['lstFAQ'] as $index => $faq) {
+                                            $question = htmlspecialchars($faq['Q']);
+                                            $answer = htmlspecialchars($faq['N']);
+
+                                            $collapseId = "collapse" . ($index + 1);
+                                            $headingId = "heading" . ($index + 1);
+                                            $isExpanded = $index === 0 ? 'true' : 'false';  
+                                            $showClass = $index === 0 ? 'show' : ''; 
+
+                                            echo '<div class="accordion-item">';
+                                            echo '<h2 class="accordion-header" id="' . $headingId . '">';
+
+                                            echo '<button class="accordion-button' . ($index === 0 ? '' : ' collapsed') . '" type="button" data-bs-toggle="collapse" data-bs-target="#' . $collapseId . '" aria-expanded="' . $isExpanded . '" aria-controls="' . $collapseId . '">';
+                                            echo $question;
+                                            echo '</button>';
+                                            echo '</h2>';
+
+                                            echo '<div id="' . $collapseId . '" class="accordion-collapse collapse ' . $showClass . '" data-bs-parent="#accordionExample">';
+                                            echo '<div class="accordion-body">';
+                                            echo $answer;
+                                            echo '</div>';
+                                            echo '</div>';
+                                            echo '</div>'; 
+                                        }
+                                    } else {
+                                        echo '<p>No FAQs available.</p>';
+                                    }
+                                    ?>
+
                             </div>
+                            
                         </div>
                     </div>
                     <div class="col-md-4 side">
