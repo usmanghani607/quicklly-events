@@ -3,6 +3,63 @@
 
 ?>
 
+<?php
+$login_api_url = 'https://devrestapi.goquicklly.com/login';
+$login_data = array(
+    "email" => getenv('LOGIN_EMAIL'),
+    "password" => getenv('LOGIN_PASSWORD')
+);
+
+$ch = curl_init($login_api_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($login_data));
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json'
+));
+
+$login_response = curl_exec($ch);
+curl_close($ch);
+
+$login_result = json_decode($login_response, true);
+
+if (isset($login_result['token'])) {
+    
+    $_SESSION['bearer_token'] = $login_result['token'];
+    $bearer_token = $_SESSION['bearer_token']; 
+
+    $api_url = 'https://devrestapi.goquicklly.com/events/get-dashboard';
+    $data = array(
+        "zipcode" => "60610",
+        "uid" => isset($_SESSION['value_user_id']) ? $_SESSION['value_user_id'] : 'No User ID'
+    );
+
+    $ch = curl_init($api_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $bearer_token
+    ));
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    $result = json_decode($response, true);
+
+    if (isset($result['lstEvents'])) {
+        
+        $_SESSION['events'] = $result['lstEvents'];
+    } else {
+        $_SESSION['events'] = [];
+    }
+} else {
+    
+    $_SESSION['error_message'] = "Login failed: " . htmlspecialchars($login_result['message'] ?? 'Unknown error');
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
