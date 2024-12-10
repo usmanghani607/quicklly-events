@@ -612,7 +612,8 @@
                                                     $slug = htmlspecialchars($event['slug']);
 
                                                     echo '<div class="col" data-date="' . $eventDate->format('Y-m-d') . '">';
-                                                    echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
+                                                    // echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
+                                                    echo '    <div class="card ' . $cardClass . '">';
                                                     echo '      <a href="event-detail?slug=' . $slug . '">';
                                                     echo '        <span class="date"><p class="date-a">' . htmlspecialchars($eventDay) . '</p><p class="month-a">' . htmlspecialchars($eventMonth) . '</p></span>';
                                                     echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
@@ -678,9 +679,9 @@
                                             // echo $currentWeekSaturday->format('Y-m-d');
                                             if ($eventDate && ($eventDate->format('Y-m-d') == $currentWeekSaturday->format('Y-m-d') || $eventDate->format('Y-m-d') == $currentWeekSunday->format('Y-m-d'))) {
                                                 echo '<div class="col">';
-                                                // echo '    <div class="card ' . $cardClass . '">';
+                                                echo '    <div class="card ' . $cardClass . '">';
                                                 // echo '      <a href="event-detail?eid=' . $eid . '">';
-                                                echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
+                                                // echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
                                                 echo '      <a href="event-detail?slug=' . $slug . '">';
                                                 echo '        <span class="date"><p class="date-a">' . htmlspecialchars($day) . '</p><p class="month-a">' . htmlspecialchars($month) . '</p></span>';
                                                 echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
@@ -753,9 +754,9 @@
 
 
                                                         echo '<div class="col" data-date="' . $eventDate->format('Y-m-d') . '">';
-                                                        // echo '    <div class="card ' . $cardClass . '">';
+                                                        echo '    <div class="card ' . $cardClass . '">';
                                                         // echo '      <a href="event-detail?eid=' . $eid . '">';
-                                                        echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
+                                                        // echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
                                                         echo '      <a href="event-detail?slug=' . $slug . '">';
                                                         echo '        <span class="date"><p class="date-a">' . htmlspecialchars($eventDay) . '</p><p class="month-a">' . htmlspecialchars($eventMonth) . '</p></span>';
                                                         echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
@@ -812,9 +813,9 @@
                                             $slug = htmlspecialchars($event['slug']);
 
                                             echo '<div class="col">';
-                                            // echo '    <div class="card ' . $cardClass . '">';
+                                            echo '    <div class="card ' . $cardClass . '">';
                                             // echo '      <a href="event-detail?eid=' . $eid . '">';
-                                            echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
+                                            // echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
                                             echo '      <a href="event-detail?slug=' . $slug . '">';
                                             // echo '      <a href="event-detail/' . $slug . '">';
                                             echo '        <span class="date"><p class="date-a">' . htmlspecialchars($day) . '</p><p class="month-a">' . htmlspecialchars($month) . '</p></span>';
@@ -1105,7 +1106,7 @@
 
                 const eventHTML = `
             <div>
-                <div class="card ${cardClass}" title="Slug: ${event.slug}">
+                <div class="card ${cardClass}">
                     <a href="event-detail?slug=${event.slug}">
                         <span class="date">
                             <p class="date-a">${day}</p>
@@ -1234,30 +1235,30 @@
                     const month = event.dayMonth.substring(2);
 
                     html += `
-            <div class="col">
-                <div class="card ${cardClass}">
-                    <a href="event-detail?eid=${event.eid}">
-                        <span class="date">
-                            <p class="date-a">${day}</p>
-                            <p class="month-a">${month}</p>
-                        </span>
-                        <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
-                        <div class="card-body">
-                            <h5 class="card-title">${trimmedName}</h5>
-                            <h4 class="time">${event.dateRange}</h4>
-                            <h5 class="location">${event.venue}</h5>
-                            <p class="desc">${event.organiser}</p>
-                            <span class="price">Starting at ${event.costRange}</span>`;
+                    <div class="col">
+                        <div class="card ${cardClass}">
+                            <a href="event-detail?slug=${event.slug}">
+                                <span class="date">
+                                    <p class="date-a">${day}</p>
+                                    <p class="month-a">${month}</p>
+                                </span>
+                                <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
+                                <div class="card-body">
+                                    <h5 class="card-title">${trimmedName}</h5>
+                                    <h4 class="time">${event.dateRange}</h4>
+                                    <h5 class="location">${event.venue}</h5>
+                                    <p class="desc">${event.organiser}</p>
+                                    <span class="price">Starting at ${event.costRange}</span>`;
 
-                    if (event.discountTxt) {
-                        html += `<span class="price-icon"><img src="images/discount-icon.png" alt=""> ${event.discountTxt}</span>`;
-                    }
+                            if (event.discountTxt) {
+                                html += `<span class="price-icon"><img src="images/discount-icon.png" alt=""> ${event.discountTxt}</span>`;
+                            }
 
-                    html += `
+                            html += `
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
-            </div>`;
+                    </div>`;
                 });
 
                 html += '</div>';
@@ -1326,7 +1327,7 @@
 
                     html += `
                     <div class="col">
-                        <div class="card ${cardClass}" title="Slug: ${event.slug}">
+                        <div class="card ${cardClass}">
                             <a href="event-detail?slug=${event.slug}">
                                 <span class="date">
                                     <p class="date-a">${day}</p>

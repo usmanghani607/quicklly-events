@@ -101,7 +101,7 @@ session_start();
                     </table>
                     <table class="mail-body" width="100%" cellpadding="0" cellspacing="0" style="padding: 20px;">
                         <tr style="padding: 20px; text-align: center;">
-                            <td style="padding: 30px 10px 20px 10px;">
+                            <td style="padding: 0 10px 20px 10px;">
                                 <h2 style="font-size: 20px; font-weight: 600;">Your booking is confirmed</h2>
                                 <h4 style="font-size: 18px; font-weight: 500;">Order ID 178181</h4>
                             </td>

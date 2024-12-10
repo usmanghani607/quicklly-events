@@ -371,7 +371,7 @@ include 'login-page.php';
                 html += `
             <div class="col">
                 <div class="card ${cardClass}">
-                    <a href="event-detail?eid=${event.eid}">
+                    <a href="event-detail?slug=${event.slug}">
                         <span class="date">
                             <p class="date-a">${day}</p>
                             <p class="month-a">${month}</p>

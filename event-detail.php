@@ -622,8 +622,8 @@ $result_home = json_decode($response_home, true);
                             <div class="des">
                                 <ol>
                                     <?php
-                                    if (!empty($cleanedEventTerms)) {
-                                        echo htmlspecialchars($cleanedEventTerms);
+                                    if (!empty($eventTerms)) {
+                                        echo htmlspecialchars($eventTerms);
                                     } else {
                                         echo "Terms & Conditions are not available.";
                                     }
@@ -769,7 +769,7 @@ $result_home = json_decode($response_home, true);
 
                                     $slug = htmlspecialchars($event['slug']);
                                     echo '<div>';
-                                    echo '<div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
+                                    echo '<div class="card ' . $cardClass . '">';
                                     echo '  <a href="event-detail?slug=' . $slug . '">';
                                     echo '    <span class="date"><p class="date-a">' . htmlspecialchars($day) . '</p><p class="month-a">' . htmlspecialchars($month) . '</p></span>';
                                     echo '    <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';

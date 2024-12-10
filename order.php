@@ -313,6 +313,8 @@ if (isset($_SESSION['cart_events'])) {
                         <button class="btn-card" onclick="handleCheckoutClick()">
                             Proceed to payment <span class="final-p"></span>
                         </button>
+                        <!-- <button class="btn-card" data-bs-toggle="modal" data-bs-target="#confirmModal">Confirm<span class="final-p"></span>
+                        </button> -->
                     </div>
 
                 </div>
