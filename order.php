@@ -1,4 +1,15 @@
 <?php
+
+ini_set('session.gc_maxlifetime', 3600 * 24 * 365); 
+
+session_set_cookie_params([
+    'lifetime' => 3600 * 24 * 365, 
+    'path' => '/',
+    'secure' => true, 
+    'httponly' => true,
+    'samesite' => 'Strict',
+]);
+
 session_start();
 
 // echo $_SESSION['bearer_token'];
@@ -1042,6 +1053,20 @@ if (isset($_SESSION['cart_events'])) {
             var serviceFee = $(".s-fee").html();
             $("#eservicetax").val(serviceFee.replace("$", ""));
         }
+    </script>
+
+    <script>
+        setInterval(function() {
+        
+        fetch('refresh_session.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Session refreshed');
+                }
+            });
+    }, 1800000);
+
     </script>
 
 </body>

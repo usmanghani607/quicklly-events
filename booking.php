@@ -1,4 +1,15 @@
 <?php
+
+ini_set('session.gc_maxlifetime', 3600 * 24 * 365); 
+
+session_set_cookie_params([
+    'lifetime' => 3600 * 24 * 365, 
+    'path' => '/',
+    'secure' => true, 
+    'httponly' => true,
+    'samesite' => 'Strict',
+]);
+
 session_start();
 
 // print_r($_SESSION);
@@ -576,6 +587,20 @@ session_start();
             document.querySelector('.u-name').innerText = 'Guest';
         }
     </script>
+
+<script>
+    setInterval(function() {
+    
+    fetch('refresh_session.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Session refreshed');
+            }
+        });
+    }, 1800000); 
+
+</script>
 
 
 </body>

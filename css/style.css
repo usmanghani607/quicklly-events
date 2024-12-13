@@ -233,7 +233,7 @@ footer.footer-bg .container .col-md { padding: 0; }
 .popular-event .collapse-area #collapseAll .card a { text-decoration: none; color: #000; } */
 
 
-.popular-event .tab-content .card .card-body h5.card-title { font-size: 18px; font-weight: 500; margin-bottom: 15px; }
+.popular-event .tab-content .card .card-body h5.card-title { font-size: 18px; font-weight: 500; margin-bottom: 15px; max-height: 40px; }
 
 /* .popular-event .week-collapse { font-size: 18px; font-weight: 600; color: #F05336; border-bottom: 2px solid #F05336; } */
 .popular-event .tab-content .card { border: none; box-shadow: 0px 3px 6px #00000029; border-radius: 16px; opacity: 1; height: 100%; margin-bottom: 10px; }
@@ -244,21 +244,21 @@ footer.footer-bg .container .col-md { padding: 0; }
 .popular-event .tab-content .card .card-body.sale h3 { font-size: 16px; background-color: #FFD4CE; border-radius: 8px; padding: 10px; width: 45%; font-weight: 500; margin-bottom: 15px; }
 .popular-event .tab-content .card .card-body.fast h3 { font-size: 16px; background-color: #CEE3FF; border-radius: 8px; padding: 10px; width: 35%; font-weight: 500; margin-bottom: 15px; }
 .popular-event .tab-content .card .card-body.salesoon h3 { font-size: 16px; background-color: #FFD4CE; border-radius: 8px; padding: 10px; width: 45%; font-weight: 500; margin-bottom: 15px; }
-.popular-event .tab-content .card .card-body .time { font-size: 18px; font-weight: 500; }
+.popular-event .tab-content .card .card-body .time { font-size: 18px; font-weight: 500; max-height: 40px; }
 .popular-event .tab-content .card .card-body .location { font-size: 14px; font-weight: 400; color: #707070; }
 .popular-event .tab-content .card .card-body .desc { font-size: 16px; font-weight: 500; }
 .popular-event .tab-content .card .card-body .price { font-size: 18px; font-weight: 500; }
 .popular-event .tab-content .card .card-body .price-icon { background: #F05336; border-radius: 8px; padding: 6px; font-size: 14px; color: #fff; float: right; font-weight: 500; }
 .popular-event .tab-content .card .card-body .price-icon img { width: 17px; margin-right: 5px; }
 
-.popular-event .tab-content .card .card-body .time { font-size: 18px; font-weight: 500; }
+.popular-event .tab-content .card .card-body .time { font-size: 18px; font-weight: 500; max-height: 40px; }
 .popular-event .tab-content .card .card-body .location { font-size: 14px; font-weight: 400; color: #707070; }
 .popular-event .tab-content .card .card-body .desc { font-size: 16px; font-weight: 500; }
 .popular-event .tab-content .card .card-body .price { font-size: 18px; font-weight: 500; }
 .popular-event .tab-content .card .card-body .price-icon { background: #F05336; border-radius: 8px; padding: 6px; font-size: 14px; color: #fff; float: right; font-weight: 500; }
 .popular-event .tab-content .card .card-body .price-icon img { width: 17px; margin-right: 5px; }
 
-.popular-event .tab-content .card .card-body .time { font-size: 16px; font-weight: 500; }
+.popular-event .tab-content .card .card-body .time { font-size: 16px; font-weight: 500; max-height: 40px; }
 .popular-event .tab-content .card .card-body .location { font-size: 14px; font-weight: 400; color: #707070; }
 .popular-event .tab-content .card .card-body .desc { font-size: 16px; font-weight: 500; }
 .popular-event .tab-content .card .card-body .price { font-size: 18px; font-weight: 500; }
@@ -369,11 +369,11 @@ footer.footer-bg .container .col-md { padding: 0; }
 .near-event .event-slider .card .month-a { font-size: 17px; font-weight: 500; margin: 0; }
 .near-event .event-slider .card { border: none; box-shadow: 0px 3px 6px #00000029; border-radius: 16px; opacity: 1; height: 100%; margin-bottom: 10px; }
 .near-event .event-slider .card .date { color: #fff; background: #F05336; border-radius: 8px; width: 17%; font-size: 22px; font-weight: 500; padding: 0; text-align: center; top: 3%; position: absolute; left: 4%; }
-.near-event .event-slider .card .card-body h5.card-title { font-size: 18px; font-weight: 500; margin-bottom: 15px; height: 48px; }
+.near-event .event-slider .card .card-body h5.card-title { font-size: 18px; font-weight: 500; margin-bottom: 15px; max-height: 40px; }
 .near-event .event-slider .card .card-body.sale h3 { font-size: 16px; background-color: #FFD4CE; border-radius: 8px; padding: 10px; width: 45%; font-weight: 500; margin-bottom: 15px; }
 .near-event .event-slider .card .card-body.fast h3 { font-size: 16px; background-color: #CEE3FF; border-radius: 8px; padding: 10px; width: 35%; font-weight: 500; margin-bottom: 15px; }
 .near-event .event-slider .card .card-body.salesoon h3 { font-size: 16px; background-color: #FFD4CE; border-radius: 8px; padding: 10px; width: 45%; font-weight: 500; margin-bottom: 15px; }
-.near-event .event-slider .card .card-body .time { font-size: 18px; font-weight: 500; }
+.near-event .event-slider .card .card-body .time { font-size: 18px; font-weight: 500; max-height: 40px; }
 .near-event .event-slider .card .card-body .location { font-size: 14px; font-weight: 500; color: #707070; }
 .near-event .event-slider .card .card-body .desc { font-size: 16px; font-weight: 500; height: 25px; }
 .near-event .event-slider .card .card-body .price { font-size: 18px; font-weight: 500; }
@@ -498,6 +498,7 @@ footer.footer-bg .container .col-md { padding: 0; }
 .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .event-name h5 { text-align: left; font-size: 14px; font-weight: 500; letter-spacing: 0px; color: #000000; opacity: 1; }
 .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .event-name p { text-align: left; font-size: 12px; font-weight: 400; margin-bottom: 0; display: inline;}
 .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .event-name span { text-align: left; ; letter-spacing: 0px; color: #fff; font-size: 12px; }
+.event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .event-name span.tick-name { color: #000 !important; }
 .event-detail .col-md-8.main-area .ticket-info .soldout.card-info.row .event-name a { text-decoration: none; color: #F05336; }
 .event-detail .col-md-8.main-area .ticket-info .card-info.row .event-name a { text-decoration: none; color: #F05336; font-size: 14px; }
 
@@ -606,7 +607,7 @@ footer.footer-bg .container .col-md { padding: 0; }
 
 .event-detail .side-area .shedule-section { padding-top: 10px; }
 .event-detail .side-area .shedule-section .heading { text-align: left; font-size: 18px; font-weight: 500; letter-spacing: 0px; color: #000000; opacity: 1; margin-left: 5px; }
-.event-detail .side-area .shedule-section p { text-align: left; font: normal normal normal 16px/24px Poppins; letter-spacing: 0px; color: #000000; opacity: 1; margin-top: 10px; margin-bottom: 10px; }
+.event-detail .side-area .shedule-section p { text-align: left; font: normal normal normal 16px/24px Poppins; letter-spacing: 0px; color: #000000; opacity: 1; margin-bottom: 10px; }
 
 .event-detail .side-area .shedule-section img { width: 20px; margin-bottom: 10px; }
 .event-detail .side-area .price-section img { width: 20px; margin-bottom: 10px; }
@@ -615,7 +616,7 @@ footer.footer-bg .container .col-md { padding: 0; }
 
 .event-detail .side-area .price-section { padding-top: 10px; }
 .event-detail .side-area .price-section .heading { text-align: left; font-size: 18px; font-weight: 500; letter-spacing: 0px; color: #000000; opacity: 1; margin-left: 5px; }
-.event-detail .side-area .price-section p { text-align: left; font: normal normal normal 16px/24px Poppins; letter-spacing: 0px; color: #000000; opacity: 1; margin-top: 10px; margin-bottom: 0; }
+.event-detail .side-area .price-section p { text-align: left; font: normal normal normal 16px/24px Poppins; letter-spacing: 0px; color: #000000; opacity: 1; margin-bottom: 0; }
 
 .event-detail .side-area .btn-ticket { background: #F05336 0% 0% no-repeat padding-box; border-radius: 8px; opacity: 1; width: 100%; padding: 8px 0; }
 .event-detail .side-area .btn-ticket span { text-align: center; font-size:16px; font-weight: 500; letter-spacing: 0px; color: #FFFFFF; opacity: 1; }
@@ -650,8 +651,8 @@ footer.footer-bg .container .col-md { padding: 0; }
 .might-like .card .date { color: #fff; background: #F05336; border-radius: 8px; width: 15%; padding: 0; text-align: center; top: 3%; position: absolute; left: 4%; }
 .might-like .card .date-a { font-size: 25px; font-weight: 500; margin: 0; padding: 4px 0 0 0; height: 38px; }
 .might-like .card .month-a { font-size: 17px; font-weight: 500; margin: 0; }
-.might-like .card .card-body h5.card-title { font-size: 20px; font-weight: 500; margin-bottom: 15px; }
-.might-like .card .card-body .time { font-size: 18px; font-weight: 500; }
+.might-like .card .card-body h5.card-title { font-size: 20px; font-weight: 500; margin-bottom: 15px; max-height: 40px; }
+.might-like .card .card-body .time { font-size: 18px; font-weight: 500; max-height: 40px; }
 .might-like .card .card-body .location { font-size: 14px; font-weight: 400; color: #707070; }
 .might-like .card .card-body .desc { font-size: 16px; font-weight: 500; }
 .might-like .card .card-body .price { font-size: 18px; font-weight: 500; }

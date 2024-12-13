@@ -161,6 +161,20 @@
         });
     </script>
 
+    <script>
+        setInterval(function() {
+        
+        fetch('refresh_session.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Session refreshed');
+                }
+            });
+        }, 1800000);
+
+    </script>
+
 </body>
 
 </html>

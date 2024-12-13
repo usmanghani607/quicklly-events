@@ -1,65 +1,14 @@
 <?php
 
-// $login_api_url = 'https://devrestapi.goquicklly.com/login';
-// $login_data = array(
-//     "email" => getenv('LOGIN_EMAIL'),
-//     "password" => getenv('LOGIN_PASSWORD')
-// );
+ini_set('session.gc_maxlifetime', 3600 * 24 * 365); 
 
-// $ch = curl_init($login_api_url);
-// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-// curl_setopt($ch, CURLOPT_POST, true);
-// curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($login_data));
-// curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-//     'Content-Type: application/json'
-// ));
-
-// $login_response = curl_exec($ch);
-// curl_close($ch);
-
-// $login_result = json_decode($login_response, true);
-
-// if (isset($login_result['token'])) {
-//     $bearer_token = htmlspecialchars($login_result['token']);
-
-//     echo "<script>
-//             localStorage.setItem('bearer_token', '$bearer_token');
-//           </script>";
-
-//     $api_url = 'https://devrestapi.goquicklly.com/events/get-home-data';
-
-//     $data = array(
-//         "zipcode" => "60610",
-//         "query" => "",
-//         "catID" => "0",
-//         "city" => "",
-//         "page" => "0",
-//         "sendFilters" => "true"
-//     );
-
-//     $ch = curl_init($api_url);
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//     curl_setopt($ch, CURLOPT_POST, true);
-//     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-//     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-//         'Content-Type: application/json',
-//         'Authorization: Bearer ' . $bearer_token
-//     ));
-
-//     $response = curl_exec($ch);
-//     curl_close($ch);
-
-//     $result = json_decode($response, true);
-
-//     if ($result['success']) {
-//         $cities = $result['lstCites'];
-//         $categories = $result['lstCats'];
-//     } else {
-//         $eventName = "Event not found";
-//     }
-// } else {
-//     echo "Login failed: " . htmlspecialchars($login_result['message']);
-// }
+session_set_cookie_params([
+    'lifetime' => 3600 * 24 * 365, 
+    'path' => '/',
+    'secure' => true, 
+    'httponly' => true,
+    'samesite' => 'Strict',
+]);
 
 session_start();
 
@@ -409,6 +358,20 @@ include 'login-page.php';
             }
         }
     });
+</script>
+
+<script>
+    setInterval(function() {
+    
+    fetch('refresh_session.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Session refreshed');
+            }
+        });
+    }, 1800000); // Refresh session every 30 minutes (30 * 60 * 1000 = 1800000 ms)
+
 </script>
 
 

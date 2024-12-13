@@ -1,141 +1,14 @@
 <?php
 
-// session_start();
+ini_set('session.gc_maxlifetime', 3600 * 24 * 365); 
 
-// // if (isset($_SESSION['eventAddress'])) {
-// //     $eventLocation = $_SESSION['eventAddress'];
-// //     echo "Event Location: " . htmlspecialchars($eventLocation);
-// // } else {
-// //     echo "Event address is not available.";
-// // }
-
-// if (isset($_GET['slug']) && !empty($_GET['slug'])) {
-//     $slug = htmlspecialchars($_GET['slug']);
-// } else {
-//     echo "Event slug not provided!";
-//     exit;
-// }
-
-// $bearer_token = $_SESSION['bearer_token'] ?? null;
-// if (!$bearer_token) {
-//     echo json_encode(['success' => false, 'message' => 'Authorization token missing.']);
-//     exit;
-// }
-
-// $uid = $_SESSION['value_user_id'] ?? null;
-
-// // if (!$uid) {
-// //     echo json_encode(['success' => false, 'message' => 'User ID missing in session.']);
-// //     exit;
-// // }
-
-// $api_url_home_data = 'https://devrestapi.goquicklly.com/events/get-home-data';
-// $data_home = array(
-//     "zipcode" => "60611",
-//     "query" => "",
-//     "catID" => "0",
-//     "city" => "",
-//     "page" => "0",
-//     "sendFilters" => "true"
-// );
-
-// $ch = curl_init($api_url_home_data);
-// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-// curl_setopt($ch, CURLOPT_POST, true);
-// curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_home));
-// curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-//     'Content-Type: application/json',
-//     'Authorization: Bearer ' . $bearer_token
-// ));
-
-// $response_home = curl_exec($ch);
-// curl_close($ch);
-
-// $result_home = json_decode($response_home, true);
-
-// if ($result_home['success'] && isset($result_home['lstProds'])) {
-//     $events = $result_home['lstProds'];
-//     $event_id = null;
-
-//     foreach ($events as $event) {
-//         if ($event['slug'] === $slug) {
-//             $event_id = $event['eid'];
-//             break;
-//         }
-//     }
-
-//     if (!$event_id) {
-//         echo "Event not found for the given slug.";
-//         exit;
-//     }
-
-//     $_SESSION['event_id'] = $event_id;
-//     // echo "Event Id: " . htmlspecialchars($event_id);
-
-//     $api_url_details = 'https://devrestapi.goquicklly.com/events/get-details';
-//     $data_details = array(
-//         "zipcode" => "60611",
-//         "eid" => $event_id
-//     );
-
-//     $ch = curl_init($api_url_details);
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//     curl_setopt($ch, CURLOPT_POST, true);
-//     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_details));
-//     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-//         'Content-Type: application/json',
-//         'Authorization: Bearer ' . $bearer_token
-//     ));
-
-//     $response_details = curl_exec($ch);
-//     curl_close($ch);
-
-//     $result = json_decode($response_details, true);
-
-//     if ($result['success']) {
-
-//         $sid = htmlspecialchars($result['sid']);
-//         $sname = htmlspecialchars($result['store_name']);
-//         $pid = htmlspecialchars($result['pid']);
-//         $deliveryDate = htmlspecialchars($result['fromDate']);
-//         $deliveryFromTime = htmlspecialchars($result['time']);
-//         $simg = htmlspecialchars($result['store_icon']);
-//         $slug = htmlspecialchars($result['slug']);
-//         $organiser = htmlspecialchars($result['organiser']);
-//         $organiserDetails = htmlspecialchars($result['organiserDetails']);
-//         $name = htmlspecialchars($result['name']);
-//         $eventDate = htmlspecialchars($result['dateRange']);
-//         $eventTime = htmlspecialchars($result['time']);
-//         $eventAddress = htmlspecialchars($result['address']);
-//         $eventCity = htmlspecialchars($result['city']);
-//         $eventState = htmlspecialchars($result['state']);
-//         $eventCost = htmlspecialchars($result['costRange']);
-//         $eventTag = htmlspecialchars($result['costRange']);
-//         $photo = htmlspecialchars($result['photoWide']);
-//         $eventPhoto = htmlspecialchars($result['photo']);
-//         $eventVenue = htmlspecialchars($result['venue']);
-//         $eventTerms = strip_tags($result['terms']);
-//         $eventDesp = strip_tags($result['desp']);
-//         $cleanedEventDesp = strip_tags($eventDesp);
-//         $latitude = $result['latitude'];
-//         $longitude = $result['longitude'];
-//         $deliveryDisplayDate = $eventDate . " | " . $eventTime;
-//         $encodedAddress = urlencode($eventAddress);
-
-//         $eventAddress = $result['address'] ?? null;
-
-//         if ($eventAddress) {
-//             $_SESSION['eventAddress'] = $eventAddress;
-//             // echo "Event Address: " . htmlspecialchars($eventAddress);
-//         } else {
-//             echo "Event address not found in API response.";
-//         }
-//     } else {
-//         echo "Event details not found.";
-//     }
-// } else {
-//     echo "Failed to retrieve event data from home data API.";
-// }
+session_set_cookie_params([
+    'lifetime' => 3600 * 24 * 365, 
+    'path' => '/',
+    'secure' => true, 
+    'httponly' => true,
+    'samesite' => 'Strict',
+]);
 
 
 session_start();
