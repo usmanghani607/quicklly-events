@@ -1,3 +1,13 @@
+<style>
+    div:where(.swal2-container) h2:where(.swal2-title){
+        font-size: 24px;
+    }
+    div:where(.swal2-container) .swal2-html-container { 
+        font-size: 18px;
+    }
+</style>
+
+
 <?php
 
 $countryCodes = [
@@ -535,7 +545,7 @@ $countryCodes = [
     });
 </script>
 
-<script>
+<!-- <script>
     $(document).ready(function() {
 
         $("#sendOtpButton").on("click", function(event) {
@@ -780,6 +790,309 @@ $countryCodes = [
                             text: data.message
                         }).then(() => {
                             // window.location.href = 'index';
+                            $('#signupModal').modal('hide');
+                            $('#loginModal').modal('show');
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred: ' + error
+                    });
+                }
+            });
+        });
+    });
+</script> -->
+
+<script>
+    $(document).ready(function() {
+
+        $("#sendOtpButton").on("click", function(event) {
+            event.preventDefault();
+
+            var firstName = $(".signup-firstName").val()?.trim() || "";
+            var lastName = $(".signup-lastName").val()?.trim() || "";
+            var addr = $(".signupaddress").val()?.trim() || "";
+            var countryCode = $("#countryCode").val();
+            var phone = $(".signupphone").val()?.trim() || "";
+            var email = $(".signup-email").val()?.trim() || "";
+
+            if (!firstName || !lastName || !phone || !email) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Please fill in all required fields.'
+                });
+                return;
+            }
+
+            var formattedPhone = '+' + countryCode.replace('+', '') + ' ' + '******' + phone.slice(-3);
+            $('#otpModal .head span').text(formattedPhone);
+
+            $.ajax({
+                type: "POST",
+                url: "https://devrestapi.goquicklly.com/user/check-email-phone",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    phone: phone,
+                    email: email
+                }),
+                success: function(response) {
+
+                    if (response.dupPhone && response.dupEmail) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Duplicate Records Found',
+                            text: 'The phone number and email are already in use. Please use a different one.'
+                        });
+                        return;
+                    }
+
+                    if (response.dupPhone) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Phone Already Exists',
+                            text: 'This phone number is already in use. Please use a different phone number.'
+                        });
+                        return;
+                    }
+
+                    if (response.dupEmail) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Email Already Exists',
+                            text: 'This email address is already in use. Please use a different email address.'
+                        });
+                        return;
+                    }
+
+                    $.ajax({
+                        type: "GET",
+                        url: "getToken.php",
+                        dataType: "json",
+                        success: function(tokenResponse) {
+                            if (!tokenResponse.success) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: tokenResponse.message
+                                });
+                                return;
+                            }
+
+                            $.ajax({
+                                type: "POST",
+                                url: "https://devrestapi.goquicklly.com/common/send-otp",
+                                headers: {
+                                    "Authorization": "Bearer " + tokenResponse.bearer_token
+                                },
+                                data: JSON.stringify({
+                                    countryCode: countryCode,
+                                    mobile: phone,
+                                    email: email,
+                                    firstName: firstName,
+                                    lastName: lastName
+                                }),
+                                contentType: "application/json",
+                                success: function(response) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'OTP Sent',
+                                        text: 'Please check your phone for the OTP.'
+                                    }).then(() => {
+                                        $('#otpModal').modal('show');
+                                        $('#signupModal').modal('hide');
+                                    });
+
+                                    sessionStorage.setItem("otpTag", response.tag);
+                                    sessionStorage.setItem("bearerToken", tokenResponse.bearer_token);
+                                    sessionStorage.setItem("phone", phone);
+                                    sessionStorage.setItem("email", email);
+                                    sessionStorage.setItem("firstName", firstName);
+                                    sessionStorage.setItem("lastName", lastName);
+                                },
+                                error: function(xhr, status, error) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: 'Failed to send OTP. Please try again.'
+                                    });
+                                }
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Failed to retrieve bearer token from session.'
+                            });
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to check email and phone for duplication.'
+                    });
+                }
+            });
+        });
+
+        $("#resendCodeLink").on("click", function(event) {
+            event.preventDefault();
+
+            var phone = sessionStorage.getItem("phone");
+            var email = sessionStorage.getItem("email");
+            var firstName = sessionStorage.getItem("firstName");
+            var lastName = sessionStorage.getItem("lastName");
+            var countryCode = $("#countryCode").val();
+
+            if (!phone || !email || !firstName || !lastName) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Session data is missing. Please sign up again.'
+                });
+                return;
+            }
+
+            var formattedPhone = '+' + countryCode.replace('+', '') + ' ' + '******' + phone.slice(-3);
+            $('#otpModal .head span').text(formattedPhone);
+
+            $.ajax({
+                type: "POST",
+                url: "https://devrestapi.goquicklly.com/common/send-otp",
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("bearerToken")
+                },
+                data: JSON.stringify({
+                    countryCode: countryCode,
+                    mobile: phone,
+                    email: email,
+                    firstName: firstName,
+                    lastName: lastName
+                }),
+                contentType: "application/json",
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'OTP Sent Again',
+                        text: 'Please check your phone for the OTP.'
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to resend OTP. Please try again.'
+                    });
+                }
+            });
+        });
+
+        $("#submitOtpButton").on("click", function(event) {
+            event.preventDefault();
+
+            var otp = Array.from(document.querySelectorAll('.otp-input'))
+                .map(input => input.value.trim())
+                .join("");
+
+            var otpTag = sessionStorage.getItem("otpTag");
+            var bearerToken = sessionStorage.getItem("bearerToken");
+
+            if (!otp || otp.length < 5) {
+                $("#otpError").text("Complete OTP is required.");
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "https://devrestapi.goquicklly.com/common/verify-otp",
+                headers: {
+                    "Authorization": "Bearer " + bearerToken
+                },
+                data: JSON.stringify({
+                    mobile: sessionStorage.getItem("phone"),
+                    email: sessionStorage.getItem("email"),
+                    otp: otp,
+                    tag: otpTag
+                }),
+                contentType: "application/json",
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'OTP Verified',
+                            text: 'OTP verification successful. You can now proceed to register.'
+                        }).then(() => {
+                            $("#sendOtpButton").hide();
+                            $("#registerButton").show();
+                            $('#otpModal').modal('hide');
+                            $('#signupModal').modal('show');
+                        });
+                        sessionStorage.setItem("isOtpVerified", "true");
+                    } else {
+                        $("#otpError").text("Invalid OTP. Please try again.");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to verify OTP. Please try again.'
+                    });
+                }
+            });
+        });
+
+        $("#registerButton").on("click", function(event) {
+            event.preventDefault();
+
+            if (sessionStorage.getItem("isOtpVerified") !== "true") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'OTP Required',
+                    text: 'Please complete OTP verification before registering.'
+                });
+                return;
+            }
+
+            var formData = {
+                firstName: $(".signup-firstName").val()?.trim() || "",
+                lastName: $(".signup-lastName").val()?.trim() || "",
+                addr: $(".signupaddress").val()?.trim() || "",
+                apartment: $(".signup-apartment").val()?.trim() || "",
+                phone: $(".signupphone").val()?.trim() || "",
+                email: $(".signup-email").val()?.trim() || "",
+                pass: $(".signup-password").val()?.trim() || "",
+                confirmPassword: $(".signup-confirmPassword").val()?.trim() || "",
+                callFrom: "WEB",
+                apiKey: "UEjYnQ9yN7D3NCHEoGBMDq8lDUpKio"
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "signup.php",
+                data: JSON.stringify(formData),
+                contentType: "application/json",
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registration Successful',
+                            text: data.message
+                        }).then(() => {
                             $('#signupModal').modal('hide');
                             $('#loginModal').modal('show');
                         });
