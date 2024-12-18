@@ -1,47 +1,228 @@
 <?php
 
-ini_set('session.gc_maxlifetime', 3600 * 24 * 365); 
+// ini_set('session.gc_maxlifetime', 3600 * 24 * 365); 
 
-session_set_cookie_params([
-    'lifetime' => 3600 * 24 * 365, 
-    'path' => '/',
-    'secure' => true, 
-    'httponly' => true,
-    'samesite' => 'Strict',
-]);
+// session_set_cookie_params([
+//     'lifetime' => 3600 * 24 * 365, 
+//     'path' => '/',
+//     'secure' => true, 
+//     'httponly' => true,
+//     'samesite' => 'Strict',
+// ]);
 
 
-session_start();
+// session_start();
 
-// echo $_SESSION['bearer_token'];
+// // echo $_SESSION['bearer_token'];
 
-if (!isset($_SESSION['bearer_token'])) {
+// if (!isset($_SESSION['bearer_token'])) {
     
+//     $login_api_url = 'https://devrestapi.goquicklly.com/login';
+//     $login_data = array(
+//         "email" => getenv('LOGIN_EMAIL'), 
+//         "password" => getenv('LOGIN_PASSWORD')
+//     );
+
+//     $ch = curl_init($login_api_url);
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//     curl_setopt($ch, CURLOPT_POST, true);
+//     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($login_data));
+//     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+//         'Content-Type: application/json'
+//     ));
+
+//     $login_response = curl_exec($ch);
+//     curl_close($ch);
+
+//     $login_result = json_decode($login_response, true);
+
+//     if (isset($login_result['token'])) {
+//         $_SESSION['bearer_token'] = $login_result['token'];  
+//     } else {
+//         echo json_encode(['success' => false, 'message' => 'Login failed: ' . $login_result['message']]);
+//         exit;
+//     }
+// }
+
+// $slug = isset($_GET['slug']) && !empty($_GET['slug']) ? htmlspecialchars($_GET['slug']) : null;
+// if (!$slug) {
+//     echo "Event slug not provided!";
+//     exit;
+// }
+
+// $bearer_token = $_SESSION['bearer_token'] ?? null;
+// if (!$bearer_token) {
+//     echo json_encode(['success' => false, 'message' => 'Authorization token missing.']);
+//     exit;
+// }
+
+// $uid = $_SESSION['value_user_id'] ?? null;
+
+// $api_url_home_data = 'https://devrestapi.goquicklly.com/events/get-home-data';
+// $data_home = array(
+//     "zipcode" => "60611",
+//     "query" => "",
+//     "catID" => "0",
+//     "city" => "",
+//     "page" => "0",
+//     "sendFilters" => "true"
+// );
+
+// $ch = curl_init($api_url_home_data);
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// curl_setopt($ch, CURLOPT_POST, true);
+// curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_home));
+// curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+//     'Content-Type: application/json',
+//     'Authorization: Bearer ' . $bearer_token
+// ));
+
+// $response_home = curl_exec($ch);
+// curl_close($ch);
+
+// $result_home = json_decode($response_home, true);
+
+// if ($result_home['success'] && isset($result_home['lstProds'])) {
+//     $events = $result_home['lstProds'];
+//     $event_id = null;
+
+//     foreach ($events as $event) {
+//         if ($event['slug'] === $slug) {
+//             $event_id = $event['eid'];
+//             break;
+//         }
+//     }
+
+//     if (!$event_id) {
+//         echo "Event not found for the given slug.";
+//         exit;
+//     }
+
+//     $_SESSION['event_id'] = $event_id; 
+
+//     $api_url_details = 'https://devrestapi.goquicklly.com/events/get-details';
+//     $data_details = array(
+//         "zipcode" => "60611",
+//         "eid" => $event_id
+//     );
+
+//     $ch = curl_init($api_url_details);
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//     curl_setopt($ch, CURLOPT_POST, true);
+//     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_details));
+//     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+//         'Content-Type: application/json',
+//         'Authorization: Bearer ' . $bearer_token
+//     ));
+
+//     $response_details = curl_exec($ch);
+//     curl_close($ch);
+
+//     $result = json_decode($response_details, true);
+
+//     if ($result['success']) {
+        
+//         $sid = htmlspecialchars($result['sid']);
+//         $sname = htmlspecialchars($result['store_name']);
+//         $pid = htmlspecialchars($result['pid']);
+//         $deliveryDate = htmlspecialchars($result['fromDate']);
+//         $deliveryFromTime = htmlspecialchars($result['time']);
+//         $simg = htmlspecialchars($result['store_icon']);
+//         $slug = htmlspecialchars($result['slug']);
+//         $organiser = htmlspecialchars($result['organiser']);
+//         // $organiserDetails = htmlspecialchars($result['organiserDetails']);
+//         $organiserDetails = strip_tags($result['organiserDetails']);
+//         $cleanedOrganiserDetails = strip_tags($organiserDetails);
+//         $name = htmlspecialchars($result['name']);
+//         $eventDate = htmlspecialchars($result['dateRange']);
+//         $eventTime = htmlspecialchars($result['time']);
+//         $eventAddress = htmlspecialchars($result['address']);
+//         $eventCity = htmlspecialchars($result['city']);
+//         $eventState = htmlspecialchars($result['state']);
+//         $eventCost = htmlspecialchars($result['costRange']);
+//         $eventTag = htmlspecialchars($result['costRange']);
+//         $photo = htmlspecialchars($result['photoWide']);
+//         $eventPhoto = htmlspecialchars($result['photo']);
+//         $eventVenue = htmlspecialchars($result['venue']);
+//         $eventTerms = strip_tags($result['terms']);
+//         // $eventDesp = strip_tags($result['desp']);
+//         // $cleanedEventDesp = strip_tags($eventDesp);
+//         $eventDesp = $result['desp'];
+//         $allowedTags = '<p><strong><em><b>';
+//         $cleanedEventDesp = strip_tags($eventDesp, $allowedTags);
+//         $latitude = $result['latitude'];
+//         $longitude = $result['longitude'];
+//         $deliveryDisplayDate = $eventDate . " | " . $eventTime;
+//         $encodedAddress = urlencode($eventAddress);
+
+//         if ($eventAddress) {
+//             $_SESSION['eventAddress'] = $eventAddress;
+//         } else {
+//             echo "Event address not found in API response.";
+//         }
+//     } else {
+//         echo "Event details not found.";
+//     }
+// } else {
+//     echo "Failed to retrieve event data from home data API.";
+// }
+
+function getBearerToken() {
     $login_api_url = 'https://devrestapi.goquicklly.com/login';
-    $login_data = array(
-        "email" => getenv('LOGIN_EMAIL'), 
-        "password" => getenv('LOGIN_PASSWORD')
-    );
+
+
+    $email = "ios-app@quicklly.com";
+    $password = "vqdspaway8";
+
+    
+    if (!$email || !$password) {
+        echo json_encode(['success' => false, 'message' => 'Login credentials are missing or invalid.']);
+        exit;
+    }
+
+    $login_data = [
+        "email" => $email,
+        "password" => $password,
+    ];
 
     $ch = curl_init($login_api_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($login_data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Content-Type: application/json'
-    ));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+    ]);
 
     $login_response = curl_exec($ch);
+
+    
+    if (curl_errno($ch)) {
+        echo json_encode(['success' => false, 'message' => 'Curl error: ' . curl_error($ch)]);
+        curl_close($ch);
+        exit;
+    }
+
     curl_close($ch);
 
     $login_result = json_decode($login_response, true);
 
-    if (isset($login_result['token'])) {
-        $_SESSION['bearer_token'] = $login_result['token'];  
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Login failed: ' . $login_result['message']]);
+    
+    if (!$login_result || !isset($login_result['token'])) {
+        echo json_encode(['success' => false, 'message' => 'Login failed: ' . ($login_result['message'] ?? 'No response from API')]);
         exit;
     }
+
+    $_SESSION['bearer_token'] = $login_result['token']; // Store token in session
+}
+
+
+getBearerToken();
+
+$bearer_token = $_SESSION['bearer_token'] ?? null;
+
+if (!$bearer_token) {
+    echo json_encode(['success' => false, 'message' => 'Authorization token missing.']);
+    exit;
 }
 
 $slug = isset($_GET['slug']) && !empty($_GET['slug']) ? htmlspecialchars($_GET['slug']) : null;
@@ -50,32 +231,24 @@ if (!$slug) {
     exit;
 }
 
-$bearer_token = $_SESSION['bearer_token'] ?? null;
-if (!$bearer_token) {
-    echo json_encode(['success' => false, 'message' => 'Authorization token missing.']);
-    exit;
-}
-
-$uid = $_SESSION['value_user_id'] ?? null;
-
 $api_url_home_data = 'https://devrestapi.goquicklly.com/events/get-home-data';
-$data_home = array(
+$data_home = [
     "zipcode" => "60611",
     "query" => "",
     "catID" => "0",
     "city" => "",
     "page" => "0",
-    "sendFilters" => "true"
-);
+    "sendFilters" => "true",
+];
 
 $ch = curl_init($api_url_home_data);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_home));
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json',
-    'Authorization: Bearer ' . $bearer_token
-));
+    'Authorization: Bearer ' . $bearer_token,
+]);
 
 $response_home = curl_exec($ch);
 curl_close($ch);
@@ -98,22 +271,22 @@ if ($result_home['success'] && isset($result_home['lstProds'])) {
         exit;
     }
 
-    $_SESSION['event_id'] = $event_id; 
+    $_SESSION['event_id'] = $event_id;
 
     $api_url_details = 'https://devrestapi.goquicklly.com/events/get-details';
-    $data_details = array(
+    $data_details = [
         "zipcode" => "60611",
-        "eid" => $event_id
-    );
+        "eid" => $event_id,
+    ];
 
     $ch = curl_init($api_url_details);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_details));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json',
-        'Authorization: Bearer ' . $bearer_token
-    ));
+        'Authorization: Bearer ' . $bearer_token,
+    ]);
 
     $response_details = curl_exec($ch);
     curl_close($ch);
@@ -121,7 +294,6 @@ if ($result_home['success'] && isset($result_home['lstProds'])) {
     $result = json_decode($response_details, true);
 
     if ($result['success']) {
-        
         $sid = htmlspecialchars($result['sid']);
         $sname = htmlspecialchars($result['store_name']);
         $pid = htmlspecialchars($result['pid']);
@@ -130,7 +302,8 @@ if ($result_home['success'] && isset($result_home['lstProds'])) {
         $simg = htmlspecialchars($result['store_icon']);
         $slug = htmlspecialchars($result['slug']);
         $organiser = htmlspecialchars($result['organiser']);
-        $organiserDetails = htmlspecialchars($result['organiserDetails']);
+        $organiserDetails = strip_tags($result['organiserDetails']);
+        $cleanedOrganiserDetails = strip_tags($organiserDetails);
         $name = htmlspecialchars($result['name']);
         $eventDate = htmlspecialchars($result['dateRange']);
         $eventTime = htmlspecialchars($result['time']);
@@ -142,9 +315,9 @@ if ($result_home['success'] && isset($result_home['lstProds'])) {
         $photo = htmlspecialchars($result['photoWide']);
         $eventPhoto = htmlspecialchars($result['photo']);
         $eventVenue = htmlspecialchars($result['venue']);
-        $eventTerms = strip_tags($result['terms']);
-        $eventDesp = strip_tags($result['desp']);
-        $cleanedEventDesp = strip_tags($eventDesp);
+        $eventTerms = strip_tags($result['terms'], '<p><strong><em><b>');
+        $eventDesp = $result['desp'];
+        $cleanedEventDesp = strip_tags($eventDesp, '<p><strong><em><b>');
         $latitude = $result['latitude'];
         $longitude = $result['longitude'];
         $deliveryDisplayDate = $eventDate . " | " . $eventTime;
@@ -405,7 +578,7 @@ $result_home = json_decode($response_home, true);
                                 </div>
                             </div>
                             <div class="event-desc">
-                                <p><?php echo htmlspecialchars($cleanedEventDesp); ?></p>
+                                <p><?php echo ($cleanedEventDesp); ?></p>
                             </div>
                         </div>
 
@@ -456,16 +629,36 @@ $result_home = json_decode($response_home, true);
                             </div>
                             <div class="des">
                                 <?php
-                                if (empty($organiser) && empty($organiserDetails)) {
+                                // if (empty($organiserDetails)) {
+                                //     echo "<p>About Organizer is not available.</p>";
+                                // } else {
+                                //     if (!empty($organiserDetails)) {
+                                //         echo $organiserDetails;
+                                //     }
+                                // }
+
+                                // $organiserDetails = strip_tags($result['organiserDetails']);
+
+                                // if (empty($organiserDetails)) {
+                                //     echo "<p>About Organizer is not available.</p>";
+                                // } else {
+                                    
+                                //     echo "<p>" . $organiserDetails . "</p>";
+                                // }
+
+                                $organiserDetails = $result['organiserDetails'];
+
+                                $allowedTags = '<p><strong><b><em>';
+
+                                $cleanedOrganiserDetails = strip_tags($organiserDetails, $allowedTags);
+
+                                if (empty($cleanedOrganiserDetails)) {
                                     echo "<p>About Organizer is not available.</p>";
                                 } else {
-                                    if (!empty($organiser)) {
-                                        echo "<p class='del'>$organiser</p>";
-                                    }
-                                    if (!empty($organiserDetails)) {
-                                        echo $organiserDetails;
-                                    }
+
+                                    echo "<p>" . $cleanedOrganiserDetails . "</p>";
                                 }
+                               
                                 ?>
                             </div>
                         </div>
@@ -495,10 +688,22 @@ $result_home = json_decode($response_home, true);
                             <div class="des">
                                 <ol>
                                     <?php
-                                    if (!empty($eventTerms)) {
-                                        echo htmlspecialchars($eventTerms);
+                                    // if (!empty($eventTerms)) {
+                                    //     echo htmlspecialchars($eventTerms);
+                                    // } else {
+                                    //     echo "Terms & Conditions are not available.";
+                                    // }
+                                    $eventTerms = $result['terms']; 
+
+                                    $allowedTags = '<p><strong><b><em><ul><li>';
+
+                                    $cleanedEventTerms = strip_tags($eventTerms, $allowedTags);
+
+                                    if (empty($cleanedEventTerms)) {
+                                        echo "<p>Terms & Conditions are not available.</p>";
                                     } else {
-                                        echo "Terms & Conditions are not available.";
+                                        
+                                        echo "<p>" . $cleanedEventTerms . "</p>";
                                     }
                                     ?>
                                 </ol>

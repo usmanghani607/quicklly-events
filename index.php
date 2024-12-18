@@ -56,8 +56,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="banner-text">
-                            <h2>Discover Local Indian Events, Exciting Shows Near You.</h2>
-                            <p>Be a part of Indian-inspired entertainment events, festive parties, shows and a lot more.</p>
+                            <h2>Discover Local Indian Events, Exciting Shows Near You</h2>
+                            <p>Be a part of Indian-inspired entertainment events, festive parties, shows and a lot more</p>
                             <div class="search-area row">
                                 <div class="col-3">
                                     <select class="form-select form-select-lg country" id="countrySelect" aria-label="Large select example">

@@ -10,7 +10,7 @@ session_set_cookie_params([
     'samesite' => 'Strict',
 ]);
 
-session_start();
+// session_start();
 
 // echo $_SESSION['bearer_token'];
 // print_r($_SESSION);
@@ -952,7 +952,7 @@ if (isset($_SESSION['cart_events'])) {
         }
     </script>
 
-    <script>
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", function() {
             const apiUrl = 'https://devrestapi.goquicklly.com/user/my-account';
             // const bearerToken = localStorage.getItem('bearer_token');
@@ -1014,7 +1014,79 @@ if (isset($_SESSION['cart_events'])) {
             var serviceFee = $(".s-fee").html();
             $("#eservicetax").val(serviceFee.replace("$", ""));
         }
+    </script> -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const apiUrl = 'https://devrestapi.goquicklly.com/user/my-account';
+            
+            // Get the Bearer token from the session (PHP session variable)
+            const bearerToken = "<?php echo $_SESSION['bearer_token']; ?>";
+            
+            // Get the UID from the session (PHP session variable) instead of localStorage
+            const uid = "<?php echo $_SESSION['uid']; ?>"; 
+
+            // If uid or bearer token is missing, log an error and return
+            if (!uid || !bearerToken) {
+                console.error('User ID or Bearer Token is missing');
+                return;
+            }
+
+            // Function to load user profile
+            async function loadUserProfile() {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${bearerToken}`
+                        },
+                        body: JSON.stringify({
+                            "uid": uid
+                        })
+                    });
+
+                    // Check if the API response is successful
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch profile data');
+                    }
+
+                    const data = await response.json();
+                    populateFormFields(data);  // Populate form fields with the API data
+
+                } catch (error) {
+                    console.error('Error:', error);  // Handle errors
+                }
+            }
+
+            // Function to populate form fields with data
+            function populateFormFields(data) {
+                if (data && data.success) {
+                    document.getElementById("first-name").value = data.firstName || '';
+                    document.getElementById("last-name").value = data.lastName || '';
+                    document.getElementById("user-phone").value = data.phone || '';
+                    document.getElementById("email").value = data.email || '';
+                } else {
+                    console.log("Data fields are missing in the API response.");
+                }
+            }
+
+            // Load profile data on page load
+            loadUserProfile();
+        });
+
+        // Function to calculate and update values (not related to session)
+        function getValues() {
+            var total = $(".val").html();
+            $(".showtotalonnp").html(total);
+            $("#subtotal").val(total.replace("$", ""));
+            var tax = $(".est-tax").html();
+            $("#stax").val(tax.replace("$", ""));
+            var serviceFee = $(".s-fee").html();
+            $("#eservicetax").val(serviceFee.replace("$", ""));
+        }
     </script>
+
 
     <script>
         function closetooltip() {
@@ -1025,7 +1097,8 @@ if (isset($_SESSION['cart_events'])) {
     <script>
         function handleCheckoutClick() {
             const bearerToken = "<?php echo $_SESSION['bearer_token']; ?>";
-            const uid = localStorage.getItem('uid');
+            // const uid = localStorage.getItem('uid');
+            const uid = "<?php echo $_SESSION['uid']; ?>";
 
             if (!uid || !bearerToken) {
 
@@ -1065,7 +1138,7 @@ if (isset($_SESSION['cart_events'])) {
                     console.log('Session refreshed');
                 }
             });
-    }, 1800000);
+        }, 1800000);
 
     </script>
 

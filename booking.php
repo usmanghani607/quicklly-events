@@ -10,7 +10,7 @@ session_set_cookie_params([
     'samesite' => 'Strict',
 ]);
 
-session_start();
+// session_start();
 
 // print_r($_SESSION);
 
@@ -574,7 +574,7 @@ session_start();
         }
     </script>
 
-    <script>
+    <!-- <script>
         var firstName = localStorage.getItem('firstName');
 
         if (firstName) {
@@ -586,21 +586,36 @@ session_start();
 
             document.querySelector('.u-name').innerText = 'Guest';
         }
-    </script>
+    </script> -->
 
-<script>
-    setInterval(function() {
-    
-    fetch('refresh_session.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('Session refreshed');
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const firstName = "<?php echo isset($_SESSION['firstName']) ? $_SESSION['firstName'] : ''; ?>";
+
+            if (firstName) {
+                document.querySelector('.u-name').innerText = firstName;
+                console.log("First Name: " + firstName);
+            } else {
+                console.log("First Name not found in session.");
+                document.querySelector('.u-name').innerText = 'Guest';
             }
         });
-    }, 1800000); 
+    </script>
 
-</script>
+
+    <script>
+        setInterval(function() {
+        
+        fetch('refresh_session.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Session refreshed');
+                }
+            });
+        }, 1800000); 
+
+    </script>
 
 
 </body>

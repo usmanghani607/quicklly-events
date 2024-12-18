@@ -1,6 +1,6 @@
 @media only screen and (min-width: 320px) and (max-width: 767px) {
 
-    .home-banner .banner-text h2 { font-size: 18px; margin-bottom: 10px; }
+    .home-banner .banner-text h2 { font-size: 14px; margin-bottom: 10px; }
     .home-banner .banner-text p { font-size: 12px; margin-bottom: 15px; display: none; }
     .home-banner .banner-text .search-area { padding: 0; }
     .home-banner .banner-text { padding: 40px 0; }
@@ -40,13 +40,13 @@
     .topheader #indexForm .form-select.state { width: auto; padding: 5px 25px 5px 10px; font-size: 14px; position: relative; right: 40px; }
     /* .topheader .right_btn .btn_create { display: none; } */
     /* .topheader #indexForm .form-select.state { width: auto; } */
-
-    .category-area img.img-fluid { width: 55px; height: 55px; }
-    .category-area p { padding: 10px 25px 0 0px; font-size: 14px; }
+    .popular-event .heading-top h2 { font-size: 20px; }
+    .category-area img.img-fluid { width: 45px; height: 45px; }
+    .category-area p { padding: 10px 30px 0 0px; font-size: 12px; }
     .category-area img { margin: 0 5px; }
     .popular-event .row.row-cols-1.row-cols-md-3.g-4.mb-5 { margin-top: -10px; }
     .sponsored-area { padding: 20px 0; }
-    .footer-bg { padding-left: 10px; }
+    .footer-bg { padding-left: 10px; display: none; }
     .footer-bg .footer_widgth.touch { margin-left: 65px; }
     .footer-bg .footer_widgth.social { display: none; }
     .event-detail .col-md-8.main-area { width: 100%; }
@@ -193,7 +193,7 @@
     .category-filter #category-results .card.sec { margin: 0; }
     .category-filter #category-results .card.third { margin-left: 0; }
 
-    .category-name { white-space: normal; word-wrap: break-word; overflow-wrap: break-word; max-width: 12ch; }
+    /* .category-name { white-space: normal; word-wrap: break-word; overflow-wrap: break-word; max-width: 12ch; } */
 
     .search-filter #search-results .card.first { margin-right: 0; }
     .search-filter #search-results .card.sec { margin: 0; }
@@ -206,6 +206,13 @@
     .event-detail .col-md-8.main-area .event-faqs button.accordion-button { font-size: 14px; text-align: left; font-weight: 500; }
 
     .event-detail .col-md-8.main-area .event-images img { width: 100%; height: 90px; }
+
+    /* .topheader .logo_left.desk { display: none; }
+    .topheader .logo_left.mobile { display: block; }
+    .inner-header .logo_left.desk { display: none; }
+    .inner-header .logo_left.mobile { display: block; } */
+    .inner-header .logo_left img { height: 40px; }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -293,7 +300,7 @@
     .host-area .card p { font-size: 14px; }
     .host-area .card.fst { margin-right: 0; }
     .host-area .card.sec { margin: 0; }
-    .footer-bg { padding-left: 15px; }
+    .footer-bg { padding-left: 15px; display: none; }
     #index-page .tab-content .row.row-cols-1.row-cols-md-3.g-4.mb-5.tab-b { margin-bottom: 0 !important; }
     .dashboard.account-body .side-bar { padding: 20px 2px; }
     .dashboard.booking .side-bar { padding: 20px 2px; }

@@ -10,7 +10,7 @@ session_set_cookie_params([
     'samesite' => 'Strict',
 ]);
 
-session_start();
+// session_start();
 
 // print_r($_SESSION);
 
@@ -92,7 +92,7 @@ session_start();
         </div>
     </div>
 
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             $("#updateProfileBtn").on("click", function(e) {
                 e.preventDefault();
@@ -185,9 +185,109 @@ session_start();
                 });
             });
         });
-    </script>
+    </script> -->
 
     <script>
+        $(document).ready(function () {
+            $("#updateProfileBtn").on("click", function (e) {
+                e.preventDefault();
+
+                $(".error-message").text(""); // Clear previous error messages
+
+                // Get the UID from the session (provided by PHP)
+                const uid = "<?php echo isset($_SESSION['value_user_id']) ? $_SESSION['value_user_id'] : ''; ?>";
+
+                if (!uid) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'User ID not found in session!'
+                    });
+                    return;
+                }
+
+                // Get input field values
+                const firstName = $(".firstNameField").val().trim();
+                const lastName = $(".lastNameField").val().trim();
+                const email = $(".profileemail").val().trim();
+                const phone = $(".phoneField").val().trim();
+
+                let isValid = true;
+
+                // Validate form fields
+                if (firstName === "") {
+                    $("#firstNameError").text("First Name is required.");
+                    isValid = false;
+                }
+                if (lastName === "") {
+                    $("#lastNameError").text("Last Name is required.");
+                    isValid = false;
+                }
+                if (email === "") {
+                    $(".profileemail").text("Email is required.");
+                    isValid = false;
+                }
+                if (phone === "") {
+                    $("#phoneError").text("Mobile Number is required.");
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    return;
+                }
+
+                // Prepare the data to be sent to the server
+                const profileData = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    phone: phone
+                };
+
+                // Make the AJAX request to the server
+                $.ajax({
+                    type: "POST",
+                    url: "update_profile.php", // URL of the PHP script
+                    data: profileData,
+                    success: function (response) {
+                        const data = JSON.parse(response);
+
+                        if (data.success) {
+                            // Update successful
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Profile Updated',
+                                text: 'Your profile was updated successfully!',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+
+                            setTimeout(function () {
+                                window.location.reload(); // Reload the page to reflect updated session values
+                            }, 2000);
+                        } else {
+                            // Update failed
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Update Failed',
+                                text: data.message
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred: ' + error
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", function() {
             const apiUrl = 'https://devrestapi.goquicklly.com/user/my-account';
             const bearerToken = "<?php echo $_SESSION['bearer_token']; ?>";
@@ -223,6 +323,59 @@ session_start();
 
             function populateFormFields(data) {
                 
+                if (data && data.success && data.firstName) {
+                    document.querySelector(".firstNameField").value = data.firstName || '';
+                    document.querySelector(".lastNameField").value = data.lastName || '';
+                    document.querySelector(".emailField").value = data.email || '';
+                    document.querySelector(".phoneField").value = data.phone || '';
+                } else {
+                    console.log("Data fields are missing or structured differently in the API response.");
+                }
+            }
+
+            loadUserProfile();
+        });
+    </script> -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const apiUrl = 'https://devrestapi.goquicklly.com/user/my-account';
+            
+            const bearerToken = "<?php echo $_SESSION['bearer_token']; ?>";
+            
+            const uid = "<?php echo $_SESSION['uid']; ?>";
+
+            if (!uid || !bearerToken) {
+                console.error('User ID or Bearer Token is missing');
+                return;
+            }
+
+            async function loadUserProfile() {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${bearerToken}`
+                        },
+                        body: JSON.stringify({
+                            "uid": uid
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch profile data');
+                    }
+
+                    const data = await response.json();
+                    populateFormFields(data);  
+
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+
+            function populateFormFields(data) {
                 if (data && data.success && data.firstName) {
                     document.querySelector(".firstNameField").value = data.firstName || '';
                     document.querySelector(".lastNameField").value = data.lastName || '';

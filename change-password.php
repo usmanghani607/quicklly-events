@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -143,6 +143,8 @@ session_start();
         <script>
             $(document).ready(function() {
                 
+                const uid = "<?php echo isset($_SESSION['value_user_id']) ? $_SESSION['value_user_id'] : ''; ?>";
+                
                 $("#changePasswordForm").on("submit", function(e) {
                     e.preventDefault();
 
@@ -151,7 +153,7 @@ session_start();
                     var oldPass = $("#oldPass").val().trim();
                     var newPass = $("#newPass").val().trim();
                     var confirmPass = $("#confirmPass").val().trim();
-                    var uid = localStorage.getItem("uid"); 
+                    // var uid = localStorage.getItem("uid"); 
 
                     var isValid = true;
 
