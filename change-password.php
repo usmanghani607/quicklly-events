@@ -219,9 +219,9 @@
                     });
                 });
 
-                $(".cancel").on("click", function() {
-                    window.location.href = "account"; 
-                });
+                // $(".cancel").on("click", function() {
+                //     window.location.href = "account"; 
+                // });
             });
         </script>
 

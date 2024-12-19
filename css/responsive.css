@@ -265,7 +265,7 @@
     .popular-event .tab-content .card.first { margin-right: 0; }
     .popular-event .tab-content .card.sec { margin: 0; }
     .popular-event .tab-content .card.third { margin-left: 0px; }
-    .event-detail .col-md-8.main-area .event-images img { width: 100%; }
+    .event-detail .col-md-8.main-area .event-images .gallery-image { width: 100%; }
     .event-detail .col-md-8.main-area { width: 100%; }
     .event-detail .col-md-4.side { display: none; }
 

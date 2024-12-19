@@ -530,7 +530,18 @@ footer.footer-bg .container .col-md { padding: 0; }
 
 .event-detail .col-md-8.main-area .event-images { background: #FFFFFF 0% 0% no-repeat padding-box; box-shadow: 0px 0px 4px #0000001A; border-radius: 16px; opacity: 1; padding: 20px 20px 7px 20px; margin-bottom: 25px; }
 .event-detail .col-md-8.main-area .event-images h2 { text-align: left; font-size: 20px; font-weight: 500; letter-spacing: 0px; color: #000000; opacity: 1; margin-bottom: 15px;}
-.event-detail .col-md-8.main-area .event-images img { width: 225px; height: 120px; object-fit: fill; margin-bottom: 22px; }
+.event-detail .col-md-8.main-area .event-images .gallery-image { width: 225px; height: 120px; object-fit: fill; margin-bottom: 20px; cursor: pointer; }
+.event-detail .col-md-8.main-area .event-images .modal-dialog .modal-body img.img-modal { width: 100%; height: auto; }
+.event-detail .col-md-8.main-area .event-images #imageModal .modal-dialog .modal-content .modal-header { border-bottom: none; padding-top: 10px; padding-bottom: 10px; }
+.event-detail .col-md-8.main-area .event-images .modal-dialog .modal-body { padding-top: 0; }
+
+.event-detail .col-md-8.main-area .event-images .modal-dialog .modal-body button { z-index: 10; background-color: #fff; color: #000; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+.event-detail .col-md-8.main-area .event-images .modal-dialog .modal-body button:hover { background-color: #fff; }
+.event-detail .col-md-8.main-area .event-images .modal-dialog .modal-body button#prevImage { margin-left: 16px; }
+.event-detail .col-md-8.main-area .event-images .modal-dialog .modal-body button#nextImage { margin-right: 16px; }
+
+/* .event-detail .col-md-8.main-area .event-images .col-6.col-md-4 { padding-left: 0; padding-right: 0; } */
+
 /* .event-detail .col-md-8.main-area .event-images .col-md-4 { padding: 0 10px; } */
 /*event venue*/
 
@@ -612,7 +623,7 @@ footer.footer-bg .container .col-md { padding: 0; }
 
 .event-detail .side-area .shedule-section { padding-top: 10px; }
 .event-detail .side-area .shedule-section .heading { text-align: left; font-size: 18px; font-weight: 500; letter-spacing: 0px; color: #000000; opacity: 1; margin-left: 5px; }
-.event-detail .side-area .shedule-section p { text-align: left; font: normal normal normal 16px/24px Poppins; letter-spacing: 0px; color: #000000; opacity: 1; margin-bottom: 10px; }
+.event-detail .side-area .shedule-section p { text-align: left; font: normal normal normal 16px/24px Poppins; letter-spacing: 0px; color: #000000; opacity: 1; margin-bottom: 0; }
 
 .event-detail .side-area .shedule-section img { width: 20px; margin-bottom: 10px; }
 .event-detail .side-area .price-section img { width: 20px; margin-bottom: 10px; }

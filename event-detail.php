@@ -16,7 +16,7 @@
 // // echo $_SESSION['bearer_token'];
 
 // if (!isset($_SESSION['bearer_token'])) {
-    
+
 //     $login_api_url = 'https://devrestapi.goquicklly.com/login';
 //     $login_data = array(
 //         "email" => getenv('LOGIN_EMAIL'), 
@@ -121,7 +121,7 @@
 //     $result = json_decode($response_details, true);
 
 //     if ($result['success']) {
-        
+
 //         $sid = htmlspecialchars($result['sid']);
 //         $sname = htmlspecialchars($result['store_name']);
 //         $pid = htmlspecialchars($result['pid']);
@@ -167,14 +167,15 @@
 //     echo "Failed to retrieve event data from home data API.";
 // }
 
-function getBearerToken() {
+function getBearerToken()
+{
     $login_api_url = 'https://devrestapi.goquicklly.com/login';
 
 
     $email = "ios-app@quicklly.com";
     $password = "vqdspaway8";
 
-    
+
     if (!$email || !$password) {
         echo json_encode(['success' => false, 'message' => 'Login credentials are missing or invalid.']);
         exit;
@@ -195,7 +196,7 @@ function getBearerToken() {
 
     $login_response = curl_exec($ch);
 
-    
+
     if (curl_errno($ch)) {
         echo json_encode(['success' => false, 'message' => 'Curl error: ' . curl_error($ch)]);
         curl_close($ch);
@@ -206,7 +207,7 @@ function getBearerToken() {
 
     $login_result = json_decode($login_response, true);
 
-    
+
     if (!$login_result || !isset($login_result['token'])) {
         echo json_encode(['success' => false, 'message' => 'Login failed: ' . ($login_result['message'] ?? 'No response from API')]);
         exit;
@@ -607,20 +608,47 @@ $result_home = json_decode($response_home, true);
                             </div>
                             <div class="row">
                                 <?php
+                                // if (!empty($result['lstGallery'])) {
+                                //     foreach ($result['lstGallery'] as $image) {
+
+                                //         $imageUrl = htmlspecialchars($image);
+                                //         echo '<div class="col-6 col-md-4">';
+                                //         echo '<img src="' . $imageUrl . '" alt="">';
+                                //         echo '</div>';
+                                //     }
+                                // } else {
+                                //     echo '<div class="col-md-12"><p>No images available.</p></div>';
+                                // }
 
                                 if (!empty($result['lstGallery'])) {
-                                    foreach ($result['lstGallery'] as $image) {
-
+                                    foreach ($result['lstGallery'] as $index => $image) {
                                         $imageUrl = htmlspecialchars($image);
                                         echo '<div class="col-6 col-md-4">';
-                                        echo '<img src="' . $imageUrl . '" alt="">';
+                                        echo '<img src="' . $imageUrl . '" alt="" class="gallery-image" data-index="' . $index . '" data-image="' . $imageUrl . '" data-bs-toggle="modal" data-bs-target="#imageModal">';
                                         echo '</div>';
                                     }
                                 } else {
                                     echo '<div class="col-md-12"><p>No images available.</p></div>';
                                 }
+
                                 ?>
                             </div>
+
+                            <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <button id="prevImage" class="btn btn-secondary position-absolute top-50 start-0 translate-middle-y">←</button>
+                                            <img id="modalImage" src="" alt="" class="img-modal">
+                                            <button id="nextImage" class="btn btn-secondary position-absolute top-50 end-0 translate-middle-y">→</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="event-about">
@@ -662,7 +690,7 @@ $result_home = json_decode($response_home, true);
                                 //     echo "<p>" . $cleanedOrganiserDetails . "</p>";
                                 // }
 
-                               
+
                                 ?>
                             </div>
                         </div>
@@ -697,7 +725,7 @@ $result_home = json_decode($response_home, true);
                                     // } else {
                                     //     echo "Terms & Conditions are not available.";
                                     // }
-                                    $eventTerms = $result['terms']; 
+                                    $eventTerms = $result['terms'];
 
                                     $allowedTags = '<p><strong><b><em><ul><li>';
 
@@ -706,7 +734,7 @@ $result_home = json_decode($response_home, true);
                                     if (empty($cleanedEventTerms)) {
                                         echo "<p>Terms & Conditions are not available.</p>";
                                     } else {
-                                        
+
                                         echo "<p>" . $cleanedEventTerms . "</p>";
                                     }
                                     ?>
@@ -750,39 +778,39 @@ $result_home = json_decode($response_home, true);
                                 // }
                                 ?>
 
-                                    <?php
-                                    if (!empty($result['lstFAQ'])) {
-                                        foreach ($result['lstFAQ'] as $index => $faq) {
-                                            $question = htmlspecialchars($faq['Q']);
-                                            $answer = htmlspecialchars($faq['N']);
+                                <?php
+                                if (!empty($result['lstFAQ'])) {
+                                    foreach ($result['lstFAQ'] as $index => $faq) {
+                                        $question = htmlspecialchars($faq['Q']);
+                                        $answer = htmlspecialchars($faq['N']);
 
-                                            $collapseId = "collapse" . ($index + 1);
-                                            $headingId = "heading" . ($index + 1);
-                                            $isExpanded = $index === 0 ? 'true' : 'false';  
-                                            $showClass = $index === 0 ? 'show' : ''; 
+                                        $collapseId = "collapse" . ($index + 1);
+                                        $headingId = "heading" . ($index + 1);
+                                        $isExpanded = $index === 0 ? 'true' : 'false';
+                                        $showClass = $index === 0 ? 'show' : '';
 
-                                            echo '<div class="accordion-item">';
-                                            echo '<h2 class="accordion-header" id="' . $headingId . '">';
+                                        echo '<div class="accordion-item">';
+                                        echo '<h2 class="accordion-header" id="' . $headingId . '">';
 
-                                            echo '<button class="accordion-button' . ($index === 0 ? '' : ' collapsed') . '" type="button" data-bs-toggle="collapse" data-bs-target="#' . $collapseId . '" aria-expanded="' . $isExpanded . '" aria-controls="' . $collapseId . '">';
-                                            echo $question;
-                                            echo '</button>';
-                                            echo '</h2>';
+                                        echo '<button class="accordion-button' . ($index === 0 ? '' : ' collapsed') . '" type="button" data-bs-toggle="collapse" data-bs-target="#' . $collapseId . '" aria-expanded="' . $isExpanded . '" aria-controls="' . $collapseId . '">';
+                                        echo $question;
+                                        echo '</button>';
+                                        echo '</h2>';
 
-                                            echo '<div id="' . $collapseId . '" class="accordion-collapse collapse ' . $showClass . '" data-bs-parent="#accordionExample">';
-                                            echo '<div class="accordion-body">';
-                                            echo $answer;
-                                            echo '</div>';
-                                            echo '</div>';
-                                            echo '</div>'; 
-                                        }
-                                    } else {
-                                        echo '<p>No FAQs available.</p>';
+                                        echo '<div id="' . $collapseId . '" class="accordion-collapse collapse ' . $showClass . '" data-bs-parent="#accordionExample">';
+                                        echo '<div class="accordion-body">';
+                                        echo $answer;
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</div>';
                                     }
-                                    ?>
+                                } else {
+                                    echo '<p>No FAQs available.</p>';
+                                }
+                                ?>
 
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="col-md-4 side">
@@ -800,12 +828,12 @@ $result_home = json_decode($response_home, true);
                                 <span class="heading">Event Schedule Details</span>
                                 <p><span><?php echo $eventDate; ?></span> <span><?php echo $eventTime; ?></span></p>
                             </div>
-                            <div class="ticket-border"></div>
+                            <!-- <div class="ticket-border"></div>
                             <div class="price-section">
                                 <img src="images/ticket-icon.png" alt="">
                                 <span class="heading">Ticket Range</span>
                                 <p><?php echo $eventCost; ?></p>
-                            </div>
+                            </div> -->
                             <div>
                                 <button class="btn btn-ticket" style="display: none;"><span>Buy Tickets</span></button>
                             </div>
@@ -2323,6 +2351,42 @@ $result_home = json_decode($response_home, true);
     <script>
         var eventId = <?php echo json_encode($event_id); ?>;
         console.log("Event ID:", eventId);
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const galleryImages = document.querySelectorAll(".gallery-image");
+            const modalImage = document.getElementById("modalImage");
+            const prevImage = document.getElementById("prevImage");
+            const nextImage = document.getElementById("nextImage");
+
+            let currentIndex = 0;
+
+            galleryImages.forEach((img, index) => {
+                img.addEventListener("click", () => {
+                    currentIndex = index;
+                    modalImage.src = img.dataset.image;
+                });
+            });
+
+            prevImage.addEventListener("click", () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                } else {
+                    currentIndex = galleryImages.length - 1;
+                }
+                modalImage.src = galleryImages[currentIndex].dataset.image;
+            });
+
+            nextImage.addEventListener("click", () => {
+                if (currentIndex < galleryImages.length - 1) {
+                    currentIndex++;
+                } else {
+                    currentIndex = 0;
+                }
+                modalImage.src = galleryImages[currentIndex].dataset.image;
+            });
+        });
     </script>
 
 
