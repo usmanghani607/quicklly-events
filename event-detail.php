@@ -317,7 +317,7 @@ if ($result_home['success'] && isset($result_home['lstProds'])) {
         $eventVenue = htmlspecialchars($result['venue']);
         $eventTerms = strip_tags($result['terms'], '<p><strong><em><b>');
         $eventDesp = $result['desp'];
-        $cleanedEventDesp = strip_tags($eventDesp, '<p><strong><em><b>');
+        $cleanedEventDesp = strip_tags($eventDesp, '<ul><li><p><strong><em><b><a>');
         $latitude = $result['latitude'];
         $longitude = $result['longitude'];
         $deliveryDisplayDate = $eventDate . " | " . $eventTime;
@@ -629,22 +629,6 @@ $result_home = json_decode($response_home, true);
                             </div>
                             <div class="des">
                                 <?php
-                                // if (empty($organiserDetails)) {
-                                //     echo "<p>About Organizer is not available.</p>";
-                                // } else {
-                                //     if (!empty($organiserDetails)) {
-                                //         echo $organiserDetails;
-                                //     }
-                                // }
-
-                                // $organiserDetails = strip_tags($result['organiserDetails']);
-
-                                // if (empty($organiserDetails)) {
-                                //     echo "<p>About Organizer is not available.</p>";
-                                // } else {
-                                    
-                                //     echo "<p>" . $organiserDetails . "</p>";
-                                // }
 
                                 $organiserDetails = $result['organiserDetails'];
 
@@ -658,6 +642,26 @@ $result_home = json_decode($response_home, true);
 
                                     echo "<p>" . $cleanedOrganiserDetails . "</p>";
                                 }
+
+                                // $organiserDetails = $result['organiserDetails'];
+
+                                // $allowedTags = '<p><strong><b><em><a>'; // Include the <a> tag in the allowed tags
+
+                                // $cleanedOrganiserDetails = strip_tags($organiserDetails, $allowedTags);
+
+                                // // Check for links and ensure they are properly formatted
+                                // $cleanedOrganiserDetails = preg_replace(
+                                //     '/(https?:\/\/[^\s]+)/',
+                                //     '<a href="$1" target="_blank">$1</a>',
+                                //     $cleanedOrganiserDetails
+                                // );
+
+                                // if (empty($cleanedOrganiserDetails)) {
+                                //     echo "<p>About Organizer is not available.</p>";
+                                // } else {
+                                //     echo "<p>" . $cleanedOrganiserDetails . "</p>";
+                                // }
+
                                
                                 ?>
                             </div>
@@ -1029,6 +1033,550 @@ $result_home = json_decode($response_home, true);
             });
         }
     </script>
+
+    <!-- <script>
+        var ticketData = {};
+        var maxTickets = 20;
+
+        function updatePrice(sizeId) {
+            if (!ticketData[sizeId]) return;
+
+            var count = ticketData[sizeId].count;
+            var pricePerTicket = ticketData[sizeId].pricePerTicket;
+            var totalPrice = count * pricePerTicket;
+
+            document.getElementById('price-' + sizeId).textContent = `$${totalPrice.toFixed(2)}`;
+            document.getElementById('count-' + sizeId).textContent = count;
+
+            updateTotalPrice();
+            updateTotalTicketCount();
+            updateTicketArrayDisplay();
+
+            sessionStorage.setItem('ticketData', JSON.stringify(ticketData));
+
+            var totalCount = 0;
+            for (var key in ticketData) {
+                if (ticketData.hasOwnProperty(key)) {
+                    totalCount += ticketData[key].count;
+                }
+            }
+            document.querySelector('.ticket-proceed').style.display = totalCount > 0 ? 'block' : 'none';
+        }
+
+        function initTicket(sizeId, pricePerTicket, name, description, tax) {
+            ticketData[sizeId] = {
+                count: 0,
+                pricePerTicket: pricePerTicket,
+                name: name,
+                description: description,
+                tax: tax
+            };
+        }
+
+        function updateTotalPrice() {
+            var totalPrice = 0;
+            for (var key in ticketData) {
+                if (ticketData.hasOwnProperty(key)) {
+                    totalPrice += ticketData[key].count * ticketData[key].pricePerTicket;
+                }
+            }
+            document.querySelector('.rate').textContent = `$${totalPrice.toFixed(2)}`;
+            document.getElementById('t-price').textContent = `$${totalPrice.toFixed(2)}`;
+        }
+
+        function updateTotalTicketCount() {
+            var totalCount = 0;
+            for (var key in ticketData) {
+                if (ticketData.hasOwnProperty(key)) {
+                    totalCount += ticketData[key].count;
+                }
+            }
+            document.querySelector('.t-number').textContent = totalCount;
+            document.getElementById('t-count').textContent = totalCount;
+
+            if (totalCount === 0) {
+                document.querySelector('.ticket-proceed').style.display = 'none';
+            } else {
+                document.querySelector('.ticket-proceed').style.display = 'block';
+            }
+        }
+
+        function updateTicketArrayDisplay() {
+            var cart_events = [];
+
+            for (var key in ticketData) {
+                if (ticketData.hasOwnProperty(key) && ticketData[key].count > 0) {
+                    cart_events.push({
+                        id: key,
+                        name: ticketData[key].name,
+                        count: ticketData[key].count,
+                        totalPrice: (ticketData[key].count * ticketData[key].pricePerTicket).toFixed(2)
+                    });
+                }
+            }
+
+            var displayDiv = document.getElementById('selected-tickets');
+            displayDiv.innerHTML = '';
+
+            cart_events.forEach(function(ticket) {
+                var ticketHTML = `
+            <div class="total-ticket-area" data-id="${ticket.id}">
+                <div class="container">
+                    <div class="card-info row">
+                        <div class="col-4 col-md-4">
+                            <div class="event-name">
+                                <h5>${ticket.name}</h5>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-4 text-center mob-v">
+                            <div class="t-counter">
+                                <button class="decrease" data-id="${ticket.id}">-</button>
+                                <span class="count">${ticket.count}</span>
+                                <button class="increase" data-id="${ticket.id}">+</button>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-4">
+                            <div class="price">
+                                <h5>$<span class="price-value">${ticket.totalPrice}</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+                displayDiv.innerHTML += ticketHTML;
+            });
+
+            attachDynamicButtonListeners();
+        }
+
+        // function updateTicketArrayDisplay() {
+        //     var cart_events = [];
+
+        //     for (var key in ticketData) {
+        //         if (ticketData.hasOwnProperty(key) && ticketData[key].count > 0) {
+        //             cart_events.push({
+        //                 id: key,
+        //                 name: ticketData[key].name,
+        //                 count: ticketData[key].count,
+        //                 totalPrice: (ticketData[key].count * ticketData[key].pricePerTicket).toFixed(2)
+        //             });
+        //         }
+        //     }
+
+        //     var displayDiv = document.getElementById('selected-tickets');
+        //     displayDiv.innerHTML = ''; 
+
+        //     if (cart_events.length === 0) {
+
+        //         document.getElementById('ticket-info').style.display = 'none';
+        //         document.querySelector('.event-detail').classList.remove('fade-background');
+        //     } else {
+
+        //         // document.getElementById('ticket-info').style.display = 'block';
+
+        //         cart_events.forEach(function(ticket) {
+        //             var ticketHTML = `
+        //                 <div class="total-ticket-area" data-id="${ticket.id}">
+        //                     <div class="container">
+        //                         <div class="card-info row">
+        //                             <div class="col-md-4">
+        //                                 <div class="event-name">
+        //                                     <h5>${ticket.name}</h5>
+        //                                 </div>
+        //                             </div>
+        //                             <div class="col-6 col-md-4 text-center mob-v">
+        //                                 <div class="t-counter">
+        //                                     <button class="decrease" data-id="${ticket.id}">-</button>
+        //                                     <span class="count">${ticket.count}</span>
+        //                                     <button class="increase" data-id="${ticket.id}">+</button>
+        //                                 </div>
+        //                             </div>
+        //                             <div class="col-6 col-md-4">
+        //                                 <div class="price">
+        //                                     <h5>$<span class="price-value">${ticket.totalPrice}</span></h5>
+        //                                 </div>
+        //                             </div>
+        //                         </div>
+        //                     </div>
+        //                 </div>
+        //             `;
+        //             displayDiv.innerHTML += ticketHTML;
+        //         });
+
+        //         attachDynamicButtonListeners();
+        //     }
+        // }
+
+        function attachDynamicButtonListeners() {
+            document.querySelectorAll('#selected-tickets .decrease').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var sizeId = this.getAttribute('data-id');
+                    if (ticketData[sizeId] && ticketData[sizeId].count > 0) {
+                        ticketData[sizeId].count--;
+                        updatePrice(sizeId);
+                        // updateTicketArrayDisplay();
+                    }
+                });
+            });
+
+            document.querySelectorAll('#selected-tickets .increase').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var sizeId = this.getAttribute('data-id');
+                    if (ticketData[sizeId] && ticketData[sizeId].count < maxTickets) {
+                        ticketData[sizeId].count++;
+                        updatePrice(sizeId);
+                        // updateTicketArrayDisplay();
+
+                        const ticketElement = this.closest('.card-info').querySelector('.event-name h5');
+                        if (ticketElement) {
+                            const ticketName = ticketElement.textContent;
+
+                            animateAddToCart(ticketElement, ticketName);
+                        } else {
+                            console.error('Ticket name element not found in .event-name h5.');
+                        }
+
+                        setTimeout(() => {
+                            updateTicketArrayDisplay();
+                        }, 1000);
+
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Maximum Limit Reached',
+                            text: 'You can only select a maximum of 20 tickets!',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+
+            function animateAddToCart(ticketNameElement, ticketName) {
+                const animatedName = document.createElement('span');
+                animatedName.textContent = ticketName;
+                animatedName.classList.add('cart-animation');
+
+                document.body.appendChild(animatedName);
+
+                const namePosition = ticketNameElement.getBoundingClientRect();
+                animatedName.style.position = 'absolute';
+                animatedName.style.top = `${namePosition.top + window.scrollY}px`;
+                animatedName.style.left = `${namePosition.left + window.scrollX}px`;
+
+                const proceedButton = document.querySelector('.btn-process');
+                const buttonPosition = proceedButton.getBoundingClientRect();
+                const buttonTop = buttonPosition.top + window.scrollY;
+                const buttonLeft = buttonPosition.left + window.scrollX;
+
+                setTimeout(() => {
+                    animatedName.style.transition = 'all 1s ease';
+                    animatedName.style.top = `${buttonTop}px`;
+                    animatedName.style.left = `${buttonLeft}px`;
+                    animatedName.style.opacity = '0';
+                }, 10);
+
+                setTimeout(() => {
+                    animatedName.remove();
+                }, 1000);
+            }
+
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            <?php
+
+            $eid = isset($_GET['eid']) ? htmlspecialchars($_GET['eid']) : 'Unknown Event ID';
+            echo "const eid = '{$eid}';\n";
+
+            $name = isset($result['name']) ? htmlspecialchars($result['name']) : 'Unknown Event';
+            $eventDate = isset($result['fromDate']) ? htmlspecialchars($result['fromDate']) : 'Unknown Date';
+            $eventTime = isset($result['time']) ? htmlspecialchars($result['time']) : 'Unknown Time';
+            $eventCost = isset($result['costRange']) ? htmlspecialchars($result['costRange']) : 'Unknown Cost';
+            $photo = isset($result['photo']) ? htmlspecialchars($result['photo']) : 'default-banner.jpg';
+            $sid = isset($result['sid']) ? htmlspecialchars($result['sid']) : 'Unknown sid';
+            $sname = isset($result['store_name']) ? htmlspecialchars($result['store_name']) : 'Unknown sname';
+            $pid = isset($result['pid']) ? htmlspecialchars($result['pid']) : 'Unknown pid';
+            $deliveryDate = isset($result['fromDate']) ? htmlspecialchars($result['fromDate']) : 'Unknown deliveryDate';
+            $deliveryFromTime = isset($result['time']) ? htmlspecialchars($result['time']) : 'Unknown deliveryFromTime';
+
+            $eventDate = isset($result['dateRange']) ? htmlspecialchars($result['dateRange']) : 'Unknown Date';
+            $eventTime = isset($result['time']) ? htmlspecialchars($result['time']) : 'Unknown Time';
+            $simg = isset($result['store_icon']) ? htmlspecialchars($result['store_icon']) : 'Unknown store icon';
+
+
+            $deliveryDisplayDate = $eventDate . " | " . $eventTime;
+
+            echo "const name = '{$name}';\n";
+            echo "const eventDate = '{$eventDate}';\n";
+            echo "const eventTime = '{$eventTime}';\n";
+            echo "const eventCost = '{$eventCost}';\n";
+            echo "const photo = '{$photo}';\n";
+            echo "const sid = '{$sid}';\n";
+            echo "const sname = '{$sname}';\n";
+            echo "const pid = '{$pid}';\n";
+            echo "const deliveryDate = '{$deliveryDate}';\n";
+            echo "const deliveryFromTime = '{$deliveryFromTime}';\n";
+            echo "const deliveryDisplayDate = '{$deliveryDisplayDate}';\n";
+            echo "const simg = '{$simg}';\n";
+
+
+
+            foreach ($result['lstSizes'] as $size) {
+                $sizeId = isset($size['sizeid']) ? htmlspecialchars($size['sizeid']) : 'unknown';
+                $sizeCost = htmlspecialchars($size['cost']);
+                $sizeName = htmlspecialchars($size['name']);
+                $sizeDesc = htmlspecialchars($size['desp']);
+                $sizeTax = htmlspecialchars($size['tax']);
+                echo "initTicket('{$sizeId}', {$sizeCost}, '{$sizeName}', '{$sizeDesc}', '{$sizeTax}');";
+            }
+
+            ?>
+
+            const storedTicketData = sessionStorage.getItem('ticketData');
+            if (storedTicketData) {
+                ticketData = JSON.parse(storedTicketData);
+                updateTicketArrayDisplay();
+                updateTotalPrice();
+                updateTotalTicketCount();
+            }
+
+            const savedTicketData = JSON.parse(sessionStorage.getItem('ticketData')) || {};
+
+            for (const sizeId in savedTicketData) {
+                if (savedTicketData.hasOwnProperty(sizeId)) {
+                    const ticketInfo = savedTicketData[sizeId];
+
+                    // Update count
+                    const countElement = document.getElementById(`count-${sizeId}`);
+                    if (countElement) {
+                        countElement.textContent = ticketInfo.count;
+                    }
+
+                    // Update price
+                    const priceElement = document.getElementById(`price-${sizeId}`);
+                    if (priceElement) {
+                        const totalPrice = ticketInfo.count * ticketInfo.pricePerTicket;
+                        priceElement.textContent = `$${totalPrice.toFixed(2)}`;
+                    }
+                }
+            }
+
+            document.querySelectorAll('.decrease').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var sizeId = this.getAttribute('data-id');
+                    if (ticketData[sizeId].count > 0) {
+                        ticketData[sizeId].count--;
+                        updatePrice(sizeId);
+                        updateTicketArrayDisplay();
+
+                        document.querySelector('.btn-process').style.display = 'block';
+                        document.querySelector('.btn-ticket').style.display = 'none';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.increase').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var sizeId = this.getAttribute('data-id');
+                    if (ticketData[sizeId].count < maxTickets) {
+                        ticketData[sizeId].count++;
+                        updatePrice(sizeId);
+                        updateTicketArrayDisplay();
+
+                        const ticketElement = this.closest('.card-info').querySelector('.event-name .tick-name');
+                        const ticketName = ticketElement.textContent;
+
+                        animateAddToCart(ticketElement, ticketName);
+
+                        setTimeout(() => {
+                            updateTicketArrayDisplay();
+                        }, 1000);
+
+                        document.querySelector('.btn-process').style.display = 'block';
+                        document.querySelector('.btn-ticket').style.display = 'none';
+
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Maximum Limit Reached',
+                            text: 'You can only select a maximum of 20 tickets!',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+
+            function animateAddToCart(ticketNameElement, ticketName) {
+                const animatedName = document.createElement('span');
+                animatedName.textContent = ticketName;
+                animatedName.classList.add('cart-animation');
+
+                document.body.appendChild(animatedName);
+
+                const namePosition = ticketNameElement.getBoundingClientRect();
+                animatedName.style.position = 'absolute';
+                animatedName.style.top = `${namePosition.top + window.scrollY}px`;
+                animatedName.style.left = `${namePosition.left + window.scrollX}px`;
+
+                const proceedButton = document.querySelector('.btn-process');
+                const buttonPosition = proceedButton.getBoundingClientRect();
+                const buttonTop = buttonPosition.top + window.scrollY;
+                const buttonLeft = buttonPosition.left + window.scrollX;
+
+                setTimeout(() => {
+                    animatedName.style.transition = 'all 1s ease';
+                    animatedName.style.top = `${buttonTop}px`;
+                    animatedName.style.left = `${buttonLeft}px`;
+                    animatedName.style.opacity = '0';
+                }, 10);
+
+                setTimeout(() => {
+                    animatedName.remove();
+                }, 1000);
+            }
+
+            document.querySelector('.btn-process').addEventListener('click', function() {
+
+                var totalQuantity = 0;
+
+                for (var sizeId in ticketData) {
+                    if (ticketData.hasOwnProperty(sizeId) && ticketData[sizeId].count > 0) {
+                        totalQuantity += ticketData[sizeId].count;
+                    }
+                }
+
+                if (totalQuantity === 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'No Tickets Selected',
+                        text: 'Please select at least one ticket before proceeding.',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                var ticketsToSave = [];
+                var addOns = [];
+                var totalQuantity = 0;
+                var addOnSizeIds = [];
+                var addOnBaseQtys = [];
+                var addOnQtys = [];
+                var totalTax = 0;
+                var totalCost = 0;
+                var allRemarks = [];
+
+                for (var sizeId in ticketData) {
+                    if (ticketData.hasOwnProperty(sizeId) && ticketData[sizeId].count > 0) {
+                        var ticketTax = parseFloat(ticketData[sizeId].tax) * ticketData[sizeId].count;
+                        var ticketCost = parseFloat(ticketData[sizeId].pricePerTicket) * ticketData[sizeId].count;
+                        totalTax += ticketTax;
+                        totalCost += ticketCost;
+
+                        var ticket = {
+                            pid: pid,
+                            name: ticketData[sizeId].name,
+                            qty: ticketData[sizeId].count.toString(),
+                            size: "",
+                            sizeid: sizeId,
+                            cost: ticketData[sizeId].pricePerTicket,
+                            tax: ticketTax.toFixed(2)
+
+                        };
+
+                        ticketsToSave.push(ticket);
+                        addOns.push(ticket);
+
+                        allRemarks.push(`${ticketData[sizeId].name}(x${ticketData[sizeId].count})`);
+
+                        addOnSizeIds.push(sizeId);
+                        addOnBaseQtys.push(ticketData[sizeId].count);
+                        addOnQtys.push(ticketData[sizeId].count);
+
+                        totalQuantity += ticketData[sizeId].count;
+                    }
+                }
+
+                const serviceFeeRate = 0.075; // 7.5% service fee
+                const serviceFeeValue = (totalCost * serviceFeeRate).toFixed(2);
+                const convenienceFeeRate = 0.035; // 3.5% convenience fee
+                const convenienceFeevalue = (totalCost * convenienceFeeRate).toFixed(2);
+
+                var response = {
+                    cart_type: "events",
+                    section: "events",
+                    section_type: "events",
+                    sid: sid,
+                    sname: sname,
+                    simg: simg,
+                    smin: "0",
+                    minorder: "0",
+                    pid: pid,
+                    eid: eid,
+                    totalcalcqty: totalQuantity,
+                    servicefeevalue: serviceFeeValue,
+                    conveniencefeevalue: convenienceFeevalue,
+                    cartid: cartID,
+                    name: name,
+                    deliveryType: "free",
+                    qty: 1,
+                    price: totalCost.toFixed(2),
+                    baseTax: totalTax.toFixed(2),
+                    tax: totalTax.toFixed(2),
+                    calcprice: totalCost.toFixed(2),
+                    total: totalCost.toFixed(2),
+                    photo: photo,
+                    remarks: allRemarks.join(", "),
+                    customize: allRemarks.join(", "),
+                    addOns: addOns,
+                    add_on_sizeids: addOnSizeIds.join(","),
+                    addOnBaseQtys: addOnBaseQtys.join(","),
+                    addOnQtys: addOnQtys.join(","),
+                    deliveryDate: deliveryDate,
+                    deliveryDisplayDate: deliveryDisplayDate,
+                    deliveryFromTime: deliveryFromTime,
+                    deliveryToTime: "",
+                    OrgainicPro: true
+                };
+
+
+
+                // sessionStorage.setItem('cart_events', JSON.stringify(ticketsToSave));
+                sessionStorage.setItem('cart_events', JSON.stringify(response));
+
+                var totalCount = document.getElementById('t-count').textContent;
+                var totalPrice = document.getElementById('t-price').textContent;
+
+                sessionStorage.setItem('totalCount', totalCount);
+                sessionStorage.setItem('totalPrice', totalPrice);
+                sessionStorage.setItem('name', name);
+                sessionStorage.setItem('eventDate', eventDate);
+                sessionStorage.setItem('eventTime', eventTime);
+                sessionStorage.setItem('eventCost', eventCost);
+                sessionStorage.setItem('photo', photo);
+                sessionStorage.setItem('sid', sid);
+                sessionStorage.setItem('sname', sname);
+                sessionStorage.setItem('pid', pid);
+                sessionStorage.setItem('deliveryDate', deliveryDate);
+                sessionStorage.setItem('deliveryFromTime', deliveryFromTime);
+                sessionStorage.setItem('deliveryDisplayDate', deliveryDisplayDate);
+                sessionStorage.setItem('simg', simg);
+                sessionStorage.setItem('totalPrice', totalCost.toFixed(2));
+                sessionStorage.setItem('totalTax', totalTax.toFixed(2));
+                sessionStorage.setItem('serviceFee', serviceFeeValue);
+
+                document.querySelector('.ticket-proceed').style.display = 'none';
+
+                window.location.href = 'order';
+            });
+
+            updateTotalTicketCount();
+            updateTotalPrice();
+            updateTicketArrayDisplay();
+        });
+    </script> -->
 
     <script>
         var ticketData = {};

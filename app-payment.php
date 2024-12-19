@@ -311,7 +311,7 @@ $subtotal=100;
     position: relative;
     float: right;
     top: -56px;" >
-         <span aria-hidden="true"><img src="images/icon-sticky-close.svg"></span>
+         <span aria-hidden="true"><img src="images/icon-sticky-close.svg" data-bs-dismiss="modal"></span>
         </button>  
      <div class="" style="background-color: #fff;
     padding: 17px;
