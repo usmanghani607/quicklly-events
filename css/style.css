@@ -647,8 +647,11 @@ footer.footer-bg .container .col-md { padding: 0; }
 /* .event-detail .side-area.side-fixed { position: fixed; width: 312px; z-index: 111; }
 .event-detail .side-area-social.social-side-fixed { position: fixed; width: 312px; top: 66%; z-index: 111; } */
 
-.event-detail .side-area.side-fixed { position: fixed; width: 312px; z-index: 111; }
-.event-detail .side-area-social.social-side-fixed { position: fixed; width: 312px; z-index: 111; }
+/* .event-detail .side-area.side-fixed { position: fixed; width: 312px; z-index: 111; }
+.event-detail .side-area-social.social-side-fixed { position: fixed; width: 312px; z-index: 111; top: 260px; } */
+
+.event-detail .side-area.side-fixed { position: sticky; width: 312px; z-index: 111; top: 50px; }
+.event-detail .side-area-social.social-side-fixed { position: sticky; width: 312px; z-index: 111; top: 227px; }
 
 
 /* .event-detail .side-area.side-fixed, .event-detail .side-area-social.social-side-fixed { position: fixed; width: 312px; z-index: 111; } */
@@ -900,6 +903,8 @@ footer.footer-bg .container .col-md { padding: 0; }
 .dashboard .main-area .booking-pagination .page-item.active .page-link { z-index: 3; color: #fff; background-color: #E75E15 !important; border: 1px solid #E4E4E4 !important; }
 .dashboard .main-area .booking-pagination .page-item.disabled .page-link { background-color: #F4F4F4 !important; }
 
+
+.dashboard.booking #ticketModal .modal-dialog .modal-header img.cross { position: absolute; top: -12px; right: -12px; cursor: pointer; width: 22px; }
 
 
 

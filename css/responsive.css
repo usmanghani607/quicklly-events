@@ -337,7 +337,7 @@
     .dashboard.booking #ticketScanModal .modal-dialog { width: 40%; }
     .dashboard.booking #ticketScanModal .modal-dialog .modal-body h2 { font-size: 16px; }
     .dashboard.booking #ticketModal .modal-dialog { width: 40%; }
-    .dashboard.booking #ticketModal .modal-dialog .modal-header img.cross { position: relative; bottom: 90px; cursor: pointer; }
+    /* .dashboard.booking #ticketModal .modal-dialog .modal-header img.cross { position: relative; bottom: 90px; cursor: pointer; } */
     .dashboard.booking #ticketModal .modal-dialog .modal-body h2 { font-size: 16px; }
     .dashboard.booking #ticketModal .modal-dialog .modal-body.bot .desc p { font-size: 14px; }
     .dashboard.booking #ticketModal .modal-dialog .modal-body.bot .rate p { font-size: 14px; }  

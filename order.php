@@ -1020,19 +1020,15 @@ if (isset($_SESSION['cart_events'])) {
         document.addEventListener("DOMContentLoaded", function() {
             const apiUrl = 'https://devrestapi.goquicklly.com/user/my-account';
             
-            // Get the Bearer token from the session (PHP session variable)
             const bearerToken = "<?php echo $_SESSION['bearer_token']; ?>";
             
-            // Get the UID from the session (PHP session variable) instead of localStorage
-            const uid = "<?php echo $_SESSION['uid']; ?>"; 
+            const uid = "<?php echo $_SESSION['value_user_id']; ?>"; 
 
-            // If uid or bearer token is missing, log an error and return
             if (!uid || !bearerToken) {
                 console.error('User ID or Bearer Token is missing');
                 return;
             }
 
-            // Function to load user profile
             async function loadUserProfile() {
                 try {
                     const response = await fetch(apiUrl, {
@@ -1046,20 +1042,18 @@ if (isset($_SESSION['cart_events'])) {
                         })
                     });
 
-                    // Check if the API response is successful
                     if (!response.ok) {
                         throw new Error('Failed to fetch profile data');
                     }
 
                     const data = await response.json();
-                    populateFormFields(data);  // Populate form fields with the API data
+                    populateFormFields(data);  
 
                 } catch (error) {
-                    console.error('Error:', error);  // Handle errors
+                    console.error('Error:', error);  
                 }
             }
 
-            // Function to populate form fields with data
             function populateFormFields(data) {
                 if (data && data.success) {
                     document.getElementById("first-name").value = data.firstName || '';
@@ -1071,11 +1065,9 @@ if (isset($_SESSION['cart_events'])) {
                 }
             }
 
-            // Load profile data on page load
             loadUserProfile();
         });
 
-        // Function to calculate and update values (not related to session)
         function getValues() {
             var total = $(".val").html();
             $(".showtotalonnp").html(total);

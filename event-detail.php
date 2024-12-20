@@ -2220,7 +2220,7 @@ $result_home = json_decode($response_home, true);
         });
     </script>
 
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const side = document.querySelector('.summery-p');
             const sideSocial = document.querySelector('.social-p');
@@ -2280,9 +2280,9 @@ $result_home = json_decode($response_home, true);
             // Reapply scroll behavior on window resize
             window.addEventListener('resize', applyScrollBehavior);
         });
-    </script>
+    </script> -->
 
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const sideArea = document.querySelector('.side-area.side-fixed');
             const socialArea = document.querySelector('.side-area-social.social-side-fixed');
@@ -2346,7 +2346,7 @@ $result_home = json_decode($response_home, true);
                 applyScrollBehavior();
             });
         });
-    </script>
+    </script> -->
 
     <script>
         var eventId = <?php echo json_encode($event_id); ?>;
@@ -2386,6 +2386,19 @@ $result_home = json_decode($response_home, true);
                 }
                 modalImage.src = galleryImages[currentIndex].dataset.image;
             });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("scroll", function () {
+            const sideAreaBottom = document.querySelector(".social-side-fixed");
+
+            if (window.scrollY > 50) { 
+                
+                sideAreaBottom.style.display = "none";
+            } else {
+                sideAreaBottom.style.display = "block";
+            }
         });
     </script>
 

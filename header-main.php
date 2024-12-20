@@ -12,7 +12,13 @@ session_set_cookie_params([
 
 session_start();
 
+// print_r($_SESSION);
+
 // echo $_SESSION['bearer_token'];
+
+// echo $_SESSION['value_user_id'];
+// echo $_SESSION['firstName'];
+// echo $_SESSION['lastName'];
 
 $login_api_url = 'https://devrestapi.goquicklly.com/login';
 $login_data = array(
@@ -100,6 +106,133 @@ if (isset($login_result['token'])) {
             background: #F05336 !important;
         }
     </style>
+
+<?php
+if(isset($_GET['uid']))
+{
+    $uid = $_GET['uid'];
+}
+?> 
+<!-- <script>
+ $(document).ready(function() {
+     $.ajax({
+                type: "POST",
+                url: "auto-login.php",
+                data: {
+                    uid:<?=$uid?>
+                },
+                success: function(response) {
+                    var data = JSON.parse(response);
+
+                    if (data.success) {
+
+                        sessionStorage.setItem('firstName', data.firstName);
+                        sessionStorage.setItem('lastName', data.lastName);
+                        sessionStorage.setItem('uid', data.uid);
+
+                        updateUI();
+
+                      /* Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: data.message,
+                            timer: 1500,
+                            showConfirmButton: false
+                        });*/
+
+                      /* setTimeout(function() {
+                            window.location='<?=SITE_URL?>'; 
+                        }, 1500);*/
+                    } else {
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred: ' + error
+                    });
+                }
+            });
+            
+            function updateUI() {
+            var firstName = sessionStorage.getItem('firstName');
+            if (firstName) {
+                $('.dropdown').show();
+                $('.btn_signup').hide();
+                $('.dropdown-toggle').text(firstName);
+            } else {
+                $('.dropdown').hide();
+                $('.btn_signup').show();
+            }
+        }
+ });
+</script> -->
+
+<script>
+
+    $(document).ready(function() {
+
+        $.ajax({
+            type: "POST",
+            url: "auto-login.php",
+            data: {
+                uid: <?=$uid?> 
+            },
+            success: function(response) {
+                var data = JSON.parse(response);
+
+                if (data.success) {
+                    
+                    sessionStorage.setItem('firstName', data.firstName);
+                    sessionStorage.setItem('lastName', data.lastName);
+                    sessionStorage.setItem('uid', data.uid);
+
+                    updateUI();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred: ' + error
+                });
+            }
+        });
+
+        function updateUI() {
+            var firstName = sessionStorage.getItem('firstName');
+            if (firstName) {
+                
+                $('.dropdown').show();
+                $('.btn_signup').hide();
+                $('.dropdown-toggle').text(firstName); 
+            } else {
+                
+                $('.dropdown').hide();
+                $('.btn_signup').show();
+            }
+        }
+        
+        updateUI();
+
+    });
+
+</script>
+
 </head>
 
 <body>
