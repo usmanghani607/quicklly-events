@@ -964,7 +964,6 @@ $result_home = json_decode($response_home, true);
                 </div>
             </div>
         </div>
-
         <!--Seating Modal--->
 
         <div class="modal fade" id="seatingModal" aria-hidden="true" aria-labelledby="seatingModalLabel" tabindex="-1">
@@ -1615,7 +1614,8 @@ $result_home = json_decode($response_home, true);
 
             var count = ticketData[sizeId].count;
             var pricePerTicket = ticketData[sizeId].pricePerTicket;
-            var totalPrice = count * pricePerTicket;
+            // var totalPrice = count * pricePerTicket;
+            var totalPrice = count === 0 ? pricePerTicket : count * pricePerTicket;
 
             document.getElementById('price-' + sizeId).textContent = `$${totalPrice.toFixed(2)}`;
             document.getElementById('count-' + sizeId).textContent = count;
@@ -2154,6 +2154,40 @@ $result_home = json_decode($response_home, true);
         var cartID = <?php echo isset($_SESSION['cartID']) ? $_SESSION['cartID'] : 'null'; ?>;
     </script>
 
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.querySelector('.btn-process').addEventListener('click', function(event) {
+                event.preventDefault();
+
+                document.querySelector('.event-detail').classList.remove('fade-background');
+
+                if (document.getElementById('d-arrow').style.display === 'inline') {
+                    document.getElementById('ticket-info').style.display = 'none';
+                    document.querySelector('.ticket-proceed').style.display = 'none';
+                }
+            });
+
+            document.getElementById('d-arrow').addEventListener('click', function() {
+                document.getElementById('ticket-info').style.display = 'none';
+                document.getElementById('d-arrow').style.display = 'none';
+                document.getElementById('u-arrow').style.display = 'inline';
+
+                document.querySelector('.event-detail').classList.remove('fade-background');
+                document.querySelector('.side-area.side-fixed').style.zIndex = '1';
+            });
+
+            document.getElementById('u-arrow').addEventListener('click', function() {
+                document.getElementById('ticket-info').style.display = 'block';
+                document.getElementById('u-arrow').style.display = 'none';
+                document.getElementById('d-arrow').style.display = 'inline';
+
+                document.querySelector('.event-detail').classList.add('fade-background');
+                document.querySelector('.side-area.side-fixed').style.zIndex = '0';
+            });
+        });
+    </script> -->
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -2187,6 +2221,7 @@ $result_home = json_decode($response_home, true);
             });
         });
     </script>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

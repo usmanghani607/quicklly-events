@@ -228,7 +228,7 @@ $subtotal=100;
                     $.ajax({
                         url: "app-results-sandbox-np.php",
                         dataType: "json",
-                        data: {ptoken: ''+ response.token, np_cnumber: ''+ response.card.number,"subtotal":$("#subtotal").val(),"delivery_charges":0,"eservicefee":$("#eservicetax").val(),"taxtotal":$("#stax").val(),'delivery_notesbox':$("#delivery_notesbox").val() },
+                        data: {ptoken: ''+ response.token, np_cnumber: ''+ response.card.number,"subtotal":$("#subtotal").val(),"delivery_charges":0,"eservicefee":$("#eservicetax").val(),"taxtotal":$("#stax").val(),'delivery_notesbox':$("#delivery_notesbox").val(),'disount':$("#discount").val() },
                         type: "POST",
                         success: function (results) {
 						 var  parsed_data  = JSON.parse(JSON.stringify(results));	
@@ -322,6 +322,7 @@ $subtotal=100;
         <input type="hidden" id="subtotal">
         <input type="hidden" id="stax">
         <input type="hidden" id="eservicetax">
+        <input type="hidden" id="discount">
          <div>
             <b style="font: normal normal 14px / 16px Poppins;
     color: #000000;

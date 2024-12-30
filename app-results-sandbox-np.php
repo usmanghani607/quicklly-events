@@ -2,11 +2,20 @@
 session_start();
 define('WEBAPI_URL_NEW',"https://devrestapi.goquicklly.com/");
 define('SITE_URL',"https://www.dev.goquicklly.com/events-web");
-	//include("include/config.php");
+	include("include/config.php");
 	include("include/function.php");
 //	include "qrcode.php";
 include("national_processing.php");
  $subtotal=$_POST['subtotal'];
+ $discount=$_POST['discount'];
+ if($discount=='')
+ {
+     $discount=0;
+ }
+ else
+ {
+     $discount=$_POST['discount'];
+ }
 $delivery_charges=$_POST['delivery_charges'];
 $eservicefee=$_POST['eservicefee'];
 $taxtotal=$_POST['taxtotal'];
@@ -92,7 +101,7 @@ $_SESSION['cart_events'];
 	$apitoken = $tokenData->token;
    $token=$apitoken;
 
-	$userarr=callAPI('POST', WEBAPI_URL_NEW.'miniWebsite/order-review-user', array('user_id' =>'48606'));
+	$userarr=callAPI('POST', WEBAPI_URL_NEW.'miniWebsite/order-review-user', array('user_id' =>$_SESSION['value_user_id']));
    foreach($userarr->lstuser as $resultuser){}
    
 $todayorrderlistarray['domain']=SITE_URL;
@@ -103,7 +112,7 @@ $todayorrderlistarray['city']=$resultuser->city_id;
 $todayorrderlistarray['coupon']='';
 $todayorrderlistarray['delivery']='1';
 $todayorrderlistarray['deliveryNotes']='hello';
-$todayorrderlistarray['discount']='0';
+$todayorrderlistarray['discount']=$discount;
 $todayorrderlistarray['discountPopUp']=0;
 $todayorrderlistarray['discountType']='';
 $todayorrderlistarray['email']=$resultuser->email;
@@ -123,8 +132,8 @@ $todayorrderlistarray['streetAddr1']=$resultuser->full_address;
 $todayorrderlistarray['streetAddr2']=$resultuser->full_address;
 $todayorrderlistarray['subTotal']=$subtotal;
 $todayorrderlistarray['tip']='0';//number_format($subtotal*$_COOKIE['tip']/100,2);
-$todayorrderlistarray['uid']='48606';
-$todayorrderlistarray['callFrom']='JUSTBYQUICKLLY';
+$todayorrderlistarray['uid']=$_SESSION['value_user_id'];
+$todayorrderlistarray['callFrom']='event-website';
 $todayorrderlistarray['zipcode']=$resultuser->pincode;
 $todayorrderlistarray["eServiceFees"]=$eservicefee;
 $todayorrderlistarray['token']=$token;
@@ -186,7 +195,7 @@ $orderid=$arr['oid'];
 //$amount='18.25';
 $np_cnumber=substr($_POST['np_cnumber'], -4);
 //$orderid=$_SESSION['value_order_id'];
-  $amount=10;//number_format(getFieldWhere('total_amount','tbl_order','id',$orderid),2,'.', '');
+  $amount=number_format(getFieldWhere('total_amount','tbl_order','id',$orderid),2,'.', '');
 
 //$amount='1.07';
 $vaultstatus='';
@@ -199,7 +208,7 @@ $full_address=$resultuser->full_address;//getFieldWhere('ship_full_address','tbl
 $city=$resultuser->city_id;//getFieldWhere('ship_city_id','tbl_order','id',$orderid);//$udata->ship_city_id;
 $state=$resultuser->state;//getFieldWhere('ship_state','tbl_order','id',$orderid);//$udata->ship_state;
 $pincode=$resultuser->pincode;//getFieldWhere('ship_pincode','tbl_order','id',$orderid);//$udata->ship_pincode;
-$value_user_id="48606";
+$value_user_id=$_SESSION['value_user_id'];
 $shipemail=$resultuser->email;//getFieldWhere('ship_email','tbl_order','id',$orderid);//$udata->ship_email;
 
 $gw = new gwapi;

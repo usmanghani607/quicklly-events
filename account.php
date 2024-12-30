@@ -67,12 +67,12 @@ session_set_cookie_params([
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="" class="form-label">Email Address</label>
-                                                <input type="email" class="form-control mail emailField profileemail" name="email">
+                                                <input type="email" class="form-control mail emailField profileemail" name="email" readonly>
                                                 <div class="error-message text-danger emailError"></div>
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label for="" class="form-label">Mobile Number</label>
-                                                <input type="text" class="form-control phoneField" name="phone" minlength="10" maxlength="10" pattern="\d*" inputmode="numeric">
+                                                <input type="text" class="form-control phoneField" name="phone" minlength="10" maxlength="10" pattern="\d*" inputmode="numeric" readonly>
                                                 <div id="phoneError" class="error-message text-danger"></div>
                                             </div>
                                         </div>
@@ -187,14 +187,13 @@ session_set_cookie_params([
         });
     </script> -->
 
-    <script>
+    <!-- <script>
         $(document).ready(function () {
             $("#updateProfileBtn").on("click", function (e) {
                 e.preventDefault();
 
-                $(".error-message").text(""); // Clear previous error messages
+                $(".error-message").text(""); 
 
-                // Get the UID from the session (provided by PHP)
                 const uid = "<?php echo isset($_SESSION['value_user_id']) ? $_SESSION['value_user_id'] : ''; ?>";
 
                 if (!uid) {
@@ -206,29 +205,33 @@ session_set_cookie_params([
                     return;
                 }
 
-                // Get input field values
+
                 const firstName = $(".firstNameField").val().trim();
+                console.log("First Name Value:", firstName);
                 const lastName = $(".lastNameField").val().trim();
                 const email = $(".profileemail").val().trim();
                 const phone = $(".phoneField").val().trim();
 
                 let isValid = true;
 
-                // Validate form fields
                 if (firstName === "") {
                     $("#firstNameError").text("First Name is required.");
+                    // alert('First Name is required.')
                     isValid = false;
                 }
                 if (lastName === "") {
                     $("#lastNameError").text("Last Name is required.");
+                    // alert('Last Name is required.')
                     isValid = false;
                 }
                 if (email === "") {
                     $(".profileemail").text("Email is required.");
+                    // alert('Email is required.')
                     isValid = false;
                 }
                 if (phone === "") {
                     $("#phoneError").text("Mobile Number is required.");
+                    // alert('Mobile Number is required.')
                     isValid = false;
                 }
 
@@ -236,7 +239,6 @@ session_set_cookie_params([
                     return;
                 }
 
-                // Prepare the data to be sent to the server
                 const profileData = {
                     firstName: firstName,
                     lastName: lastName,
@@ -244,48 +246,141 @@ session_set_cookie_params([
                     phone: phone
                 };
 
-                // Make the AJAX request to the server
-                $.ajax({
-                    type: "POST",
-                    url: "update_profile.php", // URL of the PHP script
-                    data: profileData,
-                    success: function (response) {
-                        const data = JSON.parse(response);
+                // $.ajax({
+                //     type: "POST",
+                //     url: "update_profile.php",
+                //     data: profileData,
+                //     success: function (response) {
+                //         const data = JSON.parse(response);
 
-                        if (data.success) {
-                            // Update successful
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Profile Updated',
-                                text: 'Your profile was updated successfully!',
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
+                //         if (data.success) {
+                            
+                //             Swal.fire({
+                //                 icon: 'success',
+                //                 title: 'Profile Updated',
+                //                 text: 'Your profile was updated successfully!',
+                //                 timer: 2000,
+                //                 showConfirmButton: false
+                //             });
 
-                            setTimeout(function () {
-                                window.location.reload(); // Reload the page to reflect updated session values
-                            }, 2000);
-                        } else {
-                            // Update failed
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Update Failed',
-                                text: data.message
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'An error occurred: ' + error
-                        });
-                    }
-                });
+                //             setTimeout(function () {
+                //                 window.location.reload(); 
+                //             }, 2000);
+                //         } else {
+                            
+                //             Swal.fire({
+                //                 icon: 'error',
+                //                 title: 'Update Failed',
+                //                 text: data.message
+                //             });
+                //         }
+                //     },
+                //     error: function (xhr, status, error) {
+                //         Swal.fire({
+                //             icon: 'error',
+                //             title: 'Error',
+                //             text: 'An error occurred: ' + error
+                //         });
+                //     }
+                // });
             });
         });
-    </script>
+    </script> -->
 
+    <script>
+        $(document).ready(function () {
+        $("#updateProfileBtn").on("click", function (e) {
+            e.preventDefault();
+
+            $(".error-message").text(""); // Clear all previous error messages
+
+            const uid = "<?php echo isset($_SESSION['value_user_id']) ? $_SESSION['value_user_id'] : ''; ?>";
+
+            if (!uid) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'User ID not found in session!'
+                });
+                return;
+            }
+
+            const firstName = $(".firstNameField").val().trim();
+            const lastName = $(".lastNameField").val().trim();
+            const email = $(".profileemail").val().trim();
+            const phone = $(".phoneField").val().trim();
+
+            // Sequential Validation
+            if (firstName === "") {
+                alert("First Name is required.");
+                return; // Stop further validation
+            }
+
+            if (lastName === "") {
+                alert("Last Name is required.");
+                return; // Stop further validation
+            }
+
+            if (email === "") {
+                alert("Email is required.");
+                return; // Stop further validation
+            }
+
+            if (phone === "") {
+                alert("Mobile Number is required.");
+                return; // Stop further validation
+            }
+
+            // If all validations pass
+            const profileData = {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phone: phone
+            };
+
+            // Uncomment the AJAX call to send data to the server
+            
+            $.ajax({
+                type: "POST",
+                url: "update_profile.php",
+                data: profileData,
+                success: function (response) {
+                    const data = JSON.parse(response);
+
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Profile Updated',
+                            text: 'Your profile was updated successfully!',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+                        setTimeout(function () {
+                            window.location.reload(); 
+                        }, 2000);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Update Failed',
+                            text: data.message
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred: ' + error
+                    });
+                }
+            });
+            
+        });
+    });
+
+    </script>
 
     <!-- <script>
         document.addEventListener("DOMContentLoaded", function() {

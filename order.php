@@ -59,13 +59,32 @@ if (isset($_SESSION['cart_events'])) {
             background-color: #fff;
             opacity: 1;
         }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(45, 45, 45, 0.11) url('./images/loading.gif') no-repeat center center;
+            background-size: 50px 50px;
+            z-index: 9999;
+            display: block;
+        }
+
+        #content {
+            display: none;
+        }
+
     </style>
 
 </head>
 
 <body>
 
-    <div class="order-detail">
+<div id="loader" class="loader"></div>
+
+    <div class="order-detail" id="content" style="display: none;">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 main-area">
@@ -83,104 +102,21 @@ if (isset($_SESSION['cart_events'])) {
                                 <div class="counter">
                                     <h2 id="event-name"></h2>
                                     <p class="address" id="event-address"></p>
-                                    <h3 class="price" id="event-price"></h3>
+                                    <!-- <h3 class="price" id="event-price"></h3> -->
+                                    <h3 class="price total-price"></h3>
                                 </div>
                             </div>
                         </div>
                         <div class="title-border"></div>
-
-                        <!-- <div class="total-ticket-area">
-                            <div class="container">
-                                <div class="card-info row">
-                                    <div class="col-md-6">
-                                        <div class="event-name">
-                                            <h5>Student Special - Early Bird - Ar</h5>
-                                            <h5>$25.00</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <span class="t-counter">
-                                            <button id="t-decrease-earlybird">-</button>
-                                            <span id="t-count-earlybird">1</span>
-                                            <button id="t-increase-earlybird">+</button>
-                                        </span>
-                                        <span class="recycle">
-                                            <img src="images/delete.png" alt="">
-                                        </span>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="price">
-                                            <h5 id="t-price-earlybird">$25.00</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
 
                         <div class="total-ticket-area order">
                             <div class="container" id="ticket-container">
                             </div>
                         </div>
 
-                        <!-- <div class="total-ticket-area">
-                            <div class="container">
-                                <div class="card-info row">
-                                    <div class="col-md-6">
-                                        <div class="event-name">
-                                            <h5>Family Zone - Ar</h5>
-                                            <h5>$35.00</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <span class="t-counter">
-                                            <button id="t-decrease-familyzone">-</button>
-                                            <span id="t-count-familyzone">1</span>
-                                            <button id="t-increase-familyzone">+</button>
-                                        </span>
-                                        <span class="recycle">
-                                            <img src="images/delete.png" alt="">
-                                        </span>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="price">
-                                            <h5 id="t-price-familyzone">$35.00</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="total-ticket-area last-t">
-                            <div class="container">
-                                <div class="card-info row">
-                                    <div class="col-md-6">
-                                        <div class="event-name">
-                                            <h5>VVIP Ticket - Ar</h5>
-                                            <h5>$100.00</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <span class="t-counter">
-                                            <button id="t-decrease-vvip">-</button>
-                                            <span id="t-count-vvip">1</span>
-                                            <button id="t-increase-vvip">+</button>
-                                        </span>
-                                        <span class="recycle">
-                                            <img src="images/delete.png" alt="">
-                                        </span>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="price">
-                                            <h5 id="t-price-vvip">$100.00</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-
                     </div>
 
-                    <div class="billing-area">
+                    <div class="billing-area" id="billing-section">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="heading">
@@ -329,14 +265,6 @@ if (isset($_SESSION['cart_events'])) {
                     </div>
 
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="load-spin" id="loader">
-        <div class="text-center">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
             </div>
         </div>
     </div>
@@ -826,7 +754,7 @@ if (isset($_SESSION['cart_events'])) {
         }
     </script>
 
-    <script>
+    <!-- <script>
         function loadEventName() {
             var name = sessionStorage.getItem('name');
             var eventDate = sessionStorage.getItem('eventDate');
@@ -836,16 +764,24 @@ if (isset($_SESSION['cart_events'])) {
 
 
 
+            // if (eventDate && eventTime) {
+            //     document.getElementById('event-address').textContent = `${eventDate} - ${eventTime}`;
+            // }
+
             if (eventDate && eventTime) {
                 document.getElementById('event-address').textContent = `${eventDate} - ${eventTime}`;
+            } else if (eventDate) {
+                document.getElementById('event-address').textContent = eventDate;
+            } else if (eventTime) {
+                document.getElementById('event-address').textContent = eventTime;
             }
 
             if (name) {
                 document.getElementById('event-name').textContent = name;
             }
-            if (eventCost) {
-                document.getElementById('event-price').textContent = eventCost;
-            }
+            // if (eventCost) {
+            //     document.getElementById('event-price').textContent = eventCost;
+            // }
 
             if (photo) {
                 const bannerElement = document.getElementById('event-banner');
@@ -858,7 +794,44 @@ if (isset($_SESSION['cart_events'])) {
             loadEventName();
             // loadEventAddress();
         };
+    </script> -->
+
+    <script>
+        function loadEventName() {
+            var name = sessionStorage.getItem('name');
+            var eventDate = sessionStorage.getItem('eventDate');
+            var eventTime = sessionStorage.getItem('eventTime');
+            var eventCost = sessionStorage.getItem('eventCost');
+            var photo = sessionStorage.getItem('photo');
+
+            if (eventDate && eventTime) {
+                document.getElementById('event-address').textContent = `${eventDate} - ${eventTime}`;
+            } else if (eventDate) {
+                document.getElementById('event-address').textContent = eventDate;
+            } else if (eventTime) {
+                document.getElementById('event-address').textContent = eventTime;
+            }
+
+            if (name) {
+                document.getElementById('event-name').textContent = name;
+            }
+
+            if (photo) {
+                const bannerElement = document.getElementById('event-banner');
+                bannerElement.src = photo;
+            }
+        }
+
+        window.onload = function() {
+            loadTickets(); // If this function exists
+            loadEventName();
+
+            // Hide the loader and show the content
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+        };
     </script>
+
 
     <script>
         let promoApplied = false;
@@ -1132,6 +1105,28 @@ if (isset($_SESSION['cart_events'])) {
             });
         }, 1800000);
 
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            
+            const uid = "<?php echo isset($_SESSION['uid']) ? $_SESSION['uid'] : ''; ?>";
+            const bearerToken = "<?php echo isset($_SESSION['bearer_token']) ? $_SESSION['bearer_token'] : ''; ?>";
+
+            // Hide the billing section if the user is not logged in
+            if (!uid || !bearerToken) {
+                const billingSection = document.getElementById("billing-section");
+                billingSection.style.display = "none";
+
+                // Optionally show an alert or message to the user
+                // Swal.fire({
+                //     icon: 'warning',
+                //     title: 'Not Logged In',
+                //     text: 'Please log in to view billing details.',
+                //     confirmButtonText: 'OK'
+                // });
+            }
+        });
     </script>
 
 </body>

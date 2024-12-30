@@ -52,7 +52,7 @@
                         </div>
                         <div class="collapse navbar-collapse">
                             <div class="col search-bar">
-                                <form class="d-flex" role="search">
+                                <form class="d-flex" role="search" onsubmit="return false;">
                                     <input id="header-search" class="form-control search-form" type="search" placeholder="Search Events" aria-label="Search">
                                 </form>
                             </div>
@@ -95,6 +95,23 @@
         </div>
     </div>
 
+    <!-- <div id="search-results-container"></div> -->
+
+    <div class="search-filter-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="SearchloaderOverlay" style="display: none;">
+                        <div id="Searchloader" style="display: none; font-size: 18px; text-align: center; padding: 20px;">
+                            <img src="images/logo.png" alt="Loading...">
+                        </div>
+                    </div>
+                    <div id="search-results-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <?php
     include 'login-page.php';
@@ -123,7 +140,7 @@
         });
     </script>
 
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             
             const originalContent = $(".event-detail").html();
@@ -159,20 +176,391 @@
         });
 
         });
+    </script> -->
+
+    <!-- <script>
+        $(document).ready(function() {
+            let ajaxRequest;
+            let debounceTimeout;
+
+            function handleSearch() {
+                const query = $("#header-search").val().trim();
+
+                if (query.length > 0) {
+                    $(".body-content").hide();
+                } else {
+                    $(".body-content").show();
+                }
+
+                if (query.length > 0) {
+                    $(".search-filter-area").css({
+                        "background": "#f8f8f8",
+                        "opacity": "1",
+                        "padding": "25px 0 40px 0"
+                    });
+                } else {
+                    $(".search-filter-area").css({
+                        "background": "",
+                        "opacity": "",
+                        "padding": ""
+                    });
+                }
+
+                if (ajaxRequest) ajaxRequest.abort();
+                clearTimeout(debounceTimeout);
+
+                if (query.length > 0) {
+                    debounceTimeout = setTimeout(() => {
+                        searchEvents(query);
+                    }, 1000);
+                } else {
+                    $("#search-results-container").html("");
+                    $("#Searchloader").hide();
+                    $("#SearchloaderOverlay").hide();
+                }
+            }
+
+            $("#header-search").on("keyup", function(e) {
+                e.preventDefault();
+                handleSearch();
+            });
+
+            function searchEvents(query) {
+
+                $("#SearchloaderOverlay").show();
+                $("#Searchloader").show();
+
+                ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: "get_home_data.php",
+                    data: {
+                        query: query,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success) {
+                            displayEvents(response.events);
+                        } else {
+                            $("#search-results-container").html('<span style="display: block; text-align: center; margin: 20px auto; font-size: 16px; color: #555;">No events found.</span>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        if (status !== "abort") console.error("An error occurred:", error);
+                    },
+                    complete: function() {
+                        $("#SearchloaderOverlay").hide();
+                    },
+                });
+            }
+
+            function displayEvents(events) {
+                let html = '<div class="row row-cols-1 row-cols-md-3 g-4">';
+
+                events.forEach((event, index) => {
+                    const cardClass = (index % 3 === 0) ? 'first' : ((index % 3 === 1) ? 'sec' : 'third');
+                    const trimmedName = event.name.length > 54 ? event.name.substring(0, 54) + '...' : event.name;
+                    const day = event.dayMonth.substring(0, 2);
+                    const month = event.dayMonth.substring(2);
+
+                    html += `
+                <div class="col">
+                    <div class="card ${cardClass}">
+                        <a href="event-detail?slug=${event.slug}">
+                            <div class="event-card-header">
+                                <span class="date">
+                                    <p class="date-a">${day}</p>
+                                    <p class="month-a">${month}</p>
+                                </span>
+                                <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">${trimmedName}</h5>
+                                <h4 class="event-time">${event.dateRange}</h4>
+                                <p class="event-location">${event.venue}</p>
+                                <p class="event-desc">${event.organiser}</p>
+                                <div class="event-price">
+                                    <span class="price">Starting at ${event.costRange}</span>`;
+                    if (event.discountTxt) {
+                        html += `<span class="price-icon"><img src="images/discount-icon.png" alt="Discount"> ${event.discountTxt}</span>`;
+                    }
+                    html += `
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>`;
+                });
+
+                html += '</div>';
+                $("#search-results-container").html(html);
+            }
+        });
+    </script> -->
+
+    <!-- <script>
+        $(document).ready(function() {
+            let ajaxRequest;
+            let debounceTimeout;
+
+            function handleSearch() {
+                const query = $("#header-search").val().trim();
+
+                if (query.length > 0) {
+                    $(".body-content").hide();
+                } else {
+                    $(".body-content").show();
+                }
+
+                if (ajaxRequest) ajaxRequest.abort();
+                clearTimeout(debounceTimeout);
+
+                if (query.length > 0) {
+                    debounceTimeout = setTimeout(() => {
+                        searchEvents(query);
+                    }, 1000);
+                } else {
+                    $("#search-results-container").html("");
+                    $("#Searchloader").hide();
+                    $("#SearchloaderOverlay").hide();
+
+                    // Reset CSS for empty search
+                    $(".search-filter-area").css({
+                        "background": "",
+                        "opacity": "",
+                        "padding": ""
+                    });
+                }
+            }
+
+            $("#header-search").on("keyup", function(e) {
+                e.preventDefault();
+                handleSearch();
+            });
+
+            function searchEvents(query) {
+                $("#SearchloaderOverlay").show();
+                $("#Searchloader").show();
+
+                ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: "get_home_data.php",
+                    data: {
+                        query: query,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success) {
+                            displayEvents(response.events);
+
+                            // Apply background and padding after showing results
+                            $(".search-filter-area").css({
+                                "background": "#f8f8f8",
+                                "opacity": "1",
+                                "padding": "25px 0 40px 0"
+                            });
+                        } else {
+                            $("#search-results-container").html('<span style="display: block; text-align: center; margin: 20px auto; font-size: 16px; color: #555;">No events found.</span>');
+
+                            // Reset CSS if no events are found
+                            $(".search-filter-area").css({
+                                "background": "",
+                                "opacity": "",
+                                "padding": ""
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        if (status !== "abort") console.error("An error occurred:", error);
+                    },
+                    complete: function() {
+                        $("#SearchloaderOverlay").hide();
+                    },
+                });
+            }
+
+            function displayEvents(events) {
+                let html = '<div class="row row-cols-1 row-cols-md-3 g-4">';
+
+                events.forEach((event, index) => {
+                    const cardClass = (index % 3 === 0) ? 'first' : ((index % 3 === 1) ? 'sec' : 'third');
+                    const trimmedName = event.name.length > 54 ? event.name.substring(0, 54) + '...' : event.name;
+                    const day = event.dayMonth.substring(0, 2);
+                    const month = event.dayMonth.substring(2);
+
+                    html += `
+            <div class="col">
+                <div class="card ${cardClass}">
+                    <a href="event-detail?slug=${event.slug}">
+                        <div class="event-card-header">
+                            <span class="date">
+                                <p class="date-a">${day}</p>
+                                <p class="month-a">${month}</p>
+                            </span>
+                            <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">${trimmedName}</h5>
+                            <h4 class="event-time">${event.dateRange}</h4>
+                            <p class="event-location">${event.venue}</p>
+                            <p class="event-desc">${event.organiser}</p>
+                            <div class="event-price">
+                                <span class="price">Starting at ${event.costRange}</span>`;
+                    if (event.discountTxt) {
+                        html += `<span class="price-icon"><img src="images/discount-icon.png" alt="Discount"> ${event.discountTxt}</span>`;
+                    }
+                    html += `
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>`;
+                });
+
+                html += '</div>';
+                $("#search-results-container").html(html);
+            }
+        });
+    </script> -->
+
+    <script>
+        $(document).ready(function() {
+            let ajaxRequest;
+            let debounceTimeout;
+
+            function handleSearch() {
+                const query = $("#header-search").val().trim();
+
+                if (ajaxRequest) ajaxRequest.abort();
+                clearTimeout(debounceTimeout);
+
+                if (query.length > 0) {
+                    debounceTimeout = setTimeout(() => {
+                        searchEvents(query);
+                    }, 1000);
+                } else {
+                    // Reset results and show body content if search is empty
+                    $("#search-results-container").html("");
+                    $("#Searchloader").hide();
+                    $("#SearchloaderOverlay").hide();
+                    $(".body-content").show();
+
+                    // Reset CSS
+                    $(".search-filter-area").css({
+                        "background": "",
+                        "opacity": "",
+                        "padding": ""
+                    });
+                }
+            }
+
+            $("#header-search").on("keyup", function(e) {
+                e.preventDefault();
+                handleSearch();
+            });
+
+            function searchEvents(query) {
+                $("#SearchloaderOverlay").show();
+                $("#Searchloader").show();
+
+                ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: "get_home_data.php",
+                    data: {
+                        query: query,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success) {
+                            displayEvents(response.events);
+
+                            // Apply background and padding after showing results
+                            $(".search-filter-area").css({
+                                "background": "#f8f8f8",
+                                "opacity": "1",
+                                "padding": "25px 0 40px 0"
+                            });
+
+                            // Hide body content after results are displayed
+                            $(".body-content").hide();
+                        } else {
+                            $("#search-results-container").html('<span style="display: block; text-align: center; margin: 20px auto; font-size: 16px; color: #555;">No events found.</span>');
+
+                            // Reset CSS if no events are found
+                            $(".search-filter-area").css({
+                                "background": "",
+                                "opacity": "",
+                                "padding": ""
+                            });
+
+                            // Show body content if no results are found
+                            $(".body-content").show();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        if (status !== "abort") console.error("An error occurred:", error);
+                    },
+                    complete: function() {
+                        $("#SearchloaderOverlay").hide();
+                    },
+                });
+            }
+
+            function displayEvents(events) {
+                let html = '<div class="row row-cols-1 row-cols-md-3 g-4">';
+
+                events.forEach((event, index) => {
+                    const cardClass = (index % 3 === 0) ? 'first' : ((index % 3 === 1) ? 'sec' : 'third');
+                    const trimmedName = event.name.length > 54 ? event.name.substring(0, 54) + '...' : event.name;
+                    const day = event.dayMonth.substring(0, 2);
+                    const month = event.dayMonth.substring(2);
+
+                    html += `
+            <div class="col">
+                <div class="card ${cardClass}">
+                    <a href="event-detail?slug=${event.slug}">
+                        <div class="event-card-header">
+                            <span class="date">
+                                <p class="date-a">${day}</p>
+                                <p class="month-a">${month}</p>
+                            </span>
+                            <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">${trimmedName}</h5>
+                            <h4 class="event-time">${event.dateRange}</h4>
+                            <p class="event-location">${event.venue}</p>
+                            <p class="event-desc">${event.organiser}</p>
+                            <div class="event-price">
+                                <span class="price">Starting at ${event.costRange}</span>`;
+                    if (event.discountTxt) {
+                        html += `<span class="price-icon"><img src="images/discount-icon.png" alt="Discount"> ${event.discountTxt}</span>`;
+                    }
+                    html += `
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>`;
+                });
+
+                html += '</div>';
+                $("#search-results-container").html(html);
+            }
+        });
     </script>
+
 
     <script>
         setInterval(function() {
-        
-        fetch('refresh_session.php')
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Session refreshed');
-                }
-            });
-        }, 1800000);
 
+            fetch('refresh_session.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Session refreshed');
+                    }
+                });
+        }, 1800000);
     </script>
 
 </body>
