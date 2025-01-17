@@ -167,6 +167,7 @@ if ($bearer_token) {
             font-weight: bold;
         }
     </style>
+    <?php include 'meta.php'; ?>
 </head>
 
 <body>
@@ -180,7 +181,7 @@ if ($bearer_token) {
                                 <a href="/"><img src="images/logo.png" alt="logo"></a>
                             </div>
                         </div>
-                        <div class="collapse navbar-collapse">
+                        <!-- <div class="collapse navbar-collapse">
                             <div class="col">
                                 <div class="right_btn d-flex align-items-center">
                                     <?php if (isset($_SESSION['firstName'])): ?>
@@ -201,7 +202,7 @@ if ($bearer_token) {
                                     <?php endif; ?>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </nav>
             </div>

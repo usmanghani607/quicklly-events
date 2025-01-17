@@ -1,20 +1,28 @@
+# Enable mod_rewrite
 RewriteEngine On
 
-# Prevent access to the .htaccess file itself
+# Protect the .htaccess file
 <Files ".htaccess">
-  Order Allow,Deny
-  Deny from all
+    Order Allow,Deny
+    Deny from all
 </Files>
 
-# Handle the root URL ("/") and rewrite it to index.php
+# Handle root URL ("/")
 RewriteRule ^$ index.php [L]
 
-# If the requested file or directory does not exist
+# Exclude "order" page from being rewritten
+RewriteRule ^order$ order.php [L]
+RewriteRule ^meta$ meta.php [L]
+
+# Rewrite to event-detail.php for slugs
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)$ event-detail.php?slug=$1 [L,QSA]
 
-# Rewrite all other URLs to .php files (remove .php extension)
+# Rewrite all other URLs to .php files
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ $1.php [L]
+
 
 SetEnv LOGIN_EMAIL "ios-app@quicklly.com"
 SetEnv LOGIN_PASSWORD "vqdspaway8"

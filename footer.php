@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="copy-right-area">
-                    <a href="https://www.dev.goquicklly.com/">Copyright©2024 Quicklly.com</a>
+                    <a href="https://www.dev.goquicklly.com/">Copyright©2025 Quicklly.com</a>
                 </div>
             </div>
         </div>

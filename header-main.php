@@ -107,6 +107,8 @@ if (isset($login_result['token'])) {
         }
     </style>
 
+<?php include 'meta.php'; ?>
+
 <?php
 if(isset($_GET['uid']))
 {
@@ -270,7 +272,7 @@ if(isset($_GET['uid']))
                                     </select>
                                 </form>
                             </div>
-                            <div class="col">
+                            <!-- <div class="col">
                                 <div class="right_btn d-flex align-items-center">
                                     <button class="btn_create"><img src="images/add-icon.png"> Create Event</button>
                                     <button class="btn_signup" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</button>
@@ -285,7 +287,7 @@ if(isset($_GET['uid']))
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </nav>
@@ -358,10 +360,12 @@ include 'login-page.php';
                 const day = event.dayMonth.substring(0, 2);
                 const month = event.dayMonth.substring(2);
 
+                const organiser = event.organiser.length > 36 ? `${event.organiser.substring(0, 36)}...` : event.organiser;
+
                 html += `
             <div class="col">
                 <div class="card ${cardClass}">
-                    <a href="event-detail?slug=${event.slug}">
+                    <a href="${event.slug}">
                         <span class="date">
                             <p class="date-a">${day}</p>
                             <p class="month-a">${month}</p>
@@ -370,8 +374,8 @@ include 'login-page.php';
                         <div class="card-body">
                             <h5 class="card-title">${trimmedName}</h5>
                             <h4 class="time">${event.dateRange}</h4>
-                            <h5 class="location">${event.venue}</h5>
-                            <p class="desc">${event.organiser}</p>
+                            <h5 class="location">${event.city}</h5>
+                            <p class="desc">${organiser}</p>
                             <span class="price">Starting at ${event.costRange}</span>`;
 
                 if (event.discountTxt) {

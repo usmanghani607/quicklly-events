@@ -1,171 +1,15 @@
 <?php
+require_once 'functions.php'; // Ensure the function is included
 
-// ini_set('session.gc_maxlifetime', 3600 * 24 * 365); 
+// Load the appropriate header
+if (isMobile()) {
+    include 'header-main.php';
+} else {
+    include 'header.php';
+}
+?>
 
-// session_set_cookie_params([
-//     'lifetime' => 3600 * 24 * 365, 
-//     'path' => '/',
-//     'secure' => true, 
-//     'httponly' => true,
-//     'samesite' => 'Strict',
-// ]);
-
-
-// session_start();
-
-// // echo $_SESSION['bearer_token'];
-
-// if (!isset($_SESSION['bearer_token'])) {
-
-//     $login_api_url = 'https://devrestapi.goquicklly.com/login';
-//     $login_data = array(
-//         "email" => getenv('LOGIN_EMAIL'), 
-//         "password" => getenv('LOGIN_PASSWORD')
-//     );
-
-//     $ch = curl_init($login_api_url);
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//     curl_setopt($ch, CURLOPT_POST, true);
-//     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($login_data));
-//     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-//         'Content-Type: application/json'
-//     ));
-
-//     $login_response = curl_exec($ch);
-//     curl_close($ch);
-
-//     $login_result = json_decode($login_response, true);
-
-//     if (isset($login_result['token'])) {
-//         $_SESSION['bearer_token'] = $login_result['token'];  
-//     } else {
-//         echo json_encode(['success' => false, 'message' => 'Login failed: ' . $login_result['message']]);
-//         exit;
-//     }
-// }
-
-// $slug = isset($_GET['slug']) && !empty($_GET['slug']) ? htmlspecialchars($_GET['slug']) : null;
-// if (!$slug) {
-//     echo "Event slug not provided!";
-//     exit;
-// }
-
-// $bearer_token = $_SESSION['bearer_token'] ?? null;
-// if (!$bearer_token) {
-//     echo json_encode(['success' => false, 'message' => 'Authorization token missing.']);
-//     exit;
-// }
-
-// $uid = $_SESSION['value_user_id'] ?? null;
-
-// $api_url_home_data = 'https://devrestapi.goquicklly.com/events/get-home-data';
-// $data_home = array(
-//     "zipcode" => "60611",
-//     "query" => "",
-//     "catID" => "0",
-//     "city" => "",
-//     "page" => "0",
-//     "sendFilters" => "true"
-// );
-
-// $ch = curl_init($api_url_home_data);
-// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-// curl_setopt($ch, CURLOPT_POST, true);
-// curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_home));
-// curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-//     'Content-Type: application/json',
-//     'Authorization: Bearer ' . $bearer_token
-// ));
-
-// $response_home = curl_exec($ch);
-// curl_close($ch);
-
-// $result_home = json_decode($response_home, true);
-
-// if ($result_home['success'] && isset($result_home['lstProds'])) {
-//     $events = $result_home['lstProds'];
-//     $event_id = null;
-
-//     foreach ($events as $event) {
-//         if ($event['slug'] === $slug) {
-//             $event_id = $event['eid'];
-//             break;
-//         }
-//     }
-
-//     if (!$event_id) {
-//         echo "Event not found for the given slug.";
-//         exit;
-//     }
-
-//     $_SESSION['event_id'] = $event_id; 
-
-//     $api_url_details = 'https://devrestapi.goquicklly.com/events/get-details';
-//     $data_details = array(
-//         "zipcode" => "60611",
-//         "eid" => $event_id
-//     );
-
-//     $ch = curl_init($api_url_details);
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//     curl_setopt($ch, CURLOPT_POST, true);
-//     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_details));
-//     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-//         'Content-Type: application/json',
-//         'Authorization: Bearer ' . $bearer_token
-//     ));
-
-//     $response_details = curl_exec($ch);
-//     curl_close($ch);
-
-//     $result = json_decode($response_details, true);
-
-//     if ($result['success']) {
-
-//         $sid = htmlspecialchars($result['sid']);
-//         $sname = htmlspecialchars($result['store_name']);
-//         $pid = htmlspecialchars($result['pid']);
-//         $deliveryDate = htmlspecialchars($result['fromDate']);
-//         $deliveryFromTime = htmlspecialchars($result['time']);
-//         $simg = htmlspecialchars($result['store_icon']);
-//         $slug = htmlspecialchars($result['slug']);
-//         $organiser = htmlspecialchars($result['organiser']);
-//         // $organiserDetails = htmlspecialchars($result['organiserDetails']);
-//         $organiserDetails = strip_tags($result['organiserDetails']);
-//         $cleanedOrganiserDetails = strip_tags($organiserDetails);
-//         $name = htmlspecialchars($result['name']);
-//         $eventDate = htmlspecialchars($result['dateRange']);
-//         $eventTime = htmlspecialchars($result['time']);
-//         $eventAddress = htmlspecialchars($result['address']);
-//         $eventCity = htmlspecialchars($result['city']);
-//         $eventState = htmlspecialchars($result['state']);
-//         $eventCost = htmlspecialchars($result['costRange']);
-//         $eventTag = htmlspecialchars($result['costRange']);
-//         $photo = htmlspecialchars($result['photoWide']);
-//         $eventPhoto = htmlspecialchars($result['photo']);
-//         $eventVenue = htmlspecialchars($result['venue']);
-//         $eventTerms = strip_tags($result['terms']);
-//         // $eventDesp = strip_tags($result['desp']);
-//         // $cleanedEventDesp = strip_tags($eventDesp);
-//         $eventDesp = $result['desp'];
-//         $allowedTags = '<p><strong><em><b>';
-//         $cleanedEventDesp = strip_tags($eventDesp, $allowedTags);
-//         $latitude = $result['latitude'];
-//         $longitude = $result['longitude'];
-//         $deliveryDisplayDate = $eventDate . " | " . $eventTime;
-//         $encodedAddress = urlencode($eventAddress);
-
-//         if ($eventAddress) {
-//             $_SESSION['eventAddress'] = $eventAddress;
-//         } else {
-//             echo "Event address not found in API response.";
-//         }
-//     } else {
-//         echo "Event details not found.";
-//     }
-// } else {
-//     echo "Failed to retrieve event data from home data API.";
-// }
+<?php
 
 function getBearerToken()
 {
@@ -314,7 +158,7 @@ if ($result_home['success'] && isset($result_home['lstProds'])) {
         $eventCost = htmlspecialchars($result['costRange']);
         $eventTag = htmlspecialchars($result['costRange']);
         $photo = htmlspecialchars($result['photoWide']);
-        $eventPhoto = htmlspecialchars($result['photo']);
+        $eventPhoto = htmlspecialchars($result['despPhoto']);
         $eventVenue = htmlspecialchars($result['venue']);
         $eventTerms = strip_tags($result['terms'], '<p><strong><em><b>');
         $eventDesp = $result['desp'];
@@ -387,7 +231,6 @@ $result_home = json_decode($response_home, true);
 <html>
 
 <head>
-    <?php include 'header.php'; ?>
     <link rel="shortcut icon" href="images/favicon.png">
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7FCoN0eNTNGEsX6d-BUW-Uh1SiVzn2f0&callback=initMap">
@@ -432,7 +275,22 @@ $result_home = json_decode($response_home, true);
 
 <body>
 
-    <div class="body-content">
+    <div class="city-filter-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="CityloaderOverlay" style="display: none;">
+                        <div id="Cityloader" style="display: none; font-size: 18px; text-align: center; padding: 20px;">
+                            <img src="images/logo.png" alt="Loading...">
+                        </div>
+                    </div>
+                    <div id="city-results"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="body-content index-page" id="index-page">
         <div class="event-detail">
             <div class="container">
                 <div class="row">
@@ -442,7 +300,7 @@ $result_home = json_decode($response_home, true);
                             <img src="<?php echo $photo; ?>" alt="" class="img-fluid">
                         </div>
                         <div class="sale-area">
-                            <p>Sales end Soon</p>
+                            <p>Sale Ends Soon</p>
                         </div>
                         <div class="location-time">
                             <div class="heading">
@@ -452,7 +310,11 @@ $result_home = json_decode($response_home, true);
                                 <!-- <img class="calender-desk" src="images/ios-calendar.png" alt="">
                                 <img class="calender-mob" src="images/calendar-mob.png" alt=""> -->
                                 <img src="images/ios-calendar.png" alt="">
-                                <span><?php echo $eventDate; ?></span> <span><?php echo $eventTime; ?></span>
+                                <!-- <span><?php echo $eventDate; ?></span> <span><?php echo $eventTime; ?></span> -->
+                                <div class="text-container">
+                                    <span><?php echo $eventDate; ?></span>
+                                    <span class="time-aa"><?php echo $eventTime; ?></span>
+                                </div>
                             </div>
                             <div class="loc">
                                 <!-- <img class="loc-desk" src="images/loc.png" alt="">
@@ -467,106 +329,74 @@ $result_home = json_decode($response_home, true);
                                 <h2>Tickets Information</h2>
                             </div>
                             <?php
-                            if (isset($result['lstSizes']) && is_array($result['lstSizes'])) {
-                                foreach ($result['lstSizes'] as $size) {
-                                    $sizeName = htmlspecialchars($size['name']);
-                                    $sizeDesc = htmlspecialchars($size['desp']);
-                                    $sizeCost = htmlspecialchars($size['cost']);
-                                    $sizeMRP = htmlspecialchars($size['mrp']);
-                                    $inStock = $size['inStock'];
-                                    $stockStatus = $inStock ? 'Available' : 'Sold Out';
-                                    $allowBooking = $size['allowBooking'];
-                                    $discountTxt = htmlspecialchars($size['discountTxt']);
-                                    $soldOutClass = !$inStock ? 'soldout' : '';
-                                    $sizeId = isset($size['sizeid']) ? htmlspecialchars($size['sizeid']) : 'unknown';
+                                if (isset($result['lstSizes']) && is_array($result['lstSizes'])) {
+                                    foreach ($result['lstSizes'] as $size) {
+                                        $sizeName = htmlspecialchars($size['name']);
+                                        $sizeDesc = htmlspecialchars($size['desp']);
+                                        $sizeCost = htmlspecialchars($size['cost']);
+                                        $sizeMRP = htmlspecialchars($size['mrp']);
+                                        $inStock = $size['inStock'];
+                                        $stockStatus = $inStock ? 'Available' : 'Sold Out';
+                                        $allowBooking = $size['allowBooking'];
+                                        $discountTxt = htmlspecialchars($size['discountTxt']);
+                                        $soldOutClass = !$inStock ? 'soldout' : '';
+                                        $sizeId = isset($size['sizeid']) ? htmlspecialchars($size['sizeid']) : 'unknown';
 
-                                    if ($allowBooking) {
-                                        echo "
-                                        <div class='card-info row {$soldOutClass}'>
-                                            <div class='col-md-8'>
-                                                <div class='event-name'>
-                                                    <span class='tick-name'>{$sizeName}</span>";
+                                        if ($allowBooking) {
+                                            echo "
+                                            <div class='card-info row {$soldOutClass}'>
+                                                <!-- Event Name Column -->
+                                                <div class='col-md-8 order-1 order-md-1'>
+                                                    <div class='event-name'>
+                                                        <span class='tick-name'>{$sizeName}</span>";
+                                            
+                                            if (!empty($discountTxt)) {
+                                                echo "<span class='price-icon'><img src='images/discount-icon.png' alt=''> {$discountTxt}</span>";
+                                            }
 
-                                        if (!empty($discountTxt)) {
-                                            echo "<span class='price-icon'><img src='images/discount-icon.png' alt=''> {$discountTxt}</span>";
-                                        }
-
-                                        echo "
-                                                    <div class='aa'><span class='sold-p para' id='event-description-{$sizeId}'>
-                                                        {$sizeDesc}
-                                                    </span>
-                                                    <span><a href='javascript:void(0);' class='show-more'>show more</a></span>
+                                            echo "
+                                                        <div class='aa'><span class='sold-p para' id='event-description-{$sizeId}'>
+                                                            {$sizeDesc}
+                                                        </span>
+                                                        <span><a href='javascript:void(0);' class='show-more'>show more</a></span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class='col-4 col-md-2'>
-                                                <div class='counter'>
-                                                    <button class='decrease' data-id='{$sizeId}'>-</button>
-                                                    <span class='count' id='count-{$sizeId}'>0</span>
-                                                    <button class='increase' data-id='{$sizeId}'>+</button>
+
+                                                <!-- Price Column (Mobile: Display second, Desktop: Display last) -->
+                                                <div class='col-8 col-md-2 pp order-2 order-md-3'>
+                                                    <div class='price'>
+                                                        <h4 class='price-display' id='price-{$sizeId}'>\${$sizeCost}</h4>";
+                                            if (!empty($discountTxt)) {
+                                                echo "<span style='text-decoration: line-through; padding-right:10px;'>\${$sizeMRP}</span>";
+                                            }
+
+                                            echo "<p class='avail'>{$stockStatus}</p>";
+
+                                            if (!empty($result['ticketPopup']) && $result['ticketPopup'] === true) {
+                                                echo "<p><a class='btn seating' data-bs-toggle='modal' data-bs-target='#seatingModal'>Check Seating</a></p>";
+                                            }
+
+                                            echo "
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class='col-8 col-md-2 pp'>
-                                                <div class='price'>
-                                                    <h4 class='price-display' id='price-{$sizeId}'>\${$sizeCost}</h4>";
-                                        if (!empty($discountTxt)) {
-                                            echo "<span style='text-decoration: line-through; padding-right:10px;'>\${$sizeMRP}</span>";
-                                        }
 
-                                        echo "<p class='avail'>{$stockStatus}</p>";
-
-                                        if (!empty($result['ticketPopup']) && $result['ticketPopup'] === true) {
-                                            echo "<p><a class='btn seating' data-bs-toggle='modal' data-bs-target='#seatingModal'>Check Seating</a></p>";
-                                        }
-
-                                        echo "
+                                                <!-- Counter Column (Mobile: Display last, Desktop: Display second) -->
+                                                <div class='col-4 col-md-2 order-3 order-md-2'>
+                                                    <div class='counter'>
+                                                        <button class='decrease' data-id='{$sizeId}'>-</button>
+                                                        <span class='count' id='count-{$sizeId}'>0</span>
+                                                        <button class='increase' data-id='{$sizeId}'>+</button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>";
-                                    } else {
-                                        echo "
-                                        <div class='soldout card-info row'>
-                                            <div class='col-md-8'>
-                                                <div class='event-name'>
-                                                    <h5 class='sold-h'>{$sizeName}";
-
-                                        if (!empty($discountTxt)) {
-                                            echo "<span class='price-icon'><img src='images/discount-icon.png' alt=''> {$discountTxt}</span>";
+                                            </div>";
                                         }
-
-                                        echo "</h5>
-                                                <div class='aa'><span class='sold-p para' id='event-description-{$sizeId}'>
-                                                    {$sizeDesc}
-                                                </span>
-                                                <span><a href='javascript:void(0);' class='show-more'>show more</a></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class='col-4 col-md-2'>
-                                            <div class='counter'>
-                                                <button id='student-decrease'>-</button>
-                                                <span id='student-count'>0</span>
-                                                <button id='student-increase'>+</button>
-                                            </div>
-                                        </div>
-                                        <div class='col-8 col-md-2 pp sold-p'>
-                                            <div class='price'>
-                                                <h4 id='student-price'>\${$sizeCost}</h4>";
-                                        if (!empty($discountTxt)) {
-                                            echo "<span style='text-decoration: line-through; padding-right:10px;'>\${$sizeMRP}</span>";
-                                        }
-
-                                        echo "
-                                                <p>Sold Out</p>
-                                            </div>
-                                        </div>
-                                        </div>";
                                     }
+                                } else {
+                                    echo "<p>No ticket information available.</p>";
                                 }
-                            } else {
-                                echo "<p>No ticket information available.</p>";
-                            }
-                            ?>
+                                ?>
+
                         </div>
 
                         <div class="event-info">
@@ -843,12 +673,12 @@ $result_home = json_decode($response_home, true);
                                 <h2>Share This Event</h2>
                             </div>
                             <div class="social-icon">
-                                <a href="https://www.facebook.com/quickllyIt"><img src="images/facebook-icon.png" alt=""></a>
-                                <a href="https://twitter.com/QuickllyIt"><img src="images/x-icon.png" alt=""></a>
-                                <a href="https://in.linkedin.com/company/myvalue365-e-commerce-pvt-ltd-"><img src="images/linkden-icon.png" alt=""></a>
-                                <a href="#"><img src="images/whatsapp-icon.png" alt=""></a>
-                                <a href="mailto:hello@quicklly.com"><img src="images/mail-icon.png" alt=""></a>
-                                <a href="#"><img src="images/link-icon.png" alt=""></a>
+                                <a href="https://www.facebook.com/quickllyIt" target="_blank"><img src="images/facebook-icon.png" alt=""></a>
+                                <a href="https://twitter.com/QuickllyIt" target="_blank"><img src="images/x-icon.png" alt=""></a>
+                                <a href="https://in.linkedin.com/company/myvalue365-e-commerce-pvt-ltd-" target="_blank"><img src="images/linkden-icon.png" alt=""></a>
+                                <a href="#" id="whatsappShare"><img src="images/whatsapp-icon.png" alt=""></a>
+                                <a href="mailto:hello@quicklly.com" target="_blank"><img src="images/mail-icon.png" alt=""></a>
+                                <a href="javascript:void(0);" id="copyLink"><img src="images/link-icon.png" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -878,16 +708,24 @@ $result_home = json_decode($response_home, true);
                                     $month = substr($event['dayMonth'], 2);
 
                                     $slug = htmlspecialchars($event['slug']);
+
+                                    $organiser = htmlspecialchars($event['organiser']);
+                                    $trimmedOrganiser = (strlen($organiser) > 30) ? substr($organiser, 0, 30) . '...' : $organiser;
+
                                     echo '<div>';
                                     echo '<div class="card ' . $cardClass . '">';
-                                    echo '  <a href="event-detail?slug=' . $slug . '">';
+                                    // echo '  <a href="event-detail?slug=' . $slug . '">';
+                                    // echo '      <a href="' . $slug . '">';
+                                    echo '  <a href="' . $slug . '" class="event-card-link">';
                                     echo '    <span class="date"><p class="date-a">' . htmlspecialchars($day) . '</p><p class="month-a">' . htmlspecialchars($month) . '</p></span>';
                                     echo '    <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
                                     echo '    <div class="card-body">';
                                     echo '        <h5 class="card-title">' . $trimmedName . '</h5>';
                                     echo '        <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
-                                    echo '        <h5 class="location">' . htmlspecialchars($event['venue']) . '</h5>';
-                                    echo '        <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
+                                    echo '        <h5 class="location">' . htmlspecialchars($event['city']) . '</h5>';
+                                    // echo '        <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
+                                    echo '            <p class="desc">' . $trimmedOrganiser . '</p>';
+
                                     echo '        <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
                                     if (!empty($event['discountTxt'])) {
                                         echo '        <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
@@ -1615,7 +1453,8 @@ $result_home = json_decode($response_home, true);
             var count = ticketData[sizeId].count;
             var pricePerTicket = ticketData[sizeId].pricePerTicket;
             // var totalPrice = count * pricePerTicket;
-            var totalPrice = count === 0 ? pricePerTicket : count * pricePerTicket;
+            // var totalPrice = count === 0 ? pricePerTicket : count * pricePerTicket;
+            var totalPrice = pricePerTicket;
 
             document.getElementById('price-' + sizeId).textContent = `$${totalPrice.toFixed(2)}`;
             document.getElementById('count-' + sizeId).textContent = count;
@@ -1695,7 +1534,7 @@ $result_home = json_decode($response_home, true);
             <div class="total-ticket-area" data-id="${ticket.id}">
                 <div class="container">
                     <div class="card-info row">
-                        <div class="col-4 col-md-4">
+                        <div class="col-8 col-md-4">
                             <div class="event-name">
                                 <h5>${ticket.name}</h5>
                             </div>
@@ -1789,6 +1628,32 @@ $result_home = json_decode($response_home, true);
                         ticketData[sizeId].count--;
                         updatePrice(sizeId);
                         // updateTicketArrayDisplay();
+
+                        // const totalTickets = Object.values(ticketData).reduce((sum, ticket) => sum + ticket.count, 0);
+                        // if (totalTickets === 0) {
+                        //     document.getElementById('ticket-info').style.display = 'none';
+                        // }
+
+                        const totalTickets = Object.values(ticketData).reduce((sum, ticket) => sum + ticket.count, 0);
+
+                            if (totalTickets === 0) {
+                                
+                                document.getElementById('ticket-info').style.display = 'none';
+
+                                const eventDetailElement = document.querySelector('.event-detail.fade-background');
+                                if (eventDetailElement) {
+                                    eventDetailElement.classList.remove('fade-background');
+                                }
+                            } else {
+                                
+                                document.getElementById('ticket-info').style.display = 'block';
+
+                                const eventDetailElement = document.querySelector('.event-detail');
+                                if (eventDetailElement && !eventDetailElement.classList.contains('fade-background')) {
+                                    eventDetailElement.classList.add('fade-background');
+                                }
+                            }
+
                     }
                 });
             });
@@ -1969,6 +1834,7 @@ $result_home = json_decode($response_home, true);
 
                         document.querySelector('.btn-process').style.display = 'block';
                         document.querySelector('.btn-ticket').style.display = 'none';
+                        document.getElementById('u-arrow').style.display = 'inline';
 
                     } else {
                         Swal.fire({
@@ -2141,7 +2007,9 @@ $result_home = json_decode($response_home, true);
 
                 document.querySelector('.ticket-proceed').style.display = 'none';
 
-                window.location.href = 'order';
+                // window.location.href = 'order';
+                window.location.href = '/events-web/order';
+
             });
 
             updateTotalTicketCount();
@@ -2229,7 +2097,8 @@ $result_home = json_decode($response_home, true);
 
             soldPElements.forEach(function(paragraph) {
                 const fullText = paragraph.textContent.trim();
-                const charLimit = 40;
+                // const charLimit = 40;
+                const charLimit = window.innerWidth <= 768 ? 23 : 40;
 
                 if (fullText.length > charLimit) {
                     const trimmedText = fullText.slice(0, charLimit) + '...';
@@ -2434,6 +2303,172 @@ $result_home = json_decode($response_home, true);
             } else {
                 sideAreaBottom.style.display = "block";
             }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            let ajaxRequest;
+
+            $("#citySelect").on("change", function() {
+                const selectedCity = $(this).val();
+
+                if (ajaxRequest) {
+                    ajaxRequest.abort();
+                }
+
+                if (selectedCity) {
+                    toggleVisibility(false); 
+                    searchEvents(selectedCity);
+                } else {
+                    $("#city-results").html("").css("padding", "0");
+                    $("#Cityloader").hide();
+                    $("#CityloaderOverlay").hide();
+                    toggleVisibility(true); 
+                }
+            });
+
+            function searchEvents(selectedCity) {
+                $("#CityloaderOverlay").show();
+                $("#Cityloader").show();
+
+                ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: "get_home_data.php",
+                    data: {
+                        city: selectedCity,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success) {
+                            displayEvents(response.events);
+                        } else {
+                            $("#city-results").html("<p>No events found for the selected city.</p>");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        if (status !== "abort") {
+                            console.error("An error occurred:", error);
+                        }
+                    },
+                    complete: function() {
+                        $("#CityloaderOverlay").hide();
+                    },
+                });
+            }
+
+            function displayEvents(events) {
+                let html = '<div class="row row-cols-1 row-cols-md-3 g-4">';
+
+                events.forEach((event, index) => {
+                    const cardClass = (index % 3 === 0) ? 'first' : (index % 3 === 1) ? 'sec' : 'third';
+                    const trimmedName = event.name.length > 54 ? event.name.substring(0, 54) + '...' : event.name;
+                    const day = event.dayMonth.substring(0, 2);
+                    const month = event.dayMonth.substring(2);
+
+                    const organiser = event.organiser.length > 36 ? `${event.organiser.substring(0, 36)}...` : event.organiser;
+
+                    html += `
+                <div class="col">
+                    <div class="card ${cardClass}">
+                        <a href="${event.slug}">
+                            <span class="date">
+                                <p class="date-a">${day}</p>
+                                <p class="month-a">${month}</p>
+                            </span>
+                            <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
+                            <div class="card-body">
+                                <h5 class="card-title">${trimmedName}</h5>
+                                <h4 class="time">${event.dateRange}</h4>
+                                <h5 class="location">${event.venue}</h5>
+                                <p class="desc">${organiser}</p>
+                                <span class="price">Starting at ${event.costRange}</span>`;
+
+                    if (event.discountTxt) {
+                        html += `<span class="price-icon"><img src="images/discount-icon.png" alt=""> ${event.discountTxt}</span>`;
+                    }
+
+                    html += `
+                            </div>
+                        </a>
+                    </div>
+                </div>`;
+                });
+
+                html += '</div>';
+                $("#city-results").html(html).css("padding", "35px 0");
+            }
+
+            function toggleVisibility(showIndexPage) {
+                if (showIndexPage) {
+                    $("#index-page").show(); 
+                    $(".city-filter-area").hide(); 
+                } else {
+                    $("#index-page").hide(); 
+                    $(".city-filter-area").show(); 
+                }
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById('copyLink').addEventListener('click', function () {
+            const linkToCopy = window.location.href;
+            
+            navigator.clipboard.writeText(linkToCopy).then(() => {
+                
+                const message = document.createElement('div');
+                message.textContent = 'URL copied to clipboard!';
+                message.style.position = 'fixed';
+                message.style.bottom = '20px';
+                message.style.right = '20px';
+                message.style.backgroundColor = '#F05336';
+                message.style.color = '#fff';
+                message.style.padding = '10px 20px';
+                message.style.borderRadius = '5px';
+                message.style.fontSize = '14px';
+                message.style.zIndex = '1000';
+                document.body.appendChild(message);
+
+                setTimeout(() => {
+                    message.remove();
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy the link:', err);
+            });
+        });
+    </script>
+    
+    <script>
+   
+        document.getElementById('whatsappShare').addEventListener('click', function (e) {
+            e.preventDefault(); 
+
+            const currentURL = window.location.href;
+
+            const whatsappURL = `https://wa.me/?text=${encodeURIComponent('Check out this post: ' + currentURL)}`;
+
+            window.open(whatsappURL, '_blank');
+        });
+
+    </script>
+
+    <script>
+        document.querySelectorAll('.event-card-link').forEach(function (link) {
+            link.addEventListener('click', function () {
+                
+                sessionStorage.clear();
+
+                console.log('Session storage cleared before navigating to a new event detail page.');
+            });
+        });
+
+    </script>
+
+    <script>
+            document.querySelectorAll('.event-desc a').forEach(link => {
+            link.setAttribute('target', '_blank'); 
+            link.setAttribute('rel', 'noopener noreferrer'); 
         });
     </script>
 

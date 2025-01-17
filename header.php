@@ -3,6 +3,87 @@
 
 ?>
 
+<?php
+
+ini_set('session.gc_maxlifetime', 3600 * 24 * 365);
+
+session_set_cookie_params([
+    'lifetime' => 3600 * 24 * 365,
+    'path' => '/',
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'Strict',
+]);
+
+
+// print_r($_SESSION);
+
+// echo $_SESSION['bearer_token'];
+
+// echo $_SESSION['value_user_id'];
+// echo $_SESSION['firstName'];
+// echo $_SESSION['lastName'];
+
+$login_api_url = 'https://devrestapi.goquicklly.com/login';
+$login_data = array(
+    "email" => getenv('LOGIN_EMAIL'),
+    "password" => getenv('LOGIN_PASSWORD')
+);
+
+$ch = curl_init($login_api_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($login_data));
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json'
+));
+
+$login_response = curl_exec($ch);
+curl_close($ch);
+
+$login_result = json_decode($login_response, true);
+
+if (isset($login_result['token'])) {
+    // Store the token in session
+    $_SESSION['bearer_token'] = $login_result['token'];
+    $bearer_token = $_SESSION['bearer_token']; // Retrieve token from session
+
+    $api_url = 'https://devrestapi.goquicklly.com/events/get-home-data';
+    $data = array(
+        "zipcode" => "60610",
+        "query" => "",
+        "catID" => "0",
+        "city" => "",
+        "page" => "0",
+        "sendFilters" => "true"
+    );
+
+    $ch = curl_init($api_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $_SESSION['bearer_token']
+    ));
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    $result = json_decode($response, true);
+
+    if (isset($result['success']) && $result['success']) {
+        $cities = $result['lstCites'];
+        $categories = $result['lstCats'];
+    } else {
+        $eventName = "Event not found";
+    }
+} else {
+    // echo "Login failed: " . htmlspecialchars($login_result['message'] ?? 'Unknown error');
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -37,6 +118,8 @@
             font-weight: 500;
         }
     </style>
+
+<?php include 'meta.php'; ?>
 </head>
 
 <body>
@@ -74,7 +157,7 @@
                                         <button class="btn_signup" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</button>
                                     <?php endif; ?>
                                 </div> -->
-                                <div class="right_btn d-flex align-items-center">
+                                <!-- <div class="right_btn d-flex align-items-center">
                                     <button class="btn_create"><img src="images/add-icon.png"> Create Event</button>
                                     <div class="dropdown">
                                         <button class="btn dropdown-toggle login-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -86,7 +169,7 @@
                                         </ul>
                                     </div>
                                     <button class="btn_signup" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -422,7 +505,7 @@
         });
     </script> -->
 
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             let ajaxRequest;
             let debounceTimeout;
@@ -517,7 +600,133 @@
                     html += `
             <div class="col">
                 <div class="card ${cardClass}">
-                    <a href="event-detail?slug=${event.slug}">
+                    <a href="${event.slug}">
+                        <div class="event-card-header">
+                            <span class="date">
+                                <p class="date-a">${day}</p>
+                                <p class="month-a">${month}</p>
+                            </span>
+                            <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">${trimmedName}</h5>
+                            <h4 class="event-time">${event.dateRange}</h4>
+                            <p class="event-location">${event.venue}</p>
+                            <p class="event-desc">${event.organiser}</p>
+                            <div class="event-price">
+                                <span class="price">Starting at ${event.costRange}</span>`;
+                    if (event.discountTxt) {
+                        html += `<span class="price-icon"><img src="images/discount-icon.png" alt="Discount"> ${event.discountTxt}</span>`;
+                    }
+                    html += `
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>`;
+                });
+
+                html += '</div>';
+                $("#search-results-container").html(html);
+            }
+        });
+    </script> -->
+
+    <script>
+        $(document).ready(function() {
+            let ajaxRequest;
+            let debounceTimeout;
+
+            function handleSearch() {
+                const query = $("#header-search").val().trim();
+
+                if (ajaxRequest) ajaxRequest.abort();
+                clearTimeout(debounceTimeout);
+
+                if (query.length > 0) {
+                    debounceTimeout = setTimeout(() => {
+                        searchEvents(query);
+                    }, 1000);
+                } else {
+                    resetSearchResults();
+                }
+            }
+
+            $("#header-search").on("input", function(e) {
+                e.preventDefault();
+                handleSearch();
+            });
+
+            function searchEvents(query) {
+                $("#SearchloaderOverlay").show();
+                $("#Searchloader").show();
+
+                ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: "get_home_data.php",
+                    data: {
+                        query: query,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success) {
+                            displayEvents(response.events);
+
+                            $(".search-filter-area").css({
+                                "background": "#f8f8f8",
+                                "opacity": "1",
+                                "padding": "25px 0 40px 0"
+                            });
+
+                            $(".body-content").hide();
+                        } else {
+                            $("#search-results-container").html('<span style="display: block; text-align: center; margin: 20px auto; font-size: 16px; color: #555;">No events found.</span>');
+
+                            $(".search-filter-area").css({
+                                "background": "",
+                                "opacity": "",
+                                "padding": ""
+                            });
+
+                            $(".body-content").show();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        if (status !== "abort") console.error("An error occurred:", error);
+                    },
+                    complete: function() {
+                        $("#SearchloaderOverlay").hide();
+                    },
+                });
+            }
+
+            function resetSearchResults() {
+                
+                $("#search-results-container").html("");
+                $("#Searchloader").hide();
+                $("#SearchloaderOverlay").hide();
+                $(".body-content").show();
+
+                $(".search-filter-area").css({
+                    "background": "",
+                    "opacity": "",
+                    "padding": ""
+                });
+            }
+
+            function displayEvents(events) {
+                let html = '<div class="row row-cols-1 row-cols-md-3 g-4">';
+
+                events.forEach((event, index) => {
+                    const cardClass = (index % 3 === 0) ? 'first' : ((index % 3 === 1) ? 'sec' : 'third');
+                    const trimmedName = event.name.length > 54 ? event.name.substring(0, 54) + '...' : event.name;
+                    const day = event.dayMonth.substring(0, 2);
+                    const month = event.dayMonth.substring(2);
+
+                    html += `
+            <div class="col">
+                <div class="card ${cardClass}">
+                    <a href="${event.slug}" class="event-card-link">
                         <div class="event-card-header">
                             <span class="date">
                                 <p class="date-a">${day}</p>
@@ -549,7 +758,6 @@
         });
     </script>
 
-
     <script>
         setInterval(function() {
 
@@ -561,6 +769,24 @@
                     }
                 });
         }, 1800000);
+    </script>
+
+    <script>
+        document.addEventListener('click', function (e) {
+            
+            if (e.target.closest('.event-card-link')) {
+                e.preventDefault(); 
+
+                sessionStorage.clear();
+
+                console.log('Session storage cleared before navigating to a new event detail page.');
+
+                const link = e.target.closest('.event-card-link');
+                if (link && link.href) {
+                    window.location.href = link.href;
+                }
+            }
+        });
     </script>
 
 </body>

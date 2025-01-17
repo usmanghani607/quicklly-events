@@ -1,11 +1,11 @@
 <?php
 
-ini_set('session.gc_maxlifetime', 3600 * 24 * 365); 
+ini_set('session.gc_maxlifetime', 3600 * 24 * 365);
 
 session_set_cookie_params([
-    'lifetime' => 3600 * 24 * 365, 
+    'lifetime' => 3600 * 24 * 365,
     'path' => '/',
-    'secure' => true, 
+    'secure' => true,
     'httponly' => true,
     'samesite' => 'Strict',
 ]);
@@ -75,24 +75,23 @@ if (isset($_SESSION['cart_events'])) {
         #content {
             display: none;
         }
-
     </style>
 
 </head>
 
 <body>
 
-<div id="loader" class="loader"></div>
+    <div id="loader" class="loader"></div>
 
     <div class="order-detail" id="content" style="display: none;">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 main-area">
                     <div class="heading">
-                        <p>Your order</p>
+                        <p>Your Order</p>
                     </div>
                     <div class="order-info">
-                        <div class="card-info row">
+                        <div class="card-info row remove-info">
                             <div class="col-md-2">
                                 <div class="event-name">
                                     <img id="event-banner" src="images/order-img.png" alt="">
@@ -120,7 +119,7 @@ if (isset($_SESSION['cart_events'])) {
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="heading">
-                                    <p>Billing details</p>
+                                    <p>Billing Details</p>
                                 </div>
                             </div>
 
@@ -129,19 +128,19 @@ if (isset($_SESSION['cart_events'])) {
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="first-name" class="form-label">First Name *</label>
-                                            <input type="text" class="form-control" id="first-name" readonly>
+                                            <input type="text" class="form-control" id="first-name">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="last-name" class="form-label">Last Name *</label>
-                                            <input type="text" class="form-control" id="last-name" readonly>
+                                            <input type="text" class="form-control" id="last-name">
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="phone" class="form-label">Phone *</label>
-                                            <input type="text" class="form-control" id="user-phone" readonly>
+                                            <label for="phone" class="form-label">Phone</label>
+                                            <input type="tel" class="form-control phone" minlength="0" maxlength="12" id="phone" pattern="\d*" inputmode="numeric" id="user-phone">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="email" class="form-label">Email Address *</label>
-                                            <input type="email" class="form-control" id="email" readonly>
+                                            <input type="email" class="form-control" id="email">
                                         </div>
                                     </div>
                                 </div>
@@ -257,10 +256,15 @@ if (isset($_SESSION['cart_events'])) {
                     <div class="card-pay">
                         <!--<button class="btn-card" data-bs-toggle="modal" data-bs-target="#paymentPopup" onclick="getValues()">Pay by Card <span class="final-p">$350.62</span></button>-->
                         <!-- <button class="btn-card" data-bs-toggle="modal" data-bs-target="#paymentPopup" onclick="getValues()">Proceed to checkout <span class="final-p"></span></button> -->
-                        <button class="btn-card" onclick="handleCheckoutClick()">
+                        <!-- <button class="btn-card" onclick="handleCheckoutClick()">
+                            Proceed to payment <span class="final-p"></span>
+                        </button> -->
+                        <button class="btn-card payment" onclick="handleCheckoutClick()">
                             Proceed to payment <span class="final-p"></span>
                         </button>
-                        <!-- <button class="btn-card" data-bs-toggle="modal" data-bs-target="#confirmModal">Confirm<span class="final-p"></span>
+                        <button class="btn-card confirm" onclick="getTicketCheckout()">Confirm Booking<span class="final-p"></span>
+                        </button>
+                        <!-- <button class="btn-card mt-2" data-bs-toggle="modal" data-bs-target="#confirmModal">Show<span class="final-p"></span>
                         </button> -->
                     </div>
 
@@ -269,32 +273,34 @@ if (isset($_SESSION['cart_events'])) {
         </div>
     </div>
 
-    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="confirmModalLabel"><img src="images/confirm-ticket.png" alt=""></h1>
+                    <a href="index"><img class="cross" src="images/modal-cross.png" alt="" data-bs-dismiss="modal"></a>
                 </div>
                 <div class="modal-body">
-                    <p class="heading">Your booking is confirmed!</p>
-                    <p class="sub-head">To view ticket and check your booking details, visit the Quicklly App.</p>
+                    <p class="heading">Booking Confirmed!</p>
+                    <p class="sub-head">Your booking has been confirmed. Please check your email for ticket and booking details.</p>
                     <div class="ticket-co">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-3 col-md-3">
                                 <img src="images/order-img.png" alt="">
                             </div>
-                            <div class="col-md-9">
-                                <p class="t-name" id="t-name">Bollywood Holi Mela with DJ Nish</p>
-                                <p class="t-time">Saturday, March 30 , 4 - 8pm CDT</p>
-                                <p class="t-qty">2 Tickets</p>
-                                <p class="t-price">$160.99</p>
+                            <div class="col-9 col-md-9">
+                                <p class="t-name" id="t-name"></p>
+                                <p class="t-time"></p>
+                                <p class="t-qty"></p>
+                                <!-- <p class="t-price total-price"></p> -->
+                                <p class="t-price" id="val-display"></p>
                             </div>
                         </div>
                     </div>
                     <h2>Havent downloaded the Quicklly App yet?</h2>
                     <h2>Get the link to download the app</h2>
 
-                    <div class="phone-area">
+                    <!-- <div class="phone-area">
                         <div class="row">
                             <div class="col-md-12">
                                 <div style="display: flex; justify-content: center; align-items: center;">
@@ -304,15 +310,15 @@ if (isset($_SESSION['cart_events'])) {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="ios-android">
                         <div class="row">
-                            <div class="col-md-6">
-                                <img class="google" src="images/google.png" alt="">
+                            <div class="col-6 col-md-6">
+                                <a href="https://play.google.com/store/apps/details?id=com.quicklly.androidquicklly" target="_blank"><img class="google" src="images/google.png" alt=""></a>
                             </div>
-                            <div class="col-md-6">
-                                <img class="ios" src="images/ios.png" alt="">
+                            <div class="col-6 col-md-6">
+                                <a href="https://apps.apple.com/us/app/quicklly/id1536958907" target="_blank"><img class="ios" src="images/ios.png" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -327,6 +333,67 @@ if (isset($_SESSION['cart_events'])) {
             </div>
         </div>
     </div>
+
+
+    <script>
+        function populateModal() {
+            var name = sessionStorage.getItem('name');
+            var eventDate = sessionStorage.getItem('eventDate');
+            var eventTime = sessionStorage.getItem('eventTime');
+            var photo = sessionStorage.getItem('photo') || "images/order-img.png";
+
+            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || {
+                addOns: []
+            };
+
+            // var totalTickets = tickets.addOns.reduce((sum, ticket) => sum + (ticket.qty || 0), 0);
+
+            var totalTickets = 0;
+            // if (Array.isArray(tickets.addOns)) {
+            //     totalTickets = tickets.addOns.reduce((sum, addOn) => {
+            //         return sum + (addOn.qty || 0);
+            //     }, 0);
+            // }
+
+            if (Array.isArray(tickets.addOns)) {
+                totalTickets = tickets.addOns.reduce((sum, addOn) => {
+                    return sum + (parseInt(addOn.qty, 10) || 0);
+                }, 0);
+            }
+
+            // totalTickets = parseInt(totalTickets, 10);
+
+            var totalPriceElement = document.querySelector('.total-price');
+            var eventCost = totalPriceElement ? totalPriceElement.textContent.trim() : "$0.00";
+
+            if (name) {
+                // document.getElementById('t-name').textContent = name;
+                var trimmedName = name.length > 27 ? name.substring(0, 27) + "..." : name;
+                document.getElementById('t-name').textContent = trimmedName;
+            }
+            if (eventDate && eventTime) {
+                document.querySelector('.t-time').textContent = `${eventDate}, ${eventTime}`;
+            }
+            document.querySelector('.t-qty').textContent = `${totalTickets} Tickets`;
+            document.querySelector('.t-price').textContent = eventCost;
+
+            var photoElement = document.querySelector('.ticket-co img');
+            if (photoElement) {
+                photoElement.src = photo;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var confirmModal = document.getElementById('confirmModal');
+            confirmModal.addEventListener('show.bs.modal', populateModal);
+        });
+    </script>
+
+    <script>
+        document.querySelector('.phone').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
 
     <script>
         document.getElementById('promoInput').addEventListener('input', function() {
@@ -394,9 +461,15 @@ if (isset($_SESSION['cart_events'])) {
             var ticketSummery = document.getElementById('ticketSummery');
             var totalPriceElements = document.querySelectorAll('.total-price');
 
+            var proceedButton = document.querySelector('.payment');
+            var confirmButton = document.querySelector('.confirm');
+
             ticketContainer.innerHTML = '';
             ticketSummery.innerHTML = '';
             let total = 0;
+
+            proceedButton.style.display = 'none';
+            confirmButton.style.display = 'none';
 
             if (!tickets.addOns || tickets.addOns.length === 0) {
                 ticketContainer.innerHTML = '<p>No tickets selected.</p>';
@@ -412,17 +485,25 @@ if (isset($_SESSION['cart_events'])) {
             }
 
             tickets.addOns.forEach(function(ticket) {
+
+                const isMobile = window.innerWidth <= 767;
+
+                // Truncate the name only if on mobile
+                const truncatedName = isMobile && ticket.name.length > 13 
+                    ? ticket.name.substring(0, 13) + "..." 
+                    : ticket.name;
+
                 var ticketRow = document.createElement('div');
                 var summeryRow = document.createElement('div');
                 ticketRow.className = 'card-info row';
                 ticketRow.innerHTML = `
-                    <div class="col-md-6">
+                    <div class="col-4 col-md-6">
                         <div class="event-name">
-                            <h5>${ticket.name}</h5>
+                            <h5>${truncatedName}</h5>
                             <h5>$${ticket.cost.toFixed(2)}</h5>
                         </div>
                     </div>
-                    <div class="col-8 col-md-4">
+                    <div class="col-5 col-md-4">
                         <span class="t-counter">
                             <button class="t-decrease" data-id="${ticket.sizeid}">-</button>
                             <span class="t-count">${ticket.qty}</span>
@@ -432,7 +513,7 @@ if (isset($_SESSION['cart_events'])) {
                             <img src="images/delete.png" alt="Delete" class="delete-ticket" data-id="${ticket.sizeid}" title="Remove this ticket">
                         </span>
                     </div>
-                    <div class="col-4 col-md-2">
+                    <div class="col-3 col-md-2">
                         <div class="price">
                             <h5 class="t-price" data-id="${ticket.sizeid}">$${(ticket.cost * ticket.qty).toFixed(2)}</h5>
                         </div>
@@ -462,6 +543,12 @@ if (isset($_SESSION['cart_events'])) {
                 el.textContent = `$${total.toFixed(2)}`;
             });
 
+            if (total > 0) {
+                proceedButton.style.display = 'inline-block'; // Show "Proceed to payment"
+            } else {
+                confirmButton.style.display = 'inline-block'; // Show "Confirm"
+            }
+
             updateTotalPrice(total);
             updateTaxDisplay();
             updateGrandTotal();
@@ -481,7 +568,7 @@ if (isset($_SESSION['cart_events'])) {
                 total -= discount;
             }
 
-            totalPriceElements.forEach(function (el) {
+            totalPriceElements.forEach(function(el) {
                 el.textContent = `$${total.toFixed(2)}`;
             });
 
@@ -529,11 +616,16 @@ if (isset($_SESSION['cart_events'])) {
                     detailedPriceElement.textContent = `$${ticket.cost.toFixed(2)} x ${count} = $${(ticket.cost * count).toFixed(2)}`;
                 }
 
+                tickets.addOnBaseQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
+                tickets.addOnQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
+
                 sessionStorage.setItem('cart_events', JSON.stringify(tickets));
 
                 updateSessionStorage(sizeId, count);
                 updateTotalPrice(getTotalCost());
                 sendCartToSession();
+                updateTaxDisplay();
+                updateGrandTotal();
             }
         }
 
@@ -559,8 +651,11 @@ if (isset($_SESSION['cart_events'])) {
 
             var taxRate = tickets.taxRate || 0;
 
-            var addOnBaseQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
-            var addOnQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
+            // var addOnBaseQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
+            // var addOnQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
+
+            tickets.addOnBaseQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
+            tickets.addOnQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
 
             tickets.totalcalcqty = totalQuantity;
             tickets.remarks = remarks;
@@ -620,18 +715,18 @@ if (isset($_SESSION['cart_events'])) {
                     var sizeId = this.getAttribute('data-id');
 
                     var isConfirmed = confirm("Do you really want to delete this ticket?");
-         
+
                     if (isConfirmed) {
                         removeTicket(sizeId);
 
                         // alert('The ticket has been removed.');
                     } else {
-                        
+
                         // alert('The ticket was not deleted.');
                     }
                 });
             });
-            
+
         }
 
 
@@ -673,7 +768,7 @@ if (isset($_SESSION['cart_events'])) {
 
         //     if (tickets.addOns && Array.isArray(tickets.addOns)) {
         //         tickets.addOns.forEach(function(addOn) {
-                    
+
         //             var addOnTax = addOn.qty * taxRate;
         //             estimatedTax += addOnTax;  
         //             console.log(`Add-on ${addOn.name}: Quantity = ${addOn.qty}, Tax = $${addOnTax.toFixed(2)}`);
@@ -687,17 +782,17 @@ if (isset($_SESSION['cart_events'])) {
         // }
 
         function updateTaxDisplay() {
-            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || []; 
-            var total = getTotalCost();  
-            var estimatedTax = 0;  
+            var tickets = JSON.parse(sessionStorage.getItem('cart_events')) || [];
+            var total = getTotalCost();
+            var estimatedTax = 0;
 
             console.log('Total:', total);
 
             if (tickets.addOns && Array.isArray(tickets.addOns)) {
                 tickets.addOns.forEach(function(addOn) {
-                
+
                     var addOnTax = parseFloat(addOn.tax || 0) * parseInt(addOn.qty || 1);
-                    estimatedTax += addOnTax; 
+                    estimatedTax += addOnTax;
 
                     console.log(`Add-on ${addOn.name}: Quantity = ${addOn.qty}, Tax = $${addOnTax.toFixed(2)}`);
                 });
@@ -718,12 +813,42 @@ if (isset($_SESSION['cart_events'])) {
                 var ticketIndex = tickets.addOns.findIndex(t => t.sizeid === sizeId);
                 if (ticketIndex !== -1) {
                     tickets.addOns.splice(ticketIndex, 1);
+
+                    tickets.addOnBaseQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
+                    tickets.addOnQtys = tickets.addOns.map(ticket => ticket.qty).join(",");
+
                     sessionStorage.setItem('cart_events', JSON.stringify(tickets));
 
                     sendCartToSession();
                     loadTickets();
+
+                    updateTotalPrice(getTotalCost());
+                    updateGrandTotal();
+
+                    if (!tickets.addOns.length) {
+                        clearOrderInfo();
+                    }
                 }
             }
+        }
+
+        function clearOrderInfo() {
+            
+            document.getElementById('event-name').textContent = '';
+            document.getElementById('event-address').textContent = '';
+            document.getElementById('event-banner').src = 'images/order-img.png'; 
+
+            document.getElementById('ticket-container').innerHTML = '<p>No tickets selected.</p>';
+
+            document.querySelector('.remove-info').style.display = 'none';
+            document.querySelector('.title-border').style.display = 'none';
+
+            // setTimeout(() => {
+            //     window.location.href = '/';
+            // }, 2000);
+
+            window.location.href = '/';
+
         }
 
         window.onload = loadTickets;
@@ -813,6 +938,7 @@ if (isset($_SESSION['cart_events'])) {
             }
 
             if (name) {
+                name = name.replace(/&amp;/g, '&');
                 document.getElementById('event-name').textContent = name;
             }
 
@@ -922,6 +1048,8 @@ if (isset($_SESSION['cart_events'])) {
 
             document.querySelector('.val').textContent = `$${grandTotal.toFixed(2)}`;
             document.querySelector('.final-p').textContent = `$${grandTotal.toFixed(2)}`;
+
+            document.querySelector('#val-display').textContent = `$${grandTotal.toFixed(2)}`;
         }
     </script>
 
@@ -989,7 +1117,7 @@ if (isset($_SESSION['cart_events'])) {
         }
     </script> -->
 
-    <script>
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", function() {
             const apiUrl = 'https://devrestapi.goquicklly.com/user/my-account';
             
@@ -1050,7 +1178,7 @@ if (isset($_SESSION['cart_events'])) {
             var serviceFee = $(".s-fee").html();
             $("#eservicetax").val(serviceFee.replace("$", ""));
         }
-    </script>
+    </script> -->
 
 
     <script>
@@ -1060,56 +1188,103 @@ if (isset($_SESSION['cart_events'])) {
     </script>
 
     <script>
+        // function handleCheckoutClick() {
+        //     const bearerToken = "<?php echo $_SESSION['bearer_token']; ?>";
+        //     // const uid = localStorage.getItem('uid');
+        //     const uid = "<?php echo $_SESSION['uid']; ?>";
+
+        //     if (!uid || !bearerToken) {
+
+        //         Swal.fire({
+        //             icon: 'warning',
+        //             title: 'Not Logged In',
+        //             text: 'Please log in to proceed to payment.',
+        //             confirmButtonText: 'OK'
+        //         });
+        //     } else {
+
+        //         getValues();
+
+        //         const paymentModal = new bootstrap.Modal(document.getElementById('paymentPopup'), {});
+        //         paymentModal.show();
+        //     }
+        // }
+
+        // function getValues() {
+        //     var total = $(".val").html();
+        //     $(".showtotalonnp").html(total);
+        //     $("#subtotal").val(total.replace("$", ""));
+        //     var tax = $(".est-tax").html();
+        //     $("#stax").val(tax.replace("$", ""));
+        //     var serviceFee = $(".s-fee").html();
+        //     $("#eservicetax").val(serviceFee.replace("$", ""));
+        // }
+    </script>
+    
+    <script>
         function handleCheckoutClick() {
-            const bearerToken = "<?php echo $_SESSION['bearer_token']; ?>";
-            // const uid = localStorage.getItem('uid');
-            const uid = "<?php echo $_SESSION['uid']; ?>";
 
-            if (!uid || !bearerToken) {
+            var firstName = document.getElementById('first-name').value;
+            var lastName = document.getElementById('last-name').value;
+            // var phone = document.getElementById('phone').value;
+            var email = document.getElementById('email').value;
 
+            if (!firstName || !lastName || !email) {
+            
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Not Logged In',
-                    text: 'Please log in to proceed to payment.',
+                    title: 'Missing Information',
+                    text: 'Please fill in all the required fields before proceeding.',
                     confirmButtonText: 'OK'
                 });
             } else {
-
-                getValues();
-
+            
                 const paymentModal = new bootstrap.Modal(document.getElementById('paymentPopup'), {});
                 paymentModal.show();
             }
-        }
 
-        function getValues() {
-            var total = $(".val").html();
-            $(".showtotalonnp").html(total);
-            $("#subtotal").val(total.replace("$", ""));
-            var tax = $(".est-tax").html();
-            $("#stax").val(tax.replace("$", ""));
-            var serviceFee = $(".s-fee").html();
-            $("#eservicetax").val(serviceFee.replace("$", ""));
+            // const paymentModal = new bootstrap.Modal(document.getElementById('paymentPopup'), {});
+            // paymentModal.show();
         }
     </script>
+
+    <script>
+        function getTicketCheckout() {
+
+            var firstName = document.getElementById('first-name').value;
+            var lastName = document.getElementById('last-name').value;
+            // var phone = document.getElementById('phone').value;
+            var email = document.getElementById('email').value;
+
+            if (!firstName || !lastName || !email) {
+             
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Missing Information',
+                    text: 'Please fill in all the required fields before proceeding.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        }
+    </script>
+
 
     <script>
         setInterval(function() {
-        
-        fetch('refresh_session.php')
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Session refreshed');
-                }
-            });
-        }, 1800000);
 
+            fetch('refresh_session.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Session refreshed');
+                    }
+                });
+        }, 1800000);
     </script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
             const uid = "<?php echo isset($_SESSION['uid']) ? $_SESSION['uid'] : ''; ?>";
             const bearerToken = "<?php echo isset($_SESSION['bearer_token']) ? $_SESSION['bearer_token'] : ''; ?>";
 
@@ -1127,7 +1302,7 @@ if (isset($_SESSION['cart_events'])) {
                 // });
             }
         });
-    </script>
+    </script> -->
 
 </body>
 
