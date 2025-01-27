@@ -216,67 +216,118 @@
                         </div>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="tabs-4" role="tabpanel" aria-labelledby="tab-4">
-                                <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 tab-b">
-                                    <?php
-                                    if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
-                                        $counter = 1;
-                                        foreach ($result['lstProds'] as $event) {
+                                <div id="event-container">
+                                    <!-- <div class="row row-cols-1 row-cols-md-3 g-5 tab-b load-all">
+                                        <?php
+                                        if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
+                                            foreach ($result['lstProds'] as $event) {
+                                                $name = htmlspecialchars($event['name']);
+                                                $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
 
-                                            $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
+                                                $day = substr($event['dayMonth'], 0, 2);
+                                                $month = substr($event['dayMonth'], 2);
 
-                                            $name = htmlspecialchars($event['name']);
-                                            $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
+                                                $slug = htmlspecialchars($event['slug']);
+                                                $organiser = htmlspecialchars($event['organiser']);
+                                                $trimmedOrganiser = (strlen($organiser) > 36) ? substr($organiser, 0, 36) . '...' : $organiser;
 
-                                            $day = substr($event['dayMonth'], 0, 2);
-                                            $month = substr($event['dayMonth'], 2);
+                                                echo '<div class="col">';
+                                                echo '    <div class="card">';
+                                                echo '      <a href="' . $slug . '">';
+                                                echo '        <span class="date">';
+                                                echo '          <p class="date-a">' . htmlspecialchars($day) . '</p>';
+                                                echo '          <p class="month-a">' . htmlspecialchars($month) . '</p>';
+                                                echo '        </span>';
+                                                echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
+                                                echo '        <div class="card-body">';
+                                                echo '            <h5 class="card-title">' . $trimmedName . '</h5>';
+                                                echo '            <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
+                                                echo '            <h5 class="location">' . htmlspecialchars($event['city']) . '</h5>';
+                                                echo '            <p class="desc">' . $trimmedOrganiser . '</p>';
+                                                echo '            <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
 
-                                            // $eid = htmlspecialchars($event['eid']);
-                                            $slug = htmlspecialchars($event['slug']);
+                                                if (!empty($event['discountTxt'])) {
+                                                    echo '            <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
+                                                }
 
-                                            $organiser = htmlspecialchars($event['organiser']);
-                                            $trimmedOrganiser = (strlen($organiser) > 36) ? substr($organiser, 0, 36) . '...' : $organiser;
-
-                                            echo '<div class="col">';
-                                            echo '    <div class="card ' . $cardClass . '">';
-                                            // echo '      <a href="event-detail?eid=' . $eid . '">';
-                                            // echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
-                                            // echo '      <a href="event-detail?slug=' . $slug . '">';
-                                            echo '      <a href="' . $slug . '">';
-                                            // echo '      <a href="event-detail/' . $slug . '">';
-                                            echo '        <span class="date"><p class="date-a">' . htmlspecialchars($day) . '</p><p class="month-a">' . htmlspecialchars($month) . '</p></span>';
-                                            echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
-                                            echo '        <div class="card-body">';
-                                            echo '            <h5 class="card-title">' . $trimmedName . '</h5>';
-                                            // echo '            <h3>' . htmlspecialchars($event['status']) . '</h3>';
-                                            echo '            <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
-                                            echo '            <h5 class="location">' . htmlspecialchars($event['city']) . '</h5>';
-                                            // echo '            <p class="desc">' . htmlspecialchars($event['organiser']) . '</p>';
-                                            echo '            <p class="desc">' . $trimmedOrganiser . '</p>';
-                                            echo '            <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
-
-                                            if (!empty($event['discountTxt'])) {
-                                                echo '            <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
+                                                echo '        </div>';
+                                                echo '      </a>';
+                                                echo '    </div>';
+                                                echo '</div>';
                                             }
-
-                                            echo '        </div>';
-                                            echo '          </a>';
-                                            echo '    </div>';
-                                            echo '</div>';
-
-                                            $counter++;
-                                            if ($counter > 3) {
-                                                $counter = 1;
-                                            }
+                                        } else {
+                                            echo '<p>No events found.</p>';
                                         }
-                                    } else {
-                                        echo '<p>No events found.</p>';
-                                    }
+                                        ?>
 
-                                    ?>
+                                    </div> -->
+
+                                    <!-- <div class="row row-cols-1 row-cols-md-3 g-5 tab-b load-all">
+                                        <?php
+                                        if (isset($events['error'])) {
+                                            echo '<p>' . $events['error'] . '</p>';
+                                        } elseif (!empty($events)) {
+                                            foreach ($events as $event) {
+                                                $name = htmlspecialchars($event['name']);
+                                                $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
+
+                                                $day = substr($event['dayMonth'], 0, 2);
+                                                $month = substr($event['dayMonth'], 2);
+
+                                                $slug = htmlspecialchars($event['slug']);
+                                                $organiser = htmlspecialchars($event['organiser']);
+                                                $trimmedOrganiser = (strlen($organiser) > 36) ? substr($organiser, 0, 36) . '...' : $organiser;
+
+                                                echo '<div class="col">';
+                                                echo '    <div class="card">';
+                                                echo '      <a href="' . $slug . '">';
+                                                echo '        <span class="date">';
+                                                echo '          <p class="date-a">' . htmlspecialchars($day) . '</p>';
+                                                echo '          <p class="month-a">' . htmlspecialchars($month) . '</p>';
+                                                echo '        </span>';
+                                                echo '        <img src="' . htmlspecialchars($event['photo']) . '" class="card-img-top main-img" alt="Event Image">';
+                                                echo '        <div class="card-body">';
+                                                echo '            <h5 class="card-title">' . $trimmedName . '</h5>';
+                                                echo '            <h4 class="time">' . htmlspecialchars($event['dateRange']) . '</h4>';
+                                                echo '            <h5 class="location">' . htmlspecialchars($event['city']) . '</h5>';
+                                                echo '            <p class="desc">' . $trimmedOrganiser . '</p>';
+                                                echo '            <span class="price">Starting at ' . htmlspecialchars($event['costRange']) . '</span>';
+
+                                                if (!empty($event['discountTxt'])) {
+                                                    echo '            <span class="price-icon"><img src="images/discount-icon.png" alt=""> ' . htmlspecialchars($event['discountTxt']) . '</span>';
+                                                }
+
+                                                echo '        </div>';
+                                                echo '      </a>';
+                                                echo '    </div>';
+                                                echo '</div>';
+                                            }
+                                        } else {
+                                            echo '<p>No events found.</p>';
+                                        }
+                                        ?>
+                                    </div> -->
+
+                                    <div id="tab-loader" style="display: none; text-align: center;">
+                                        <img src="images/loading.gif" alt="Loading..." style="width: 50px;">
+                                    </div>                                    
                                 </div>
                             </div>
+                                    <!-- <div class="container loader-container">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div id="event-container">
+                                                    <div id="tab-loader" style="display: none; text-align: center;">
+                                                        <img src="images/loading.gif" alt="Loading..." style="width: 50px;">
+                                                    </div>          
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                            
                             <div class="tab-pane fade" id="tabs-1" role="tabpanel" aria-labelledby="tab-1">
-                                <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 tab-b">
+                                <div class="row row-cols-1 row-cols-md-3 g-5 mb-5 tab-b">
 
                                     <?php
                                     $currentDay = date('d');
@@ -313,7 +364,7 @@
                                                 if ($eventDate && $eventDate >= $today && $eventDate <= $nextSunday) {
                                                     $foundEvents = true;
 
-                                                    $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
+                                                    // $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
                                                     $name = htmlspecialchars($event['name']);
                                                     $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
                                                     $slug = htmlspecialchars($event['slug']);
@@ -323,7 +374,8 @@
 
                                                     echo '<div class="col" data-date="' . $eventDate->format('Y-m-d') . '">';
                                                     // echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
-                                                    echo '    <div class="card ' . $cardClass . '">';
+                                                    // echo '    <div class="card ' . $cardClass . '">';
+                                                    echo '    <div class="card">';
                                                     // echo '      <a href="event-detail?slug=' . $slug . '">';
                                                     echo '      <a href="' . $slug . '">';
                                                     echo '        <span class="date"><p class="date-a">' . htmlspecialchars($eventDay) . '</p><p class="month-a">' . htmlspecialchars($eventMonth) . '</p></span>';
@@ -364,7 +416,7 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tabs-2" role="tabpanel" aria-labelledby="tab-2">
-                                <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 tab-b">
+                                <div class="row row-cols-1 row-cols-md-3 g-5 mb-5 tab-b">
                                     <?php
                                     if (isset($result['lstProds']) && count($result['lstProds']) > 0) {
                                         $counter = 1;
@@ -376,7 +428,7 @@
                                         foreach ($result['lstProds'] as $event) {
                                             // print_r($event['dateRange']);
 
-                                            $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
+                                            // $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
 
                                             $name = htmlspecialchars($event['name']);
                                             $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
@@ -395,7 +447,8 @@
                                             // echo $currentWeekSaturday->format('Y-m-d');
                                             if ($eventDate && ($eventDate->format('Y-m-d') == $currentWeekSaturday->format('Y-m-d') || $eventDate->format('Y-m-d') == $currentWeekSunday->format('Y-m-d'))) {
                                                 echo '<div class="col">';
-                                                echo '    <div class="card ' . $cardClass . '">';
+                                                // echo '    <div class="card ' . $cardClass . '">';
+                                                echo '    <div class="card">';
                                                 // echo '      <a href="event-detail?eid=' . $eid . '">';
                                                 // echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
                                                 // echo '      <a href="event-detail?slug=' . $slug . '">';
@@ -438,7 +491,7 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tabs-3" role="tabpanel" aria-labelledby="tab-3">
-                                <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 tab-b">
+                                <div class="row row-cols-1 row-cols-md-3 g-5 mb-5 tab-b">
                                     <?php
                                     $currentMonth = date('M');
                                     $currentYear = date('Y');
@@ -464,7 +517,7 @@
                                                     if ($eventDate && $eventDate->format('M') == $currentMonth && $eventDate->format('Y') == $currentYear) {
                                                         $foundCurrentMonthEvents = true;
 
-                                                        $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
+                                                        // $cardClass = ($counter == 1) ? 'first' : (($counter == 2) ? 'sec' : 'third');
                                                         $name = htmlspecialchars($event['name']);
                                                         $trimmedName = (strlen($name) > 54) ? substr($name, 0, 54) . '...' : $name;
                                                         // $eid = htmlspecialchars($event['eid']);
@@ -474,7 +527,8 @@
                                                         $trimmedOrganiser = (strlen($organiser) > 36) ? substr($organiser, 0, 36) . '...' : $organiser;
 
                                                         echo '<div class="col" data-date="' . $eventDate->format('Y-m-d') . '">';
-                                                        echo '    <div class="card ' . $cardClass . '">';
+                                                        // echo '    <div class="card ' . $cardClass . '">';
+                                                        echo '    <div class="card">';
                                                         // echo '      <a href="event-detail?eid=' . $eid . '">';
                                                         // echo '    <div class="card ' . $cardClass . '" title="Slug: ' . $slug . '">';
                                                         // echo '      <a href="event-detail?slug=' . $slug . '">';
@@ -526,9 +580,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div id="event-container">
-                        <div class="row"><button id="load-more" class="btn" style="margin: 0 auto; width:auto; background:#F05336; color: #fff">Load More</button></div>
-                        <div id="no-more-events" style="text-align: center; margin-top: 20px;"></div>
-                        <div id="loaderMoreData" style="display: none; text-align: center; margin-top: 20px;">Loading...</div>                        
+                        
                     </div>
                 </div>
             </div>
@@ -788,30 +840,30 @@
                 const organiser = event.organiser.length > 36 ? `${event.organiser.substring(0, 36)}...` : event.organiser;
 
                 const eventHTML = `
-            <div>
-                <div class="card ${cardClass}">
-                    <a href="${event.slug}">
-                        <span class="date">
-                            <p class="date-a">${day}</p>
-                            <p class="month-a">${month}</p>
-                        </span>
-                        <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
-                        <div class="card-body">
-                            <h5 class="card-title">${name}</h5>
-                            <h4 class="time">${event.dateRange}</h4>
-                            <h5 class="location">${event.city}</h5>
-                            <p class="desc">${organiser}</p>
-                            <span class="price">Starting at ${event.costRange}</span>
-                            ${
-                                event.discountTxt
-                                    ? `<span class="price-icon"><img src="images/discount-icon.png" alt=""> ${event.discountTxt}</span>`
-                                    : ''
-                            }
+                    <div>
+                        <div class="card ${cardClass}">
+                            <a href="${event.slug}">
+                                <span class="date">
+                                    <p class="date-a">${day}</p>
+                                    <p class="month-a">${month}</p>
+                                </span>
+                                <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
+                                <div class="card-body">
+                                    <h5 class="card-title">${name}</h5>
+                                    <h4 class="time">${event.dateRange}</h4>
+                                    <h5 class="location">${event.city}</h5>
+                                    <p class="desc">${organiser}</p>
+                                    <span class="price">Starting at ${event.costRange}</span>
+                                    ${
+                                        event.discountTxt
+                                            ? `<span class="price-icon"><img src="images/discount-icon.png" alt=""> ${event.discountTxt}</span>`
+                                            : ''
+                                    }
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
-            </div>
-        `;
+                    </div>
+                `;
                 eventSlider.insertAdjacentHTML('beforeend', eventHTML);
             });
 
@@ -1327,16 +1379,16 @@
         sessionStorage.removeItem('ticketData');
     </script>
 
-    <!-- <script>
-        $(document).ready(function() {
-            let currentPage = 0; 
-            let isFetching = false; 
-            let hasMoreData = true; 
+    <script>
+        $(document).ready(function () {
             let bearerToken = ""; 
+            let currentPage = 0;
+            let isFetching = false;
+            let hasMoreData = true;
 
             function loginAndGetToken() {
                 return $.ajax({
-                    url: "https://ormwebapi.quicklly.com/login",
+                    url: "https://devrestapi.goquicklly.com/login",
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify({
@@ -1344,15 +1396,15 @@
                         password: "vqdspaway8"
                     }),
                     dataType: "json",
-                    success: function(response) {
+                    success: function (response) {
                         if (response.token) {
                             bearerToken = response.token;
-                            // console.log("Bearer token received:", bearerToken);
+                            console.log("Token received:", bearerToken);
                         } else {
                             console.error("Login failed:", response.message || "Unknown error");
                         }
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error("Login error:", error);
                     }
                 });
@@ -1361,20 +1413,19 @@
             function fetchEvents(page) {
                 if (isFetching || !hasMoreData) {
                     console.log("Fetch blocked. Is fetching:", isFetching, "Has more data:", hasMoreData);
-                    return; 
-                }
-
-                if (!bearerToken) {
-                    console.error("Bearer token not available. Login failed.");
                     return;
                 }
 
-                isFetching = true; 
-                $("#loaderMoreData").show(); 
-                console.log(`Fetching events for page: ${page}`); 
+                if (!bearerToken) {
+                    console.error("Bearer token not available.");
+                    return;
+                }
+
+                isFetching = true;
+                $("#tab-loader").show();
 
                 $.ajax({
-                    url: "https://ormwebapi.quicklly.com/events/get-home-data", 
+                    url: "https://devrestapi.goquicklly.com/events/get-home-data",
                     type: "POST",
                     contentType: "application/json",
                     headers: {
@@ -1389,97 +1440,90 @@
                         sendFilters: true
                     }),
                     dataType: "json",
-                    success: function(response) {
-                        console.log(`API Response for page ${page}:`, response); 
-
+                    success: function (response) {
                         if (response && response.lstProds && response.lstProds.length > 0) {
                             displayEvents(response.lstProds);
-                            currentPage++; 
-                            console.log("Current page updated to:", currentPage); 
-                            $("#load-more").show(); 
-                        } else if (response && response.lstProds && response.lstProds.length === 0) {
-                            hasMoreData = false; 
-                            console.log("No more events to display.");
+                            currentPage++;
+                            console.log("Events fetched for page:", page);
+                        } else if (response.lstProds && response.lstProds.length === 0) {
+                            hasMoreData = false;
                             $("#no-more-events").text("No more events to display.");
-                            $("#load-more").hide(); 
-                        } else {
-                            // console.error("Unexpected API response structure:", response);
                         }
                     },
-                    error: function(xhr, status, error) {
-                        console.error("An error occurred:", error);
+                    error: function (xhr, status, error) {
+                        console.error("Error fetching events:", error);
                     },
-                    complete: function() {
-                        $("#loaderMoreData").hide(); 
-                        isFetching = false; 
+                    complete: function () {
+                        isFetching = false;
+                        $("#tab-loader").hide(); 
                     }
                 });
             }
 
             function displayEvents(events) {
-                let html = '<div class="row row-cols-1 row-cols-md-3 g-4">';
+
+                let lastRow = $("#event-container .row.row-cols-1.row-cols-md-3").last();
+                if (lastRow.length === 0 || lastRow.children().length % 3 === 0) {
+
+                    lastRow = $('<div class="row row-cols-1 row-cols-md-3 g-5 mb-4"></div>');
+                    $("#event-container").append(lastRow);
+                }
 
                 events.forEach((event, index) => {
-                    const cardClass = index % 3 === 0 ? "first" : index % 3 === 1 ? "sec" : "third";
+                    // const cardClass = index % 3 === 0 ? "first" : index % 3 === 1 ? "sec" : "third";
                     const trimmedName = event.name.length > 54 ? event.name.substring(0, 54) + "..." : event.name;
                     const day = event.dayMonth.substring(0, 2);
                     const month = event.dayMonth.substring(2);
-
                     const organiser = event.organiser.length > 36 ? `${event.organiser.substring(0, 36)}...` : event.organiser;
 
-                    html += `
-            <div class="col">
-                <div class="card ${cardClass}">
-                    <a href="${event.slug}">
-                        <span class="date">
-                            <p class="date-a">${day}</p>
-                            <p class="month-a">${month}</p>
-                        </span>
-                        <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
-                        <div class="card-body">
-                            <h5 class="card-title">${trimmedName}</h5>
-                            <h4 class="time">${event.dateRange}</h4>
-                            <h5 class="location">${event.city}</h5>
-                            <p class="desc">${organiser}</p>
-                            <span class="price">Starting at ${event.costRange}</span>`;
+                    const cardHtml = `
+                        <div class="col">
+                            <div class="card">
+                                <a href="${event.slug}">
+                                    <span class="date">
+                                        <p class="date-a">${day}</p>
+                                        <p class="month-a">${month}</p>
+                                    </span>
+                                    <img src="${event.photo}" class="card-img-top main-img" alt="Event Image">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${trimmedName}</h5>
+                                        <h4 class="time">${event.dateRange}</h4>
+                                        <h5 class="location">${event.city}</h5>
+                                        <p class="desc">${organiser}</p>
+                                        <span class="price">Starting at ${event.costRange}</span>
+                                        ${
+                                            event.discountTxt
+                                                ? `<span class="price-icon"><img src="images/discount-icon.png" alt=""> ${event.discountTxt}</span>`
+                                                : ""
+                                        }
+                                    </div>
+                                </a>
+                            </div>
+                        </div>`;
+                    lastRow.append(cardHtml);
 
-                    if (event.discountTxt) {
-                        html += `<span class="price-icon"><img src="images/discount-icon.png" alt=""> ${event.discountTxt}</span>`;
+                    if (lastRow.children().length % 3 === 0) {
+                        lastRow = $('<div class="row row-cols-1 row-cols-md-3 g-5 mb-4"></div>');
+                        $("#event-container").append(lastRow);
                     }
-
-                    html += `
-                        </div>
-                    </a>
-                </div>
-            </div>`;
                 });
-
-                html += "</div>";
-
-                $("#event-container").append(html); 
             }
 
-            loginAndGetToken().done(function() {
+
+            loginAndGetToken().done(function () {
                 fetchEvents(currentPage);
             });
 
-            // $("#load-more").on("click", function() {
-            //     console.log("Load More clicked, currentPage before fetch:", currentPage); 
-            //     fetchEvents(currentPage); 
-            // });
-
             $(window).on("scroll", function () {
-                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 1300) {
-         
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 2100) {
                     if (!isFetching && hasMoreData) {
-                        console.log("Reached bottom, loading more...");
                         fetchEvents(currentPage);
                     }
                 }
             });
-
         });
-    </script> -->
+
+    </script>
 
 
 </body>
